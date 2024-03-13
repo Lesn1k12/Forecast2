@@ -1,0 +1,8 @@
+{
+  "scripts": {
+    "dev": "vite"
+  },
+  "devDependencies": {
+    "@types/node": "^20.11.25"
+  }
+}

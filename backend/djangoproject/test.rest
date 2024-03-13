@@ -1,0 +1,65 @@
+
+###
+
+POST http://127.0.0.1:8000/users/signup
+Content-Type: application/json
+
+{ "username": "your_username", "password": "your_password", "email": "divaw24030@mcuma.com"}
+
+###
+
+POST http://127.0.0.1:8000/users/login
+Content-Type: application/json
+
+{"username": "your_username", "password": "your_password" }
+
+###
+
+GET http://127.0.0.1:8000/users/test_token
+Content-Type: application/json
+Authorization: Token c55d9202dda19f62f656ab8016a613567098fd06
+
+###
+
+
+POST http://127.0.0.1:8000/api/token/
+Content-Type: application/json
+
+{
+    "username": "your_username",
+    "password": "your_password"
+}
+
+###
+
+POST http://127.0.0.1:8000/users/wannaresetpass/
+Content-Type: application/json
+
+{"email": "your_email@qwerty.com"}
+
+###
+
+
+###
+
+GET 127.0.0.1:8000/users/mailconfirm/MTI/c3h5t2-41d73d8f269483b9d3ef0337fcdf6014/
+Content-Type: application/json
+
+
+
+
+###
+
+POST http://127.0.0.1:8000/users/wannaresetpass/
+Content-Type: application/json
+
+{"email": "your_email@qwerty.com"}
+
+###
+
+POST http://127.0.0.1:8000/users/resetpass/MQ/byuvr9-c98cb7763d2e781c97076eacd569da02/
+Content-Type: application/json
+
+{"new_password": "your_new_password"}
+
+###

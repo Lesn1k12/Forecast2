@@ -4,9 +4,11 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom"
 import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import Home from './pages/Home'
-import Register from './pages/auntification/Register'
-import Login from './pages/auntification/Login'
+import Register from './pages/authentication/Register'
+import Login from './pages/authentication/Login'
 import Dashboard from './pages/Dashboard'
+import WalletPage from './pages/WalletPage'
+import AuthenticationPage from './pages/authentication/AuthenticationPage'
 import NotFoundPage from './pages/NotFoundPage'
 
 function App() {
@@ -16,9 +18,11 @@ function App() {
       <Router>
         <Routes>
           <Route path="/" element={<Home />} />
+          <Route path="/authentication" element={<AuthenticationPage />} />
           <Route path="/register" element={<Register />} />
           <Route path="/login" element={<Login />} />
-          <Route path="/dashboard" element={<Dashboard />}></Route>
+          <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/wallet" element={<WalletPage />} />
           <Route path="/not-found" element={<NotFoundPage />} />
         </Routes>
       </Router>
