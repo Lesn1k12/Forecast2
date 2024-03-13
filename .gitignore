@@ -1,6 +1,6 @@
-django/djangoproject/__pycache__/
+backend/djangoproject/__pycache__/
 db.sqlite3
 venv/
 __pycache__/
-django/users/migrations/
-django/djangoproject/setings.py
+backend/users/migrations/
+backend/djangoproject/setings.py
