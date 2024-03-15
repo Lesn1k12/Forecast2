@@ -4,7 +4,7 @@
 POST http://127.0.0.1:8000/users/signup
 Content-Type: application/json
 
-{ "username": "your_username", "password": "your_password", "email": "divaw24030@mcuma.com"}
+{ "username": "admin", "password": "admin", "email": "mta20870@zbock.com"}
 
 ###
 
@@ -26,8 +26,8 @@ POST http://127.0.0.1:8000/api/token/
 Content-Type: application/json
 
 {
-    "username": "your_username",
-    "password": "your_password"
+    "username": "admin",
+    "password": "admin"
 }
 
 ###
@@ -85,5 +85,11 @@ Content-Type: application/json
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzAyMzI1MzE0LCJpYXQiOjE3MDE5Nzk3MTQsImp0aSI6ImQ1ZTlmNTA4OTc4NTQxODg5MjE2MzJkMzY5NTUxMzg2IiwidXNlcl9pZCI6Mn0.B3kDniq6UTA8VJgwU6ZG4Udc__h20DRNmB85c38hO5c
 
 {"id": "36"}
+
+###
+
+GET http://127.0.0.1:8000/users/get_userdata/
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzEwODc5Nzg5LCJpYXQiOjE3MTA1MzQxODksImp0aSI6ImQxYzZiYTUyZTVjNzRkYjQ4MjM4ODE2ZmI3ZmFjNWY4IiwidXNlcl9pZCI6Mn0.R4y81lDaUZxxOhRtlqoOjPGRCkhrpo0cBq7V8PpNIIw
 
 ###
