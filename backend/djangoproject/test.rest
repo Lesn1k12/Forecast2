@@ -35,7 +35,7 @@ Content-Type: application/json
 POST http://127.0.0.1:8000/users/wannaresetpass/
 Content-Type: application/json
 
-{"email": "your_email@qwerty.com"}
+{"email": "mta20870@zbock.com"}
 
 ###
 
@@ -66,7 +66,7 @@ Content-Type: application/json
 
 POST http://127.0.0.1:8000/users/post_transaction
 Content-Type: application/json
-Authorization: Bearer 0fdfb8e022c1c2533b2f30c97f225e2f903f9754
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzEwODc5Nzg5LCJpYXQiOjE3MTA1MzQxODksImp0aSI6ImQxYzZiYTUyZTVjNzRkYjQ4MjM4ODE2ZmI3ZmFjNWY4IiwidXNlcl9pZCI6Mn0.R4y81lDaUZxxOhRtlqoOjPGRCkhrpo0cBq7V8PpNIIw
 
 {"category": "entertainment ", "amount": "-1000","time":"2023-11-26", "description": "", "currency": "zl"}
 
@@ -74,17 +74,17 @@ Authorization: Bearer 0fdfb8e022c1c2533b2f30c97f225e2f903f9754
 
 GET http://127.0.0.1:8000/users/get_transaction
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzAxMTg2NjAzLCJpYXQiOjE3MDA4NDEwMDMsImp0aSI6IjMyMGY1N2U1ZWEyNDQ3MGJiNDhkZTQ1N2E5N2EwZDUyIiwidXNlcl9pZCI6Mn0.R-8dc3lzaGo5fic-J7mdSSw_vvn5GkJrlKLnZ4bybn8
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzEwODc5Nzg5LCJpYXQiOjE3MTA1MzQxODksImp0aSI6ImQxYzZiYTUyZTVjNzRkYjQ4MjM4ODE2ZmI3ZmFjNWY4IiwidXNlcl9pZCI6Mn0.R4y81lDaUZxxOhRtlqoOjPGRCkhrpo0cBq7V8PpNIIw
 
 {"end_amount":"10000","start_amount":"-10000", "start_time": "2023-10-21 00:00:00", "end_time": "2023-11-15 00:00:00"}
 
 ###
 
-POST http://127.0.0.1:8000/users/delete_transaction/
+DELETE http://127.0.0.1:8000/users/delete_transaction/
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzAyMzI1MzE0LCJpYXQiOjE3MDE5Nzk3MTQsImp0aSI6ImQ1ZTlmNTA4OTc4NTQxODg5MjE2MzJkMzY5NTUxMzg2IiwidXNlcl9pZCI6Mn0.B3kDniq6UTA8VJgwU6ZG4Udc__h20DRNmB85c38hO5c
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzEwODc5Nzg5LCJpYXQiOjE3MTA1MzQxODksImp0aSI6ImQxYzZiYTUyZTVjNzRkYjQ4MjM4ODE2ZmI3ZmFjNWY4IiwidXNlcl9pZCI6Mn0.R4y81lDaUZxxOhRtlqoOjPGRCkhrpo0cBq7V8PpNIIw
 
-{"id": "36"}
+{"id": "0"}
 
 ###
 
@@ -92,4 +92,3 @@ GET http://127.0.0.1:8000/users/get_userdata/
 Content-Type: application/json
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzEwODc5Nzg5LCJpYXQiOjE3MTA1MzQxODksImp0aSI6ImQxYzZiYTUyZTVjNzRkYjQ4MjM4ODE2ZmI3ZmFjNWY4IiwidXNlcl9pZCI6Mn0.R4y81lDaUZxxOhRtlqoOjPGRCkhrpo0cBq7V8PpNIIw
 
-###
