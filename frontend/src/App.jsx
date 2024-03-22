@@ -6,10 +6,12 @@ import 'react-toastify/dist/ReactToastify.css'
 import Home from './pages/Home'
 import Register from './pages/authentication/Register'
 import Login from './pages/authentication/Login'
-import Dashboard from './pages/Dashboard'
+import Dashboard from './pages/DashboardPage'
 import WalletPage from './pages/WalletPage'
+import WalletComponent from './components/wallet/WalletComponent'
 import AuthenticationPage from './pages/authentication/AuthenticationPage'
 import NotFoundPage from './pages/NotFoundPage'
+import Transaction from './components/transactions/Transaction'
 
 function App() {
 
@@ -23,7 +25,9 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/wallet" element={<WalletPage />} />
+          <Route path="/transactions" element={<Transaction />} />
           <Route path="/not-found" element={<NotFoundPage />} />
+          <Route path="/walletcomponent" element={<WalletComponent />} />
         </Routes>
       </Router>
       <ToastContainer />

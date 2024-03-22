@@ -4,6 +4,7 @@ import Login from "./Login";
 import WalletComponent from "../../components/wallet/WalletComponent";
 import { Link } from 'react-router-dom';
 import { Button } from "@/components/ui/button"
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 
 function AuthenticationPage() {
     const [active, setActive] = useState(1)
@@ -29,13 +30,16 @@ function AuthenticationPage() {
 
     return (
         <div className="h-screen flex flex-col justify-center items-center">
-            <div className="">
-                <Button className="mr-2 shadow-sm active:bg-blue-300 rounded-xl border-2 border-black" onClick={() => setActive(2)}>Login</Button>
-                <Button className="ml-2 shadow-sm active:bg-blue-300 rounded-xl border-2 border-black" onClick={() => setActive(1)}>Register</Button>
-            </div>
-            <div className="">
-                {displayItems()}
-            </div>
+
+            <Tabs defaultValue="login">
+                <TabsList className="grid w-full grid-cols-2">
+                    <TabsTrigger value="login" >Login</TabsTrigger>
+                    <TabsTrigger value="register">Register</TabsTrigger>
+                </TabsList>
+                <TabsContent value="login"><Login /></TabsContent>
+                <TabsContent value="register"><Register /></TabsContent>
+            </Tabs>
+                
         </div>
     );
 }
