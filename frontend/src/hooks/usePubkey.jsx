@@ -9,6 +9,8 @@ export const usePubkey = () => {
     const {connected, publicKey, sendTransaction } = useWallet();
     const[userAdress, setUserAdress] = useState("adress");
     const[amount, setAmount] = useState(0);
+    const[receiver, setReceiver] = useState("adress");
+    const[transactionPurpose, setTransactionPurpose] = useState("purpose");
 
     const{ connection } = useConnection();
 
@@ -68,5 +70,5 @@ export const usePubkey = () => {
 
     }
 
-    return {connected, publicKey, userAdress, setUserAdress, doTransaction, amount, setAmount};
+    return {connected, publicKey, userAdress, setUserAdress, doTransaction, amount, setAmount, receiver, setReceiver, transactionPurpose, setTransactionPurpose};
 }

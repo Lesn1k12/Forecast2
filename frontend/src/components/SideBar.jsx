@@ -2,18 +2,12 @@ import { useContext, createContext, useState } from 'react'
 import { GrMenu } from "react-icons/gr";
 import { Link } from 'react-router-dom';
 
-
 import { LiaChartAreaSolid } from "react-icons/lia";
 
-
-
-// const menuItems = [
-//     { id: 1, icon: <LiaChartAreaSolid />, title: 'Dashboard', link: '/dashboard' },
-// ];
-
-
-
-
+  const menuItems = [
+    { id: 1, icon: <LiaChartAreaSolid />, title: 'Dashboard', link: '/dashboard' },
+    { id: 2, icon: <LiaChartAreaSolid />, title: 'Transaction', link: '/transaction' },
+  ];
 
 export default function Sidebar({ active, setActive }) {
   const [expanded, setExpanded] = useState(true)
@@ -47,15 +41,16 @@ export default function Sidebar({ active, setActive }) {
         
           <div>
             <ul>     
-              {/* {menuItems.map((item) => {
-                  return <li
-                      key={item.id}
-                      onClick={() => setActive(item.id)}
-                      className={active === item.id ? 'active': ''}>
-                      {item.icon}
-                      <span>{item.title}</span>
-                  </li>
-              })}       */}
+              {menuItems.map((item) => {
+                    return <li
+                        key={item.id}
+                        onClick={() => setActive(item.id)}
+                        className={active === item.id ? 'active': ''}
+                    >
+                        {item.icon}
+                        <span>{item.title}</span>
+                    </li>
+                })}     
             </ul>
           </div>
        

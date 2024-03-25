@@ -2,44 +2,30 @@ import {React, useState} from 'react'
 import Expenses from './Expenses'
 import Incomes from './Incomes'
 import History from './History'
-import { Button } from '../ui/button'
 import { Link } from 'react-router-dom'
 import { ContextProvider, useGlobalContext } from '../../context/GlobalContext';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import SendAnalitics from './SendAnalitics';
+import { Button } from "@/components/ui/button";
 
 function Transaction() {
-  const [active, setActive] = useState(1)
-
-  const items = [
-    {id: 1, title: 'incomes', link: '/incomes'},
-    {id: 1, title: 'expenses', link: '/expenses'}
-  ]
-
-  const displayItems = () => {
-    switch(active){
-      case 1:
-        return <Incomes />
-      case 2:
-        return <Expenses />
-      default: 
-        return <Incomes />
-    }
-  }
-
   return (
     <ContextProvider>
-      <div className='flex flex-row'>
-          <div className="">
-            <div className="">
-              <Button className="" onClick={() => setActive(1)}>Incomes</Button>
-              <Button className="" onClick={() => setActive(2)}>Expenses</Button>
-            </div>
-            <div className="">
-              {displayItems()}
-            </div>
-          </div>
-          <div className="">
-            <History />
-          </div>
+      <div className="flex flex-row ">
+        <div className="flex-col w-[350px]">
+          <Tabs defaultValue="incomes" className="w-[350px]">
+            <TabsList className="grid w-full grid-cols-2">
+              <TabsTrigger value="incomes" >Incomes</TabsTrigger>
+              <TabsTrigger value="expenses">Expenses</TabsTrigger>
+            </TabsList>
+            <TabsContent value="incomes"><Incomes /></TabsContent>
+            <TabsContent value="expenses"><Expenses /></TabsContent>
+          </Tabs>
+          <Button className="w-[350px] mt-3"><SendAnalitics /></Button>
+        </div>
+        <div className="flex-col w-auto">
+          <History />
+        </div>
       </div>
     </ContextProvider>
   )

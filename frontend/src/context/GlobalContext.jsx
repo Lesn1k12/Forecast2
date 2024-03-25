@@ -79,6 +79,19 @@ export const ContextProvider = ({children}) => {
         }
     }
 
+    const sendMail = () => {
+      try {
+          const token = authService.getTokenFromLocalStorage();
+          const response = axios.get(`http://127.0.0.1:8000/users/total_mail/`, {
+              headers: {
+                  'Authorization': `Bearer ${token}`
+              }
+          });
+      } catch (error) {
+          console.error("Error:", error);
+      }
+    }
+
   return (
     <GlobalContext.Provider value={{
           addTransaction,
@@ -91,7 +104,8 @@ export const ContextProvider = ({children}) => {
           // totalBalance,
           // transactionHistory,
           error,
-          setError
+          setError,
+          sendMail
       }}>
           {children}
     </GlobalContext.Provider>

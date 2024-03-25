@@ -21,10 +21,10 @@ export default function DashboardPage() {
     
     <div className='grid grid-cols-4 gap-4 h-screen '>
       <div className='col-span-1'>
-        <Sidebar />
+        <Sidebar active={active} setActive={setActive}/>
       </div> 
 
-      <div className='col-span-3'>
+      <div className='my-10 col-span-3'>
         <main>
           {displayData()}
         </main>
