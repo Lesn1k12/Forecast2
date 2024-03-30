@@ -6,13 +6,18 @@ from rest_framework import status
 from django.contrib.auth.models import User
 from django.contrib.auth.tokens import default_token_generator
 from .serializers import UserSerializer, TransactionSerializer
-from .utils import send_verif_up_mail, resset_pass_mail
+from .utils import send_verif_up_mail, resset_pass_mail, replace_invalid_characters
 from .models import Transaction
 from django.shortcuts import get_object_or_404
 from rest_framework.authtoken.models import Token
 from django.utils.http import urlsafe_base64_decode
 from django.utils import timezone
-
+import pandas as pd
+from datetime import datetime
+from dateutil.relativedelta import relativedelta
+from prophet import Prophet
+from users import config
+from django.core.mail import EmailMultiAlternatives
 
 @api_view(['POST'])
 def login(request):
@@ -159,3 +164,179 @@ def delete_transaction(request):
         return Response('Transaction deleted', status=status.HTTP_200_OK)
     except:
         return Response('something went wrong with updating task', status=status.HTTP_400_BAD_REQUEST)
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def sort_by_category(request): # получить все транзакции по одной категории
+
+    filters = {                                  
+        'user': request.user,
+        'category': request.data.get('category')
+        } 
+    queryset = Transaction.objects.filter(**filters)
+    df = pd.DataFrame.from_records(queryset.values())
+    context = df.to_json(orient='records')
+    return Response(context)
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def procent_of_categories(request):  # получить в процентах транзакции(можно на какой то период времени(наверное но я не тестил начсет периода))
+    
+    start_time = request.data.get('start_time')
+    end_time = request.data.get('end_time')
+    
+    filters = {'user': request.user}
+    
+    if start_time:
+        filters['time__gte'] = start_time 
+    if end_time:
+        filters['time__lte'] = end_time
+    
+    queryset = Transaction.objects.filter(**filters)
+    df = pd.DataFrame.from_records(queryset.values())
+    total_rows = len(df)
+    category_counts = df['category'].value_counts()
+    percentage_by_category = (category_counts / total_rows) * 100
+    category_counts_dict = percentage_by_category.to_dict()
+    return Response(category_counts_dict)
+    
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])    
+def month_transaction_info(request):
+    start_date = datetime.strptime(request.data.get('time'), '%Y-%m')
+    end_date = start_date + relativedelta(months=+1)
+    filters = {
+        'user': request.user,
+        'time__gte': start_date,
+        'time__lte': end_date
+    }
+    queryset = Transaction.objects.filter(**filters)
+    df = pd.DataFrame.from_records(queryset.values())
+    df['amount'] = pd.to_numeric(df['amount'], errors='coerce')
+    middle_transaction = df['amount'].mean()
+    highest_expense = df['amount'].min()
+    highest_income = df['amount'].max()
+    total_expense = df[df['amount'] < 0]['amount'].sum()
+    
+    #display(df)
+    
+    total_income = df[df['amount']>0]['amount'].sum()
+
+    total_left = total_income - total_expense
+    def category_stat(): 
+        total_rows = len(df)
+        category_counts = df['category'].value_counts()
+        percentage_by_category = (category_counts / total_rows) * 100
+        category_dict = percentage_by_category.to_dict()
+        return category_dict
+    
+    
+    context={
+        'middle_transaction': middle_transaction,
+        'highest_expense': highest_expense,
+        'highest_income': highest_income,
+        'total_expense': total_expense,
+        'total_income': total_income,
+        'total_left': total_left,
+        'category_stat': category_stat()
+    }    
+    return Response(context)
+    
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def forecast_transaction(request):
+    
+    try:
+        filters = {
+            'user': request.user,
+            'time__lte': timezone.now()
+        }
+        queryset = Transaction.objects.filter(**filters)
+    except:
+        return Response('probably,user havent any transactions',status=status.HTTP_404_NOT_FOUND)
+
+    
+    
+    df = pd.DataFrame.from_records(queryset.values())
+    
+    print(df)
+    
+    df['time'] = pd.to_datetime(df['time']).dt.tz_localize(None) #конвертируем время в дататайм тип и убираем utc
+    df = df.sort_values(by = 'time') #перебераем по дате транзакции и упорядочиваем
+    
+    for i in range(1, len(df)):                #суммируем каждую транзакцию i с i-1
+        df.loc[i, 'amount'] = df.loc[i, 'amount'] + df.loc[i - 1, 'amount']
+    #display(df)
+    data_ph = {'ds': df['time'], 'y': df['amount'], 'r0': df['category']}#создаем данные для датафрейма дата/транзакция/category
+    
+    
+    df_ph = pd.DataFrame(data_ph)                   #создаем датафрейм дата/транзакция/категория
+    
+    model = Prophet(daily_seasonality = False, weekly_seasonality = False, yearly_seasonality = False, changepoint_prior_scale=0.000003, seasonality_prior_scale=5 ) #создаем модель и задаем параметры
+    model.add_seasonality(name = 'monthly', period=30.5, fourier_order=7)
+    model.add_country_holidays(country_name= 'PL')
+    model.fit(df_ph) 
+    future = model.make_future_dataframe(periods=30) #создаем дф на котором будем делать прогноз(количество дней)
+    forecast = model.predict(future) #создаем дф с предиктом = предсказываем че спрогнозировали
+    print('==========================================FORECASST=============================')
+    #display(forecast) #отображаем в консоли предикт
+    model.plot(forecast) #рисуем график предикта
+    #plt.show() #показываем граф предикта
+    comp = model.plot_components(forecast) #компоненты (неделя тренд год) 
+    print('==========================================COMPONENTSSSSSSSSSS=========================')
+    #display(comp) #выводим в консоль
+    #plt.show() #рисуем
+    #seasonally_data = forecast[['ds', 'weekly']] #ПОМЕТКААААААА дописать ретерн недельного тренда
+    #plt.show()
+    returns_front = forecast[['ds', 'yhat']]
+    #display(returns_front)
+    #forecast = pd.DataFrame.to_json(forecast)
+    #seasonally_data = pd.DataFrame.to_json(seasonally_data)
+    returns_front = returns_front.to_json()
+    print('=====================================================================returns_to_front============================================')
+    #display(returns_front)
+    context =  {
+        returns_front
+    }   
+    
+    return Response(context, status=status.HTTP_200_OK)
+
+
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def total_mail(request):
+            
+    try:
+        filters = {
+            'user': request.user,
+            'time__lte': timezone.now()
+        }
+        queryset = Transaction.objects.filter(**filters)
+    except:
+        return Response('probably,user havent any transactions',status=status.HTTP_404_NOT_FOUND)
+
+    df = pd.DataFrame.from_records(queryset.values())
+    df['time'] = pd.to_datetime(df['time']).dt.tz_localize(None) #конвертируем время в дататайм тип и убираем utc
+    df = df.sort_values(by = 'time') #перебераем по дате транзакции и упорядочиваем
+    print(df)
+    file_path = replace_invalid_characters(f'{request.user}{timezone.now()}.html')
+    df.to_html(file_path, index = False)
+    
+    ###
+    
+    subject = 'Budget Analysis'
+    email_from = config.CF_EMAIL_HOST
+    recipient_list = [request.user.email]
+
+    with open(file_path, 'r') as html_file:
+        html_content = html_file.read()
+
+    email = EmailMultiAlternatives(subject, '', email_from, recipient_list)
+
+    email.attach_alternative(html_content, 'text/html')
+
+
+    email.send()
+
+    return Response(status=status.HTTP_200_OK)

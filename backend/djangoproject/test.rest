@@ -4,7 +4,11 @@
 POST http://127.0.0.1:8000/users/signup
 Content-Type: application/json
 
+<<<<<<< Updated upstream
 { "username": "admin", "password": "admin", "email": "mta20870@zbock.com"}
+=======
+{ "username": "admin", "password": "admin", "email": "jhj11684@zslsz.com"}
+>>>>>>> Stashed changes
 
 ###
 
@@ -42,7 +46,7 @@ Content-Type: application/json
 
 ###
 
-GET 127.0.0.1:8000/users/mailconfirm/MTI/c3h5t2-41d73d8f269483b9d3ef0337fcdf6014/
+GET http://127.0.0.1:8000/users/mailconfirm/Mg/c3ua42-827155014db6d7f41a579791010d5a3f/
 Content-Type: application/json
 
 
@@ -66,7 +70,11 @@ Content-Type: application/json
 
 POST http://127.0.0.1:8000/users/post_transaction
 Content-Type: application/json
+<<<<<<< Updated upstream
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzEwODc5Nzg5LCJpYXQiOjE3MTA1MzQxODksImp0aSI6ImQxYzZiYTUyZTVjNzRkYjQ4MjM4ODE2ZmI3ZmFjNWY4IiwidXNlcl9pZCI6Mn0.R4y81lDaUZxxOhRtlqoOjPGRCkhrpo0cBq7V8PpNIIw
+=======
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzEwNjk4OTgxLCJpYXQiOjE3MTAzNTMzODEsImp0aSI6IjFiNGNjYjQyYjlmYTRjNTc4MjM1ODFmYjk3OTNiOWE1IiwidXNlcl9pZCI6Mn0.R-kRhKxTupMIZ7ke4RtYS6qLGVc1oARqZ6u4t_xa7nE
+>>>>>>> Stashed changes
 
 {"category": "entertainment ", "amount": "-1000","time":"2023-11-26", "description": "", "currency": "zl"}
 
