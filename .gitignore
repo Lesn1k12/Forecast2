@@ -5,3 +5,8 @@ __pycache__/
 backend/users/migrations/
 backend/users/config.py
 .venv/
+*.html
+*.json
+*.cookies
+*.http
+*.xml

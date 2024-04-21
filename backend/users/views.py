@@ -4,10 +4,11 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework import status
 from django.contrib.auth.models import User
+from django.utils.dateparse import parse_datetime
 from django.contrib.auth.tokens import default_token_generator
-from .serializers import UserSerializer, TransactionSerializer
+from .serializers import UserSerializer, TransactionSerializer, EventsSerializer
 from .utils import send_verif_up_mail, resset_pass_mail, replace_invalid_characters
-from .models import Transaction
+from .models import Transaction, Events
 from django.shortcuts import get_object_or_404
 from rest_framework.authtoken.models import Token
 from django.utils.http import urlsafe_base64_decode
@@ -18,6 +19,7 @@ from dateutil.relativedelta import relativedelta
 from prophet import Prophet
 from users import config
 from django.core.mail import EmailMultiAlternatives
+
 
 @api_view(['POST'])
 def login(request):
@@ -165,33 +167,36 @@ def delete_transaction(request):
     except:
         return Response('something went wrong with updating task', status=status.HTTP_400_BAD_REQUEST)
 
+
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
-def sort_by_category(request): # получить все транзакции по одной категории
+def sort_by_category(request):  # получить все транзакции по одной категории
 
-    filters = {                                  
+    filters = {
         'user': request.user,
         'category': request.data.get('category')
-        } 
+    }
     queryset = Transaction.objects.filter(**filters)
     df = pd.DataFrame.from_records(queryset.values())
     context = df.to_json(orient='records')
     return Response(context)
 
+
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
-def procent_of_categories(request):  # получить в процентах транзакции(можно на какой то период времени(наверное но я не тестил начсет периода))
-    
+def procent_of_categories(
+        request):  # получить в процентах транзакции(можно на какой то период времени(наверное но я не тестил начсет периода))
+
     start_time = request.data.get('start_time')
     end_time = request.data.get('end_time')
-    
+
     filters = {'user': request.user}
-    
+
     if start_time:
-        filters['time__gte'] = start_time 
+        filters['time__gte'] = start_time
     if end_time:
         filters['time__lte'] = end_time
-    
+
     queryset = Transaction.objects.filter(**filters)
     df = pd.DataFrame.from_records(queryset.values())
     total_rows = len(df)
@@ -199,9 +204,10 @@ def procent_of_categories(request):  # получить в процентах т
     percentage_by_category = (category_counts / total_rows) * 100
     category_counts_dict = percentage_by_category.to_dict()
     return Response(category_counts_dict)
-    
+
+
 @api_view(['GET'])
-@permission_classes([IsAuthenticated])    
+@permission_classes([IsAuthenticated])
 def month_transaction_info(request):
     start_date = datetime.strptime(request.data.get('time'), '%Y-%m')
     end_date = start_date + relativedelta(months=+1)
@@ -217,21 +223,21 @@ def month_transaction_info(request):
     highest_expense = df['amount'].min()
     highest_income = df['amount'].max()
     total_expense = df[df['amount'] < 0]['amount'].sum()
-    
-    #display(df)
-    
-    total_income = df[df['amount']>0]['amount'].sum()
+
+    # display(df)
+
+    total_income = df[df['amount'] > 0]['amount'].sum()
 
     total_left = total_income - total_expense
-    def category_stat(): 
+
+    def category_stat():
         total_rows = len(df)
         category_counts = df['category'].value_counts()
         percentage_by_category = (category_counts / total_rows) * 100
         category_dict = percentage_by_category.to_dict()
         return category_dict
-    
-    
-    context={
+
+    context = {
         'middle_transaction': middle_transaction,
         'highest_expense': highest_expense,
         'highest_income': highest_income,
@@ -239,13 +245,13 @@ def month_transaction_info(request):
         'total_income': total_income,
         'total_left': total_left,
         'category_stat': category_stat()
-    }    
+    }
     return Response(context)
-    
+
+
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def forecast_transaction(request):
-    
     try:
         filters = {
             'user': request.user,
@@ -253,60 +259,58 @@ def forecast_transaction(request):
         }
         queryset = Transaction.objects.filter(**filters)
     except:
-        return Response('probably,user havent any transactions',status=status.HTTP_404_NOT_FOUND)
+        return Response('probably,user havent any transactions', status=status.HTTP_404_NOT_FOUND)
 
-    
-    
     df = pd.DataFrame.from_records(queryset.values())
-    
-    print(df)
-    
-    df['time'] = pd.to_datetime(df['time']).dt.tz_localize(None) #конвертируем время в дататайм тип и убираем utc
-    df = df.sort_values(by = 'time') #перебераем по дате транзакции и упорядочиваем
-    
-    for i in range(1, len(df)):                #суммируем каждую транзакцию i с i-1
-        df.loc[i, 'amount'] = df.loc[i, 'amount'] + df.loc[i - 1, 'amount']
-    #display(df)
-    data_ph = {'ds': df['time'], 'y': df['amount'], 'r0': df['category']}#создаем данные для датафрейма дата/транзакция/category
-    
-    
-    df_ph = pd.DataFrame(data_ph)                   #создаем датафрейм дата/транзакция/категория
-    
-    model = Prophet(daily_seasonality = False, weekly_seasonality = False, yearly_seasonality = False, changepoint_prior_scale=0.000003, seasonality_prior_scale=5 ) #создаем модель и задаем параметры
-    model.add_seasonality(name = 'monthly', period=30.5, fourier_order=7)
-    model.add_country_holidays(country_name= 'PL')
-    model.fit(df_ph) 
-    future = model.make_future_dataframe(periods=30) #создаем дф на котором будем делать прогноз(количество дней)
-    forecast = model.predict(future) #создаем дф с предиктом = предсказываем че спрогнозировали
-    print('==========================================FORECASST=============================')
-    #display(forecast) #отображаем в консоли предикт
-    model.plot(forecast) #рисуем график предикта
-    #plt.show() #показываем граф предикта
-    comp = model.plot_components(forecast) #компоненты (неделя тренд год) 
-    print('==========================================COMPONENTSSSSSSSSSS=========================')
-    #display(comp) #выводим в консоль
-    #plt.show() #рисуем
-    #seasonally_data = forecast[['ds', 'weekly']] #ПОМЕТКААААААА дописать ретерн недельного тренда
-    #plt.show()
-    returns_front = forecast[['ds', 'yhat']]
-    #display(returns_front)
-    #forecast = pd.DataFrame.to_json(forecast)
-    #seasonally_data = pd.DataFrame.to_json(seasonally_data)
-    returns_front = returns_front.to_json()
-    print('=====================================================================returns_to_front============================================')
-    #display(returns_front)
-    context =  {
-        returns_front
-    }   
-    
-    return Response(context, status=status.HTTP_200_OK)
 
+    print(df)
+
+    df['time'] = pd.to_datetime(df['time']).dt.tz_localize(None)  # конвертируем время в дататайм тип и убираем utc
+    df = df.sort_values(by='time')  # перебераем по дате транзакции и упорядочиваем
+
+    for i in range(1, len(df)):  # суммируем каждую транзакцию i с i-1
+        df.loc[i, 'amount'] = df.loc[i, 'amount'] + df.loc[i - 1, 'amount']
+    # display(df)
+    data_ph = {'ds': df['time'], 'y': df['amount'],
+               'r0': df['category']}  # создаем данные для датафрейма дата/транзакция/category
+
+    df_ph = pd.DataFrame(data_ph)  # создаем датафрейм дата/транзакция/категория
+
+    model = Prophet(daily_seasonality=False, weekly_seasonality=False, yearly_seasonality=False,
+                    changepoint_prior_scale=0.000003, seasonality_prior_scale=5)  # создаем модель и задаем параметры
+    model.add_seasonality(name='monthly', period=30.5, fourier_order=7)
+    model.add_country_holidays(country_name='PL')
+    model.fit(df_ph)
+    future = model.make_future_dataframe(periods=30)  # создаем дф на котором будем делать прогноз(количество дней)
+    forecast = model.predict(future)  # создаем дф с предиктом = предсказываем че спрогнозировали
+    print('==========================================FORECASST=============================')
+    # display(forecast) #отображаем в консоли предикт
+    model.plot(forecast)  # рисуем график предикта
+    # plt.show() #показываем граф предикта
+    comp = model.plot_components(forecast)  # компоненты (неделя тренд год)
+    print('==========================================COMPONENTSSSSSSSSSS=========================')
+    # display(comp) #выводим в консоль
+    # plt.show() #рисуем
+    # seasonally_data = forecast[['ds', 'weekly']] #ПОМЕТКААААААА дописать ретерн недельного тренда
+    # plt.show()
+    returns_front = forecast[['ds', 'yhat']]
+    # display(returns_front)
+    # forecast = pd.DataFrame.to_json(forecast)
+    # seasonally_data = pd.DataFrame.to_json(seasonally_data)
+    returns_front = returns_front.to_json()
+    print(
+        '=====================================================================returns_to_front============================================')
+    # display(returns_front)
+    context = {
+        returns_front
+    }
+
+    return Response(context, status=status.HTTP_200_OK)
 
 
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def total_mail(request):
-            
     try:
         filters = {
             'user': request.user,
@@ -314,17 +318,17 @@ def total_mail(request):
         }
         queryset = Transaction.objects.filter(**filters)
     except:
-        return Response('probably,user havent any transactions',status=status.HTTP_404_NOT_FOUND)
+        return Response('probably,user havent any transactions', status=status.HTTP_404_NOT_FOUND)
 
     df = pd.DataFrame.from_records(queryset.values())
-    df['time'] = pd.to_datetime(df['time']).dt.tz_localize(None) #конвертируем время в дататайм тип и убираем utc
-    df = df.sort_values(by = 'time') #перебераем по дате транзакции и упорядочиваем
+    df['time'] = pd.to_datetime(df['time']).dt.tz_localize(None)  # конвертируем время в дататайм тип и убираем utc
+    df = df.sort_values(by='time')  # перебераем по дате транзакции и упорядочиваем
     print(df)
     file_path = replace_invalid_characters(f'{request.user}{timezone.now()}.html')
-    df.to_html(file_path, index = False)
-    
+    df.to_html(file_path, index=False)
+
     ###
-    
+
     subject = 'Budget Analysis'
     email_from = config.CF_EMAIL_HOST
     recipient_list = [request.user.email]
@@ -336,7 +340,61 @@ def total_mail(request):
 
     email.attach_alternative(html_content, 'text/html')
 
-
     email.send()
 
     return Response(status=status.HTTP_200_OK)
+
+
+# -------------Events--------------
+
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def create_event(request):
+    try:
+        serializer = EventsSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save(user=request.user)
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    except Exception as e:
+        return Response({'error': str(e)}, status=status.HTTP_400_BAD_REQUEST)
+
+
+@permission_classes([IsAuthenticated])
+@api_view(['GET'])
+def take_event(request):
+    try:
+        events = Events.objects.filter(user=request.user)
+        serializer = EventsSerializer(events, many=True)
+        print(serializer.data)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+    except Exception as e:
+        return Response({'error': str(e)}, status=status.HTTP_400_BAD_REQUEST)
+
+
+@permission_classes([IsAuthenticated])
+@api_view(['DELETE'])
+def delete_event(request):
+    try:
+        event = Events.objects.get(id=request.data['id'], user=request.user)
+        event.delete()
+        return Response('Event deleted', status=status.HTTP_200_OK)
+    except Exception as e:
+        return Response({'error': str(e)}, status=status.HTTP_400_BAD_REQUEST)
+
+
+@permission_classes([IsAuthenticated])
+@api_view(['PATCH'])
+def update_event(request):
+    try:
+        event = Events.objects.get(id=request.data['id'], user=request.user)
+
+        event.title = request.data.get('title', event.title)
+        event.start_time = request.data.get('start_time', event.start_time)
+        event.end_time = request.data.get('end_time', event.end_time)
+        event.save()
+        return Response({'message': 'Event updated'}, status=status.HTTP_200_OK)
+    except Events.DoesNotExist:
+        return Response({'error': 'Event not found'}, status=status.HTTP_404_NOT_FOUND)
+    except Exception as e:
+        return Response({'error': str(e)}, status=status.HTTP_400_BAD_REQUEST)

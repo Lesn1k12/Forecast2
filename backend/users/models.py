@@ -12,3 +12,10 @@ class Transaction(models.Model):
     description = models.CharField(max_length=50, default='')
     currency = models.CharField(max_length=25, default='ZL')
     title = models.CharField(max_length=40, default='')
+
+
+class Events(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, default=1)
+    title = models.CharField(max_length=40, default='')
+    start_time = models.DateTimeField(null=True, blank=True)
+    end_time = models.DateTimeField(null=True, blank=True)

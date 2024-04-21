@@ -4,11 +4,8 @@
 POST http://127.0.0.1:8000/users/signup
 Content-Type: application/json
 
-<<<<<<< Updated upstream
-{ "username": "admin", "password": "admin", "email": "mta20870@zbock.com"}
-=======
-{ "username": "admin", "password": "admin", "email": "jhj11684@zslsz.com"}
->>>>>>> Stashed changes
+{ "username": "admin1", "password": "admin", "email": "qjx23515@ilebi.com"}
+
 
 ###
 
@@ -30,7 +27,7 @@ POST http://127.0.0.1:8000/api/token/
 Content-Type: application/json
 
 {
-    "username": "admin",
+    "username": "admin1",
     "password": "admin"
 }
 
@@ -100,3 +97,44 @@ GET http://127.0.0.1:8000/users/get_userdata/
 Content-Type: application/json
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzEwODc5Nzg5LCJpYXQiOjE3MTA1MzQxODksImp0aSI6ImQxYzZiYTUyZTVjNzRkYjQ4MjM4ODE2ZmI3ZmFjNWY4IiwidXNlcl9pZCI6Mn0.R4y81lDaUZxxOhRtlqoOjPGRCkhrpo0cBq7V8PpNIIw
 
+###
+
+POST http://127.0.0.1:8000/users/create_event/
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzE0MDQ5NzM4LCJpYXQiOjE3MTM3MDQxMzgsImp0aSI6IjY3NmFhZGE1NDA1ZTQxMzM5NmI5YmE2ODQyOWRhZTIwIiwidXNlcl9pZCI6Mn0.xH8NTxzwAfH_6lA4vp76g9TUFnAtjRPqT8qqUxA5yQ0
+
+{
+  "title": "event1",
+  "start_time": "2023-10-21 00:00:00",
+  "end_time": "2023-10-21 00:00:00"
+}
+
+###
+
+DELETE http://127.0.0.1:8000/users/delete_event/
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzE0MDQ5NzM4LCJpYXQiOjE3MTM3MDQxMzgsImp0aSI6IjY3NmFhZGE1NDA1ZTQxMzM5NmI5YmE2ODQyOWRhZTIwIiwidXNlcl9pZCI6Mn0.xH8NTxzwAfH_6lA4vp76g9TUFnAtjRPqT8qqUxA5yQ0
+
+{
+  "id": "27"
+}
+
+###
+
+GET http://127.0.0.1:8000/users/get_events/
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzE0MDQ5NzM4LCJpYXQiOjE3MTM3MDQxMzgsImp0aSI6IjY3NmFhZGE1NDA1ZTQxMzM5NmI5YmE2ODQyOWRhZTIwIiwidXNlcl9pZCI6Mn0.xH8NTxzwAfH_6lA4vp76g9TUFnAtjRPqT8qqUxA5yQ0
+
+###
+
+PATCH http://127.0.0.1:8000/users/patch_event/
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzE0MDQ5NzM4LCJpYXQiOjE3MTM3MDQxMzgsImp0aSI6IjY3NmFhZGE1NDA1ZTQxMzM5NmI5YmE2ODQyOWRhZTIwIiwidXNlcl9pZCI6Mn0.xH8NTxzwAfH_6lA4vp76g9TUFnAtjRPqT8qqUxA5yQ0
+
+{
+  "id": "29",
+  "start_time": "2023-11-21 00:00:00",
+  "end_time": "2023-11-21 01:00:00"
+}
+
+###
