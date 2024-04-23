@@ -17,6 +17,7 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 
 
+
 function Login() {
   const [formData, setFormData] = useState({
     "username": "",
@@ -55,8 +56,7 @@ function Login() {
         toast.error(message)
     }
     if (isSuccess || user) {
-      navigate("/dashboard");
-      console.log("login success")
+      navigate('/walletcomponent')
       toast.success("Welcome to your account!")
     }
 

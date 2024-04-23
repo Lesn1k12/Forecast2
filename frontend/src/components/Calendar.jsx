@@ -26,7 +26,6 @@ import {
 const now = new Date();
 
 const MyCalendar = () => {
-  const [showEventForm, setShowEventForm] = useState(false);
   const [myEventsList, setMyEventsList] = useState([]);
   const [newEvent, setNewEvent] = useState({
     title: "",
@@ -74,15 +73,20 @@ const MyCalendar = () => {
   };
 
   const handleAddEvent = () => {
-    const newEventCopy = { ...newEvent };
+    if (!newEvent.title.trim()) {
+      toast.error("Event name cannot be empty.");
+      return;
+    }
   
+    const newEventCopy = { ...newEvent };
+    
     const updatedEvents = [...myEventsList, newEventCopy];
     setMyEventsList(updatedEvents);
-  
-    setShowEventForm(false);
+    
     setNewEvent({ title: "", start: new Date(), end: new Date() });
     toast.success("Event has been created.");
   };
+  
   
   
   
@@ -106,7 +110,7 @@ const MyCalendar = () => {
     <Card className=''>
       <CardContent className="p-5">
         <div className="">
-          <div style={{ height: 700 }}>
+          <div style={{ height: 765 }}>
             <Calendar
               localizer={localizer}
               events={myEventsList}
@@ -120,12 +124,11 @@ const MyCalendar = () => {
           </div>
         </div>
       </CardContent>
-      <CardFooter className="">
-        {showEventForm && (
-          <div className="">
+      <CardFooter className="px-5">
+          <div className="flex gap-2">
             <Input
               type="text"
-              placeholder="Назва події"
+              placeholder="Event name"
               value={newEvent.title}
               onChange={handleTitleChange}
             />
@@ -141,10 +144,6 @@ const MyCalendar = () => {
             />
             <Button variant="secondary" onClick={handleAddEvent}>Add</Button>    
           </div>
-        )}
-        {!showEventForm && (
-          <Button variant="secondary" onClick={() => setShowEventForm(true)}>Add event</Button>
-        )}
         <Toaster position="bottom-right" />
         </CardFooter>
     </Card>

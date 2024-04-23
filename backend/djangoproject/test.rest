@@ -4,7 +4,8 @@
 POST http://127.0.0.1:8000/users/signup
 Content-Type: application/json
 
-{ "username": "your_username", "password": "your_password", "email": "divaw24030@mcuma.com"}
+{ "username": "admin1", "password": "admin", "email": "qjx23515@ilebi.com"}
+
 
 ###
 
@@ -26,8 +27,8 @@ POST http://127.0.0.1:8000/api/token/
 Content-Type: application/json
 
 {
-    "username": "your_username",
-    "password": "your_password"
+    "username": "admin1",
+    "password": "admin"
 }
 
 ###
@@ -35,14 +36,14 @@ Content-Type: application/json
 POST http://127.0.0.1:8000/users/wannaresetpass/
 Content-Type: application/json
 
-{"email": "your_email@qwerty.com"}
+{"email": "mta20870@zbock.com"}
 
 ###
 
 
 ###
 
-GET 127.0.0.1:8000/users/mailconfirm/MTI/c3h5t2-41d73d8f269483b9d3ef0337fcdf6014/
+GET http://127.0.0.1:8000/users/mailconfirm/Mg/c3ua42-827155014db6d7f41a579791010d5a3f/
 Content-Type: application/json
 
 
@@ -66,7 +67,11 @@ Content-Type: application/json
 
 POST http://127.0.0.1:8000/users/post_transaction
 Content-Type: application/json
-Authorization: Bearer 0fdfb8e022c1c2533b2f30c97f225e2f903f9754
+<<<<<<< Updated upstream
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzEwODc5Nzg5LCJpYXQiOjE3MTA1MzQxODksImp0aSI6ImQxYzZiYTUyZTVjNzRkYjQ4MjM4ODE2ZmI3ZmFjNWY4IiwidXNlcl9pZCI6Mn0.R4y81lDaUZxxOhRtlqoOjPGRCkhrpo0cBq7V8PpNIIw
+=======
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzEwNjk4OTgxLCJpYXQiOjE3MTAzNTMzODEsImp0aSI6IjFiNGNjYjQyYjlmYTRjNTc4MjM1ODFmYjk3OTNiOWE1IiwidXNlcl9pZCI6Mn0.R-kRhKxTupMIZ7ke4RtYS6qLGVc1oARqZ6u4t_xa7nE
+>>>>>>> Stashed changes
 
 {"category": "entertainment ", "amount": "-1000","time":"2023-11-26", "description": "", "currency": "zl"}
 
@@ -74,16 +79,62 @@ Authorization: Bearer 0fdfb8e022c1c2533b2f30c97f225e2f903f9754
 
 GET http://127.0.0.1:8000/users/get_transaction
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzAxMTg2NjAzLCJpYXQiOjE3MDA4NDEwMDMsImp0aSI6IjMyMGY1N2U1ZWEyNDQ3MGJiNDhkZTQ1N2E5N2EwZDUyIiwidXNlcl9pZCI6Mn0.R-8dc3lzaGo5fic-J7mdSSw_vvn5GkJrlKLnZ4bybn8
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzEwODc5Nzg5LCJpYXQiOjE3MTA1MzQxODksImp0aSI6ImQxYzZiYTUyZTVjNzRkYjQ4MjM4ODE2ZmI3ZmFjNWY4IiwidXNlcl9pZCI6Mn0.R4y81lDaUZxxOhRtlqoOjPGRCkhrpo0cBq7V8PpNIIw
 
 {"end_amount":"10000","start_amount":"-10000", "start_time": "2023-10-21 00:00:00", "end_time": "2023-11-15 00:00:00"}
 
 ###
 
-POST http://127.0.0.1:8000/users/delete_transaction/
+DELETE http://127.0.0.1:8000/users/delete_transaction/
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzAyMzI1MzE0LCJpYXQiOjE3MDE5Nzk3MTQsImp0aSI6ImQ1ZTlmNTA4OTc4NTQxODg5MjE2MzJkMzY5NTUxMzg2IiwidXNlcl9pZCI6Mn0.B3kDniq6UTA8VJgwU6ZG4Udc__h20DRNmB85c38hO5c
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzEwODc5Nzg5LCJpYXQiOjE3MTA1MzQxODksImp0aSI6ImQxYzZiYTUyZTVjNzRkYjQ4MjM4ODE2ZmI3ZmFjNWY4IiwidXNlcl9pZCI6Mn0.R4y81lDaUZxxOhRtlqoOjPGRCkhrpo0cBq7V8PpNIIw
 
-{"id": "36"}
+{"id": "0"}
+
+###
+
+GET http://127.0.0.1:8000/users/get_userdata/
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzEwODc5Nzg5LCJpYXQiOjE3MTA1MzQxODksImp0aSI6ImQxYzZiYTUyZTVjNzRkYjQ4MjM4ODE2ZmI3ZmFjNWY4IiwidXNlcl9pZCI6Mn0.R4y81lDaUZxxOhRtlqoOjPGRCkhrpo0cBq7V8PpNIIw
+
+###
+
+POST http://127.0.0.1:8000/users/create_event/
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzE0MDQ5NzM4LCJpYXQiOjE3MTM3MDQxMzgsImp0aSI6IjY3NmFhZGE1NDA1ZTQxMzM5NmI5YmE2ODQyOWRhZTIwIiwidXNlcl9pZCI6Mn0.xH8NTxzwAfH_6lA4vp76g9TUFnAtjRPqT8qqUxA5yQ0
+
+{
+  "title": "event1",
+  "start_time": "2023-10-21 00:00:00",
+  "end_time": "2023-10-21 00:00:00"
+}
+
+###
+
+DELETE http://127.0.0.1:8000/users/delete_event/
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzE0MDQ5NzM4LCJpYXQiOjE3MTM3MDQxMzgsImp0aSI6IjY3NmFhZGE1NDA1ZTQxMzM5NmI5YmE2ODQyOWRhZTIwIiwidXNlcl9pZCI6Mn0.xH8NTxzwAfH_6lA4vp76g9TUFnAtjRPqT8qqUxA5yQ0
+
+{
+  "id": "27"
+}
+
+###
+
+GET http://127.0.0.1:8000/users/get_events/
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzE0MDQ5NzM4LCJpYXQiOjE3MTM3MDQxMzgsImp0aSI6IjY3NmFhZGE1NDA1ZTQxMzM5NmI5YmE2ODQyOWRhZTIwIiwidXNlcl9pZCI6Mn0.xH8NTxzwAfH_6lA4vp76g9TUFnAtjRPqT8qqUxA5yQ0
+
+###
+
+PATCH http://127.0.0.1:8000/users/patch_event/
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzE0MDQ5NzM4LCJpYXQiOjE3MTM3MDQxMzgsImp0aSI6IjY3NmFhZGE1NDA1ZTQxMzM5NmI5YmE2ODQyOWRhZTIwIiwidXNlcl9pZCI6Mn0.xH8NTxzwAfH_6lA4vp76g9TUFnAtjRPqT8qqUxA5yQ0
+
+{
+  "id": "29",
+  "start_time": "2023-11-21 00:00:00",
+  "end_time": "2023-11-21 01:00:00"
+}
 
 ###

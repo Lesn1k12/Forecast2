@@ -13,3 +13,11 @@
 html{
   height: 100%;
 }
+
+.left {
+  flex: 0 0 25%;
+}
+
+.right {
+  flex: 0 0 75%; 
+}

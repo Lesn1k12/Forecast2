@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
-
 import Dashboard from '../components/Dashboard.jsx';
-import Sidebar from '@/components/Sidebar';
+import Sidebar from '@/components/SideBar.jsx';
 import BottomNavBar from '@/components/BottomNavBar';
 import Actives from '@/components/Actives';
 import MyCalendar from '@/components/Calendar';

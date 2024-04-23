@@ -43,3 +43,10 @@ def resset_pass_mail(email, user):
     recipient_list = [email]
     send_mail(subject,message,email_from,recipient_list)
     print('uidb64', uidb64, 'token', token)
+
+
+def replace_invalid_characters(s):
+    invalid_characters = ['?', '*', '/', '\\', '|', '<', '>', ':', '"']
+    for char in invalid_characters:
+        s = s.replace(char, '_')
+    return s

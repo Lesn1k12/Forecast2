@@ -11,7 +11,7 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 """
 
 from pathlib import Path
-
+from users import config
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -20,7 +20,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-#ut07&ytdp41c_tw*%aw(%n!$hxe7vr-u*$3oq1z-u5%ev^%!i'
+SECRET_KEY = config.SECRET_KEY
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -56,8 +56,8 @@ MIDDLEWARE = [
 ]
 
 CORS_ALLOWED_ORIGINS = [
-    "http://localhost:8080",
-    "http://127.0.0.1:8080"
+    config.BASE_URL,
+    config.SECOND_BASE_URL
 ]
 
 ROOT_URLCONF = 'djangoproject.urls'
@@ -101,11 +101,11 @@ REST_FRAMEWORK = {
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql', 
-        'NAME': 'semestralproject',
-        'USER': 'root',
-        'PASSWORD': 'root',
-        'HOST': '127.0.0.1',
-        'PORT': '3306',
+        'NAME': config.DATABASE_NAME,
+        'USER': config.DATABASE_LOGIN,
+        'PASSWORD': config.DATABASE_PASSWORD,
+        'HOST': config.DATABASE_HOST,
+        'PORT': config.DATABASE_PORT,
     }
 }
 
@@ -129,12 +129,12 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'smtp.mail.yahoo.com'
-EMAIL_USE_TLS = True
-EMAIL_PORT = 587
-EMAIL_HOST_USER = 'lilp1ka@yahoo.com'
-EMAIL_HOST_PASSWORD = 'dptujzqllvvkfhve'
+EMAIL_BACKEND = config.EMAIL_BACKEND
+EMAIL_HOST = config.CF_EMAIL_HOST
+EMAIL_USE_TLS = config.CF_EMAIL_USE_TLS
+EMAIL_PORT = config.CF_EMAIL_PORT
+EMAIL_HOST_USER = config.CF_EMAIL_HOST_USER
+EMAIL_HOST_PASSWORD = config.CF_EMAIL_HOST_PASSWORD
 
 
 

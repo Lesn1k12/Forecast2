@@ -3,4 +3,10 @@ db.sqlite3
 venv/
 __pycache__/
 backend/users/migrations/
-backend/djangoproject/setings.py
+backend/users/config.py
+.venv/
+*.html
+*.json
+*.cookies
+*.http
+*.xml
