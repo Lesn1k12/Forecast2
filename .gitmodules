@@ -1,0 +1,3 @@
+[submodule "backend/web3_moneybox"]
+	path = backend/web3_moneybox
+	url = https://github.com/lilp1ka/web3_moneybox.git
