@@ -1,7 +1,10 @@
 import React, { useState } from 'react';
-import Sidebar from '../components/SideBar';
-import Transaction from '@/components/transactions/Transaction';
-import Dashboard from '@/components/Dashboard';
+import Dashboard from '../components/Dashboard.jsx';
+import Sidebar from '@/components/SideBar.jsx';
+import BottomNavBar from '@/components/BottomNavBar';
+import Actives from '@/components/Actives';
+import MyCalendar from '@/components/Calendar';
+
 
 export default function DashboardPage() {
   const [active, setActive] = useState(1);
@@ -11,7 +14,9 @@ export default function DashboardPage() {
       case 1:
         return <Dashboard />
       case 2:
-        return <Transaction />
+        return <Actives />
+      case 3:
+        return <MyCalendar />
       default: 
         return <Dashboard />
     }
@@ -19,12 +24,13 @@ export default function DashboardPage() {
 
   return (
     
-    <div className='grid grid-cols-4 gap-4 h-screen '>
-      <div className='col-span-1'>
-        <Sidebar active={active} setActive={setActive}/>
+    <div className=' gap-4 h-screen w-screen flex'>
+      <div className='p-10'>
+      <Sidebar active={active} setActive={setActive} />
+      <BottomNavBar active={active} setActive={setActive} />
       </div> 
 
-      <div className='my-10 col-span-3'>
+      <div className='h-full w-full py-10 pr-10'>
         <main>
           {displayData()}
         </main>

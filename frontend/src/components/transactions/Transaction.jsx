@@ -1,7 +1,7 @@
 import {React, useState} from 'react'
 import Expenses from './Expenses'
 import Incomes from './Incomes'
-import History from './History'
+// import History from './History'
 import { Link } from 'react-router-dom'
 import { ContextProvider, useGlobalContext } from '../../context/GlobalContext';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
