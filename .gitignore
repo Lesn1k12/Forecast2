@@ -10,3 +10,4 @@ backend/users/config.py
 *.cookies
 *.http
 *.xml
+.idea/semestralProject.iml
