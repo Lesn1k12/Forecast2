@@ -83,11 +83,12 @@ def reset_password(request, token, uidb64):
     return Response('password changed', status=status.HTTP_200_OK)
 
 
-@api_view(["get"])
+@api_view(["GET"])
 @permission_classes([IsAuthenticated])
 def get_user_data(request):
     user = request.user
-    context = {'username': user.username, 'email': user.email, 'wallet': user.wallet}
+    token, created = Token.objects.get_or_create(user=user)
+    context = {'username': user.username, 'email': user.email, 'public_key': token.key}
     return Response(context, status=status.HTTP_200_OK)
 
 

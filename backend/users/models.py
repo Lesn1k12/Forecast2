@@ -19,3 +19,9 @@ class Events(models.Model):
     title = models.CharField(max_length=40, default='')
     start_time = models.DateTimeField(null=True, blank=True)
     end_time = models.DateTimeField(null=True, blank=True)
+
+
+# class TransactionHistory(models.Model):
+#     transaction = models.ForeignKey(Transaction, on_delete=models.CASCADE, default=1)
+#     previous_price = models.IntegerField(validators=[MaxValueValidator(limit_value=9999999999)], default=0)
+#     change_time = models.DateTimeField(auto_now_add=True)

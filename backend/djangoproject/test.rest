@@ -4,7 +4,7 @@
 POST http://127.0.0.1:8000/users/signup
 Content-Type: application/json
 
-{ "username": "admin1", "password": "admin", "email": "qjx23515@ilebi.com"}
+{ "username": "admin2", "password": "admin", "email": "kfm38394@vogco.com"}
 
 
 ###
@@ -27,7 +27,7 @@ POST http://127.0.0.1:8000/api/token/
 Content-Type: application/json
 
 {
-    "username": "admin1",
+    "username": "admin2",
     "password": "admin"
 }
 
@@ -95,8 +95,7 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiY
 
 GET http://127.0.0.1:8000/users/get_userdata/
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzEwODc5Nzg5LCJpYXQiOjE3MTA1MzQxODksImp0aSI6ImQxYzZiYTUyZTVjNzRkYjQ4MjM4ODE2ZmI3ZmFjNWY4IiwidXNlcl9pZCI6Mn0.R4y81lDaUZxxOhRtlqoOjPGRCkhrpo0cBq7V8PpNIIw
-
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzE0NzU0ODUyLCJpYXQiOjE3MTQ0MDkyNTIsImp0aSI6ImE4ZjRkZjM4YjJhYjQxODVhNjNhOTBlNDk2ZDkwYjcyIiwidXNlcl9pZCI6M30.v-hUt3OZLN6jKqVTkD-6Vyni21NAn0dL51fb-EplWTM
 ###
 
 POST http://127.0.0.1:8000/users/create_event/

@@ -3,10 +3,12 @@ from django.urls import re_path, path
 from users import views
 
 urlpatterns = [
-    # ------Auth------
+    #------Auth------
     re_path('login', views.login),
     re_path('signup', views.signup),
-        #------Mail------
+    #------User------
+    re_path('get_userdata', views.get_user_data),
+    #------Mail------
     path('mailconfirm/<str:uidb64>/<str:token>/', views.mail_confirm, name='mailconfirm'),
     path('resetpass/<str:uidb64>/<str:token>/', views.reset_password, name='resetpass'),
     re_path('wannaresetpass/', views.wanna_reset_password),
