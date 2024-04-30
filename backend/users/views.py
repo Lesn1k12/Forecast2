@@ -6,9 +6,10 @@ from rest_framework import status
 from django.contrib.auth.models import User
 from django.utils.dateparse import parse_datetime
 from django.contrib.auth.tokens import default_token_generator
-from .serializers import UserSerializer, TransactionSerializer, EventsSerializer
+from .serializers import UserSerializer, TransactionSerializer, EventsSerializer, AssetsSerializer, \
+    PriceHistorySerializer
 from .utils import send_verif_up_mail, resset_pass_mail, replace_invalid_characters
-from .models import Transaction, Events
+from .models import Transaction, Events, Assets, PriceHistory
 from django.shortcuts import get_object_or_404
 from rest_framework.authtoken.models import Token
 from django.utils.http import urlsafe_base64_decode
@@ -82,6 +83,8 @@ def reset_password(request, token, uidb64):
     user.save()
     return Response('password changed', status=status.HTTP_200_OK)
 
+
+# -------------User--------------
 
 @api_view(["GET"])
 @permission_classes([IsAuthenticated])
@@ -397,5 +400,104 @@ def update_event(request):
         return Response({'message': 'Event updated'}, status=status.HTTP_200_OK)
     except Events.DoesNotExist:
         return Response({'error': 'Event not found'}, status=status.HTTP_404_NOT_FOUND)
+    except Exception as e:
+        return Response({'error': str(e)}, status=status.HTTP_400_BAD_REQUEST)
+
+
+# -------------Actives--------------
+
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def create_actives(request):
+    asset_data = {
+        'name': request.data.get('name'),
+        'owner_user': request.user.id
+    }
+    asset_serializer = AssetsSerializer(data=asset_data)
+    if asset_serializer.is_valid():
+        asset_serializer.save()
+        price_history_data = {
+            'asset': asset_serializer.instance.id,
+            'price': request.data.get('price'),
+            'date': parse_datetime(request.data.get('date', timezone.now().isoformat())) # "date": "2023-10-21T00:00:00" - не удалять.
+        }
+        price_history_serializer = PriceHistorySerializer(data=price_history_data)
+        if price_history_serializer.is_valid():
+            price_history_serializer.save()
+            return Response({'asset': asset_serializer.data, 'price_history': price_history_serializer.data},
+                            status=status.HTTP_201_CREATED)
+        return Response(price_history_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    return Response(asset_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def get_actives(request):
+    try:
+        asset = Assets.objects.get(id=request.data['id'],
+                                   owner_user=request.user)  # Получаем последнюю запись истории цен для этого актива
+        latest_price_history = PriceHistory.objects.filter(asset=asset).latest('date')
+        response_data = {
+            'name': asset.name,
+            'current_price': latest_price_history.price,
+            'date': latest_price_history.date
+        }
+        return Response(response_data, status=status.HTTP_200_OK)
+    except Assets.DoesNotExist:
+        return Response({'error': 'Asset not found'}, status=status.HTTP_404_NOT_FOUND)
+    except Exception as e:
+        return Response({'error': str(e)}, status=status.HTTP_400_BAD_REQUEST)
+
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def get_all_actives(request):
+    try:
+        asset = Assets.objects.get(id=request.data['id'], owner_user=request.user)
+        price_history = PriceHistory.objects.filter(asset=asset)
+        serializer = PriceHistorySerializer(price_history, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+    except Assets.DoesNotExist:
+        return Response({'error': 'Asset not found'}, status=status.HTTP_404_NOT_FOUND)
+    except Exception as e:
+        return Response({'error': str(e)}, status=status.HTTP_400_BAD_REQUEST)
+
+
+@api_view(['PATCH'])
+@permission_classes([IsAuthenticated])
+def update_actives(request):
+    print(request.data)
+    try:
+        asset = Assets.objects.get(id=request.data['id'], owner_user=request.user)
+        asset.name = request.data.get('name', asset.name)
+        asset.save()
+        new_price = request.data.get('new_price')
+        if new_price is not None:
+            new_price_history_data = {
+                'asset': asset.id,
+                'price': new_price,
+                'date': request.data.get('date', timezone.now())
+            }
+            price_history_serializer = PriceHistorySerializer(data=new_price_history_data)
+            if price_history_serializer.is_valid():
+                price_history_serializer.save()
+                return Response('Asset price and name updated', status=status.HTTP_200_OK)
+            return Response(price_history_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        return Response('Asset name updated', status=status.HTTP_200_OK)
+    except Assets.DoesNotExist:
+        return Response({'error': 'Asset not found'}, status=status.HTTP_404_NOT_FOUND)
+    except Exception as e:
+        return Response({'error': str(e)}, status=status.HTTP_400_BAD_REQUEST)
+
+
+@api_view(['DELETE'])
+@permission_classes([IsAuthenticated])
+def delete_actives(request):
+    try:
+        asset = Assets.objects.get(id=request.data['id'], owner_user=request.user)
+        asset.delete()
+        return Response('Asset deleted', status=status.HTTP_200_OK)
+    except Assets.DoesNotExist:
+        return Response({'error': 'Asset not found'}, status=status.HTTP_404_NOT_FOUND)
     except Exception as e:
         return Response({'error': str(e)}, status=status.HTTP_400_BAD_REQUEST)

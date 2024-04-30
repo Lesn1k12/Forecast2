@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from django.contrib.auth.models import User
-from .models import Transaction, Events #, TransactionHistory
+from .models import Transaction, Events, Assets, PriceHistory
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -22,8 +22,14 @@ class EventsSerializer(serializers.ModelSerializer):
         model = Events
         fields = ['user', 'title', 'start_time', 'end_time']
 
-#
-# class TransactionHistorySerializer(serializers.ModelSerializer):
-#     class Meta(object):
-#         model = TransactionHistory
-#         fields = ['transaction', 'previous_price', 'change_time']
+
+class AssetsSerializer(serializers.ModelSerializer):
+    class Meta(object):
+        model = Assets
+        fields = ['name', 'unique_id', 'owner_user']
+
+
+class PriceHistorySerializer(serializers.ModelSerializer):
+    class Meta(object):
+        model = PriceHistory
+        fields = ['asset', 'price', 'date']

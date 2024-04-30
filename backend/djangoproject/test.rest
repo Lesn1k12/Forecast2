@@ -137,3 +137,55 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiY
 }
 
 ###
+
+POST http://127.0.0.1:8000/users/create_actives/
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzE0NzU0ODUyLCJpYXQiOjE3MTQ0MDkyNTIsImp0aSI6ImE4ZjRkZjM4YjJhYjQxODVhNjNhOTBlNDk2ZDkwYjcyIiwidXNlcl9pZCI6M30.v-hUt3OZLN6jKqVTkD-6Vyni21NAn0dL51fb-EplWTM
+
+{
+  "name": "asset",
+  "price": "1000",
+  "date": "2023-10-21T00:00:00"
+}
+
+###
+
+DELETE http://127.0.0.1:8000/users/delete_actives/
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzE0NzU0ODUyLCJpYXQiOjE3MTQ0MDkyNTIsImp0aSI6ImE4ZjRkZjM4YjJhYjQxODVhNjNhOTBlNDk2ZDkwYjcyIiwidXNlcl9pZCI6M30.v-hUt3OZLN6jKqVTkD-6Vyni21NAn0dL51fb-EplWTM
+
+{
+  "id": "43"
+}
+
+###
+
+GET http://127.0.0.1:8000/users/get_actives/
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzE0NzU0ODUyLCJpYXQiOjE3MTQ0MDkyNTIsImp0aSI6ImE4ZjRkZjM4YjJhYjQxODVhNjNhOTBlNDk2ZDkwYjcyIiwidXNlcl9pZCI6M30.v-hUt3OZLN6jKqVTkD-6Vyni21NAn0dL51fb-EplWTM
+
+{
+  "id": "44"
+}
+
+###
+
+PATCH http://127.0.0.1:8000/users/update_actives/
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzE0NzU0ODUyLCJpYXQiOjE3MTQ0MDkyNTIsImp0aSI6ImE4ZjRkZjM4YjJhYjQxODVhNjNhOTBlNDk2ZDkwYjcyIiwidXNlcl9pZCI6M30.v-hUt3OZLN6jKqVTkD-6Vyni21NAn0dL51fb-EplWTM
+
+{
+  "id": "44",
+  "name": "porno1",
+  "new_price": "12000"
+}
+
+###
+
+GET http://127.0.0.1:8000/users/get_price_history/
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzE0NzU0ODUyLCJpYXQiOjE3MTQ0MDkyNTIsImp0aSI6ImE4ZjRkZjM4YjJhYjQxODVhNjNhOTBlNDk2ZDkwYjcyIiwidXNlcl9pZCI6M30.v-hUt3OZLN6jKqVTkD-6Vyni21NAn0dL51fb-EplWTM
+
+{
+  "id": "44"
+}

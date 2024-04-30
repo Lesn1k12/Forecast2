@@ -21,7 +21,13 @@ class Events(models.Model):
     end_time = models.DateTimeField(null=True, blank=True)
 
 
-# class TransactionHistory(models.Model):
-#     transaction = models.ForeignKey(Transaction, on_delete=models.CASCADE, default=1)
-#     previous_price = models.IntegerField(validators=[MaxValueValidator(limit_value=9999999999)], default=0)
-#     change_time = models.DateTimeField(auto_now_add=True)
+class Assets(models.Model):
+    name = models.CharField(max_length=255)
+    unique_id = models.IntegerField(default=0)
+    owner_user = models.ForeignKey(User, on_delete=models.CASCADE)
+
+
+class PriceHistory(models.Model):
+    asset = models.ForeignKey(Assets, related_name='price_history', on_delete=models.CASCADE)
+    price = models.IntegerField(validators=[MaxValueValidator(limit_value=9999999999)], default=0)
+    date = models.DateTimeField()
