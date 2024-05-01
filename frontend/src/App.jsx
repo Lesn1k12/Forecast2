@@ -10,6 +10,7 @@ import WalletComponent from './components/wallet/WalletComponent'
 import AuthenticationPage from './pages/authentication/AuthenticationPage'
 import NotFoundPage from './pages/NotFoundPage'
 import DashboardPage from './pages/DashboardPage'
+import HomePage from './pages/HomePage'
 
 import Transaction from './components/transactions/Transaction'
 
@@ -19,10 +20,11 @@ function App() {
     <>
       <Router>
         <Routes>
+          <Route path="/" element={<HomePage />} />
           <Route path="/authentication" element={<AuthenticationPage />} />
           <Route path="/register" element={<Register />} />
           <Route path="/login" element={<Login />} />
-          <Route path="/dashboardpage" element={<DashboardPage />} />
+          <Route path="/dashboard" element={<DashboardPage />} />
           <Route path="/wallet" element={<WalletPage />} />
           <Route path="/transactions" element={<Transaction />} />
           <Route path="/not-found" element={<NotFoundPage />} />

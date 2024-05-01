@@ -79,6 +79,80 @@ export const ContextProvider = ({children}) => {
         }
     }
 
+     //видалення транзакції
+    const deleteTransaction = async (id) => {
+      try {
+        const token = authService.getTokenFromLocalStorage();
+        const response = await axios.delete(`${BASE_URL}users/delete_transaction/${id}`, {
+          headers: {
+            'Authorization': `Bearer ${token}`
+          }
+        });
+    
+        console.log("danni:", response);
+    
+        // Перевірити, чи отримано відповідь з успіхом
+        if (response && response.data) {
+          // Додаємо отримані дані до стану або робимо інші дії з ними
+          const transaction = response.data;
+          console.log("transaction:",transaction)
+        } else {
+          console.error("Invalid response:", response);
+        }
+      } catch (error) {
+        console.error("Error:", error);
+        console.log("Full error object:", error);
+        setError(error.response?.data?.message || "Something went wrong");
+      }
+    }
+
+    //рахування загального доходу
+    const total = () => {
+      let total = 0;
+      incomes.forEach((income) =>{
+          total = total + income.amount
+      })
+
+      return total;
+    }
+
+    //історія транзакцій
+    const transactionHistory = () => {
+      const history = [...incomes]
+      history.sort((a, b) => {
+          return new Date(b.createdAt) - new Date(a.createdAt)
+      })
+
+      return history
+  }
+
+     //отримання предикта
+    const getPredict = async () => {
+      try {
+        const token = authService.getTokenFromLocalStorage();
+        const response = await axios.get(`${BASE_URL}users/forecast_transaction`, {
+          headers: {
+            'Authorization': `Bearer ${token}`
+          }
+        });
+    
+        console.log("danni:", response);
+    
+        // Перевірити, чи отримано відповідь з успіхом
+        if (response && response.data) {
+          // Додаємо отримані дані до стану або робимо інші дії з ними
+          const predict = response.data;
+          console.log("предикт:",predict)
+        } else {
+          console.error("Invalid response:", response);
+        }
+      } catch (error) {
+        console.error("Error:", error);
+        console.log("Full error object:", error);
+        setError(error.response?.data?.message || "Something went wrong");
+      }
+    }
+
     const sendMail = () => {
       try {
           const token = authService.getTokenFromLocalStorage();
@@ -92,20 +166,163 @@ export const ContextProvider = ({children}) => {
       }
     }
 
+    //отримання данних юзера 
+    const getUser = async () => {
+      try {
+        const token = authService.getTokenFromLocalStorage();
+        const response = await axios.get(`${BASE_URL}users/get_userdata/`, {
+          headers: {
+            'Authorization': `Bearer ${token}`
+          }
+        });
+    
+        console.log("danni:", response);
+    
+        // Перевірити, чи отримано відповідь з успіхом
+        if (response && response.data) {
+          // Додаємо отримані дані до стану або робимо інші дії з ними
+          const user = response.data;
+          console.log("user:",user)
+        } else {
+          console.error("Invalid response:", response);
+        }
+      } catch (error) {
+        console.error("Error:", error);
+        console.log("Full error object:", error);
+        setError(error.response?.data?.message || "Something went wrong");
+      }
+    }
+
+    //створити актив
+    const createAsset = async () => {
+      try {
+          const token = authService.getTokenFromLocalStorage();
+          const response = await axios.post(`${BASE_URL}users/create_actives/`, asset, {
+              headers: {
+                  'Content-Type': 'application/json',
+                  'Authorization': `Bearer ${token}`
+              }
+          });
+
+          if (response && response.data) {
+              console.log("Success:", response.data);
+          } else {
+              console.error("Invalid response:", response);
+          }
+      } catch (error) {
+          console.error("Error:", error);
+          console.log("Full error object:", error);
+          setError(error.response?.data?.message || "Something went wrong");
+      }
+    }
+
+    //видалити актив
+    const deleteAsset = async (id) => {
+      try {
+          const token = authService.getTokenFromLocalStorage();
+          const response = await axios.delete(`${BASE_URL}users/delete_actives/`, {
+              headers: {
+                  'Authorization': `Bearer ${token}`
+              }
+          });
+
+          if (response && response.data) {
+              console.log("Success:", response.data);
+          } else {
+              console.error("Invalid response:", response);
+          }
+      } catch (error) {
+          console.error("Error:", error);
+          console.log("Full error object:", error);
+          setError(error.response?.data?.message || "Something went wrong");
+      }
+    }
+
+    //редагувати актив
+    const editAsset = async (id) => {
+      try {
+          const token = authService.getTokenFromLocalStorage();
+          const response = await axios.put(`${BASE_URL}users/edit_actives/`, {
+              headers: {
+                'Authorization': `Bearer ${token}`
+              }
+          });
+
+          if (response && response.data) {
+              console.log("Success:", response.data);
+          } else {
+              console.error("Invalid response:", response);
+          }
+      } catch (error) {
+          console.error("Error:", error);
+          console.log("Full error object:", error);
+          setError(error.response?.data?.message || "Something went wrong");
+      }
+
+    }
+
+    //отримати останній актив
+    const getLastAsset = async () => {
+      try {
+          const token = authService.getTokenFromLocalStorage();
+          const response = await axios.get(`${BASE_URL}users/get_actives/`, {
+              headers: {
+                  'Authorization': `Bearer ${token}`
+              }
+          });
+
+          if (response && response.data) {
+              console.log("Success:", response.data);
+          } else {
+              console.error("Invalid response:", response);
+          }
+      } catch (error) {
+          console.error("Error:", error);
+          console.log("Full error object:", error);
+          setError(error.response?.data?.message || "Something went wrong");
+      }
+    }
+
+    //отримати історію актива
+    const getAssetHistory = async () => {
+      try {
+          const token = authService.getTokenFromLocalStorage();
+          const response = await axios.get(`${BASE_URL}users/get_price_history/`, {
+              headers: {
+                  'Authorization': `Bearer ${token}`
+              }
+          });
+
+          if (response && response.data) {
+              console.log("Success:", response.data);
+          } else {
+              console.error("Invalid response:", response);
+          }
+      } catch (error) {
+          console.error("Error:", error);
+          console.log("Full error object:", error);
+          setError(error.response?.data?.message || "Something went wrong");
+      }
+    }
+
   return (
     <GlobalContext.Provider value={{
           addTransaction,
           getTransaction,
           incomes,
-          // deleteIncome,
-          // expenses,
-          // totalIncome,
-          // totalExpenses,
-          // totalBalance,
-          // transactionHistory,
+          deleteTransaction,
+          total,
+          transactionHistory,
           error,
           setError,
-          sendMail
+          sendMail,
+          getPredict,
+          getUser,
+          createAsset,
+          deleteAsset,
+          editAsset,
+          getLastAsset,
+          getAssetHistory
       }}>
           {children}
     </GlobalContext.Provider>

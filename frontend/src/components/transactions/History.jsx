@@ -1,113 +1,33 @@
-// import React from 'react'
-// import { useGlobalContext, GlobalProvider } from '../context/GlobalContext';
+import React from "react";
 
+import { useGlobalContext } from "../../context/GlobalContext";
 
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { Separator } from "@/components/ui/separator";
 
-// function IncomeItem({
-//     id,
-//     title,
-//     amount,
-//     date,
-//     category,
-//     description,
-//     deleteItem,
-//     indicatorColor,
-//     type
-// }) {
+const tags = Array.from({ length: 50 }).map(
+  (_, i, a) => `v1.2.0-beta.${a.length - i}`
+);
 
-//     console.log('Props:', { id, title, amount, date, category, description, type });
+function History() {
+  const { transactionHistory, error, setError } = useGlobalContext();
+  return (
+    <div className="max-h-full ">
+      <ScrollArea className="max-h-screen h-72 w-48 rounded-md border">
+        <div className="p-4">
+          <h4 className="mb-4 text-sm font-medium leading-none">Tags</h4>
+          {tags.map((tag) => (
+            <>
+              <div key={tag} className="text-sm">
+                {tag}
+              </div>
+              <Separator className="my-2" />
+            </>
+          ))}
+        </div>
+      </ScrollArea>
+    </div>
+  );
+}
 
-//     const handleDelete = () => {
-//         deleteItem(id);
-//       };
-
-//     const dateFormat = (time) =>{
-//         return moment(time).format('DD/MM/YYYY')
-//     }
-
-//     const categoryIcon = () =>{
-//         switch(category) {
-//             case 'salary':
-//                 return money;
-//             case 'freelancing':
-//                 return freelance
-//             case 'investments':
-//                 return stocks;
-//             case 'stocks':
-//                 return users;
-//             case 'bitcoin':
-//                 return bitcoin;
-//             case 'bank':
-//                 return card;
-//             case 'youtube':
-//                 return yt;
-//             case 'education':
-//                 return book;
-//             case 'groceries':
-//                 return food;
-//             case 'health':
-//                 return medical;
-//             case 'subscriptions':
-//                 return tv;
-//             case 'takeaways':
-//                 return takeaway;
-//             case 'clothing':
-//                 return clothing;
-//             case 'travelling':
-//                 return freelance;
-//             case 'other':
-//                 return circle;
-//             default:
-//                 return ''
-//         }
-//     }
-
-//     const expenseCatIcon = () => {
-//         switch (category) {
-//             case 'education':
-//                 return book;
-//             case 'groceries':
-//                 return food;
-//             case 'health':
-//                 return medical;
-//             case 'subscriptions':
-//                 return tv;
-//             case 'takeaways':
-//                 return takeaway;
-//             case 'clothing':
-//                 return clothing;
-//             case 'travelling':
-//                 return freelance;
-//             case 'other':
-//                 return circle;
-//             default:
-//                 return ''
-//         }
-//     }
-
-//     return (
-//         <div className={`${styles.IncomeItemStyled}`} style={{ backgroundColor: indicatorColor }}>
-//             <div className={`${styles.icon}`}>
-//                 {type === 'expense' ? expenseCatIcon() : categoryIcon()}
-//             </div>
-//             <div className={`${styles.content}`}>
-//                 <h5>{title}</h5>
-//                 <div className={`${styles.innerContent}`}>
-//                     <div className={`${styles.text}`}>
-//                         <p>{dollar} {amount}</p>
-//                         <p>{calender} {dateFormat(date)}</p>
-//                         <p>
-//                             {comment}
-//                             {description}
-//                         </p>
-//                     </div>
-//                     <div className={`${styles.btnCon}`}>
-//                     </div>
-//                 </div>
-//             </div>
-//         </div>
-
-//     )
-// }
-
-// export default IncomeItem
+export default History;
