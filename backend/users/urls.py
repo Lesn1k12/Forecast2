@@ -31,6 +31,7 @@ urlpatterns = [
     re_path('create_actives', views.create_actives),
     re_path('delete_actives', views.delete_actives),
     re_path('get_actives', views.get_actives),
-    re_path('get_price_history', views.get_all_actives),
+    re_path('get_price_history', views.get_history_actives),
     re_path('update_actives', views.update_actives),
+    re_path("get_all_actives", views.get_all_actives),
     ]
