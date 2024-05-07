@@ -419,7 +419,8 @@ def create_actives(request):
         price_history_data = {
             'asset': asset_serializer.instance.id,
             'price': request.data.get('price'),
-            'date': parse_datetime(request.data.get('date', timezone.now().isoformat())) # "date": "2023-10-21T00:00:00" - не удалять.
+            'date': parse_datetime(request.data.get('date', timezone.now().isoformat()))
+            # "date": "2023-10-21T00:00:00" - не удалять.
         }
         price_history_serializer = PriceHistorySerializer(data=price_history_data)
         if price_history_serializer.is_valid():
@@ -451,7 +452,7 @@ def get_actives(request):
 
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
-def get_all_actives(request):
+def get_history_actives(request):
     try:
         asset = Assets.objects.get(id=request.data['id'], owner_user=request.user)
         price_history = PriceHistory.objects.filter(asset=asset)
@@ -459,6 +460,26 @@ def get_all_actives(request):
         return Response(serializer.data, status=status.HTTP_200_OK)
     except Assets.DoesNotExist:
         return Response({'error': 'Asset not found'}, status=status.HTTP_404_NOT_FOUND)
+    except Exception as e:
+        return Response({'error': str(e)}, status=status.HTTP_400_BAD_REQUEST)
+
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def get_all_actives(request):
+    try:
+        assets = Assets.objects.filter(owner_user=request.user)
+        response_data = []
+        for asset in assets:
+            latest_price_history = PriceHistory.objects.filter(asset=asset).latest('date')
+            asset_data = {
+                'id': asset.id,
+                'name': asset.name,
+                'current_price': latest_price_history.price,
+                'date': latest_price_history.date
+            }
+            response_data.append(asset_data)
+        return Response(response_data, status=status.HTTP_200_OK)
     except Exception as e:
         return Response({'error': str(e)}, status=status.HTTP_400_BAD_REQUEST)
 

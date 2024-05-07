@@ -4,7 +4,7 @@
 POST http://127.0.0.1:8000/users/signup
 Content-Type: application/json
 
-{ "username": "admin2", "password": "admin", "email": "kfm38394@vogco.com"}
+{ "username": "admin3", "password": "admin", "email": "sie10502@vogco.com"}
 
 
 ###
@@ -27,7 +27,7 @@ POST http://127.0.0.1:8000/api/token/
 Content-Type: application/json
 
 {
-    "username": "admin2",
+    "username": "admin3",
     "password": "admin"
 }
 
@@ -140,10 +140,10 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiY
 
 POST http://127.0.0.1:8000/users/create_actives/
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzE0NzU0ODUyLCJpYXQiOjE3MTQ0MDkyNTIsImp0aSI6ImE4ZjRkZjM4YjJhYjQxODVhNjNhOTBlNDk2ZDkwYjcyIiwidXNlcl9pZCI6M30.v-hUt3OZLN6jKqVTkD-6Vyni21NAn0dL51fb-EplWTM
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzE1MTk4MDcyLCJpYXQiOjE3MTQ4NTI0NzIsImp0aSI6ImE3ZjQ0MjAxOTU1MjRiY2FiM2E2NmVlMWUxYzFlYWNkIiwidXNlcl9pZCI6NH0.Oe7W8ujJWnKB0Kv7k7AE29vYzSqpJOfiFEWcejPU4Vo
 
 {
-  "name": "asset",
+  "name": "porn1111o",
   "price": "1000",
   "date": "2023-10-21T00:00:00"
 }
@@ -172,20 +172,27 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiY
 
 PATCH http://127.0.0.1:8000/users/update_actives/
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzE0NzU0ODUyLCJpYXQiOjE3MTQ0MDkyNTIsImp0aSI6ImE4ZjRkZjM4YjJhYjQxODVhNjNhOTBlNDk2ZDkwYjcyIiwidXNlcl9pZCI6M30.v-hUt3OZLN6jKqVTkD-6Vyni21NAn0dL51fb-EplWTM
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzE1MTk4MDcyLCJpYXQiOjE3MTQ4NTI0NzIsImp0aSI6ImE3ZjQ0MjAxOTU1MjRiY2FiM2E2NmVlMWUxYzFlYWNkIiwidXNlcl9pZCI6NH0.Oe7W8ujJWnKB0Kv7k7AE29vYzSqpJOfiFEWcejPU4Vo
 
 {
-  "id": "44",
+  "id": "49",
   "name": "porno1",
-  "new_price": "12000"
+  "new_price": "10200"
 }
 
 ###
 
 GET http://127.0.0.1:8000/users/get_price_history/
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzE0NzU0ODUyLCJpYXQiOjE3MTQ0MDkyNTIsImp0aSI6ImE4ZjRkZjM4YjJhYjQxODVhNjNhOTBlNDk2ZDkwYjcyIiwidXNlcl9pZCI6M30.v-hUt3OZLN6jKqVTkD-6Vyni21NAn0dL51fb-EplWTM
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzE1MTk4MDcyLCJpYXQiOjE3MTQ4NTI0NzIsImp0aSI6ImE3ZjQ0MjAxOTU1MjRiY2FiM2E2NmVlMWUxYzFlYWNkIiwidXNlcl9pZCI6NH0.Oe7W8ujJWnKB0Kv7k7AE29vYzSqpJOfiFEWcejPU4Vo
 
 {
-  "id": "44"
+  "id": "50"
 }
+
+###
+
+GET http://127.0.0.1:8000/users/get_all_actives/
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzE1MTk4MDcyLCJpYXQiOjE3MTQ4NTI0NzIsImp0aSI6ImE3ZjQ0MjAxOTU1MjRiY2FiM2E2NmVlMWUxYzFlYWNkIiwidXNlcl9pZCI6NH0.Oe7W8ujJWnKB0Kv7k7AE29vYzSqpJOfiFEWcejPU4Vo
+
