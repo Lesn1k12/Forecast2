@@ -12,14 +12,18 @@ export const ContextProvider = ({children}) => {
     const [expenses, setExpenses] = useState([])
     const [incomes, setIncomes] = useState([])
     const [transaction, setTransaction] = useState([])
+    const [userData, setUserData] = useState([])
     const [error, setError] = useState(null)
+    const [lastAsset, setLastAsset] = useState([])
+    const [assetHistory, setAssetHistory] = useState([])
+    const [predict, setPredict] = useState([])
 
 
     const addTransaction = async (transaction) => {
         try {
             const token = authService.getTokenFromLocalStorage();
 
-            const response = await axios.post(`${BASE_URL}users/post_transaction`, transaction, {
+            const response = await axios.post(`http://127.0.0.1:8000/users/post_transaction`, transaction, {
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${token}`
@@ -142,6 +146,7 @@ export const ContextProvider = ({children}) => {
         if (response && response.data) {
           // Додаємо отримані дані до стану або робимо інші дії з ними
           const predict = response.data;
+          setPredict(predict)
           console.log("предикт:",predict)
         } else {
           console.error("Invalid response:", response);
@@ -170,7 +175,7 @@ export const ContextProvider = ({children}) => {
     const getUser = async () => {
       try {
         const token = authService.getTokenFromLocalStorage();
-        const response = await axios.get(`${BASE_URL}users/get_userdata/`, {
+        const response = await axios.get(`${BASE_URL}users/get_userdata`, {
           headers: {
             'Authorization': `Bearer ${token}`
           }
@@ -181,8 +186,9 @@ export const ContextProvider = ({children}) => {
         // Перевірити, чи отримано відповідь з успіхом
         if (response && response.data) {
           // Додаємо отримані дані до стану або робимо інші дії з ними
-          const user = response.data;
-          console.log("user:",user)
+          const userData = response.data;
+          setUserData(userData)
+          console.log("user:",userData)
         } else {
           console.error("Invalid response:", response);
         }
@@ -194,10 +200,10 @@ export const ContextProvider = ({children}) => {
     }
 
     //створити актив
-    const createAsset = async () => {
+    const createAsset = async (asset) => {
       try {
           const token = authService.getTokenFromLocalStorage();
-          const response = await axios.post(`${BASE_URL}users/create_actives/`, asset, {
+          const response = await axios.post(`${BASE_URL}users/create_actives`, asset, {
               headers: {
                   'Content-Type': 'application/json',
                   'Authorization': `Bearer ${token}`
@@ -265,7 +271,7 @@ export const ContextProvider = ({children}) => {
     const getLastAsset = async () => {
       try {
           const token = authService.getTokenFromLocalStorage();
-          const response = await axios.get(`${BASE_URL}users/get_actives/`, {
+          const response = await axios.get(`${BASE_URL}users/get_actives`, {
               headers: {
                   'Authorization': `Bearer ${token}`
               }
@@ -273,6 +279,8 @@ export const ContextProvider = ({children}) => {
 
           if (response && response.data) {
               console.log("Success:", response.data);
+              const asset = response.data;
+              setLastAsset(asset)
           } else {
               console.error("Invalid response:", response);
           }
@@ -295,6 +303,8 @@ export const ContextProvider = ({children}) => {
 
           if (response && response.data) {
               console.log("Success:", response.data);
+              const history = response.data;
+              setAssetHistory(history)
           } else {
               console.error("Invalid response:", response);
           }
@@ -310,6 +320,7 @@ export const ContextProvider = ({children}) => {
           addTransaction,
           getTransaction,
           incomes,
+          expenses,
           deleteTransaction,
           total,
           transactionHistory,
@@ -318,11 +329,14 @@ export const ContextProvider = ({children}) => {
           sendMail,
           getPredict,
           getUser,
+          userData,
           createAsset,
           deleteAsset,
           editAsset,
           getLastAsset,
-          getAssetHistory
+          lastAsset,
+          getAssetHistory,
+          assetHistory
       }}>
           {children}
     </GlobalContext.Provider>

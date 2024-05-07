@@ -1,6 +1,6 @@
 import { useEffect, useState} from 'react'
 import { toast } from 'react-toastify'
-import { login, reset, getUserInfo } from '../../context/auth/AuthSlice'
+import { login, register, reset, getUserInfo } from '../../context/auth/AuthSlice'
 import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux'
 import { Button } from "@/components/ui/button"
@@ -18,7 +18,7 @@ import { Label } from "@/components/ui/label"
 
 function Register() {
   const[formData, setFormData] = useState({
-    "userusername": "",
+    "username": "",
     "email": "",
     "password": "",
   })
@@ -46,7 +46,7 @@ function Register() {
       email,
       password,
     }
-    dispatch(login(formData))
+    dispatch(register(formData))
   }
 
   useEffect(() => {
@@ -54,6 +54,7 @@ function Register() {
         toast.error(message)
     }
     if (isSuccess || user) {
+        toast.success(message)
         navigate("/dashboard")
     }
 

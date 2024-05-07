@@ -30,6 +30,7 @@ import {
   SelectValue,
 } from "@/components/ui/select"
 import { Textarea } from "@/components/ui/textarea"
+import { format } from "date-fns"
 
 
 function Expenses() {
@@ -42,7 +43,6 @@ function Expenses() {
     description: '',
     currency: 'zl'
   });
-  const [date, setDate] = useState()
 
   const { category, amount, time, title, description, currency } = inputState;
 
@@ -121,18 +121,21 @@ function Expenses() {
                       variant={"outline"}
                       className={cn(
                         "w-[240px] justify-start text-left font-normal",
-                        !date && "text-muted-foreground"
+                        !time && "text-muted-foreground"
                       )}
                     >
                       <CalendarIcon className="mr-2 h-4 w-4" />
-                      {date ? format(date, "PPP") : <span>Pick a date</span>}
+                      {time ? format(time, "PPP") : <span>Pick a date</span>}
                     </Button>
                   </PopoverTrigger>
                   <PopoverContent className="w-auto p-0" align="start">
                     <Calendar
                       mode="single"
-                      selected={date}
-                      onSelect={setDate}
+                      value = "time"
+                      selected={time}
+                      onSelect={(newTime) => {
+                        setInputState({ ...inputState, time: newTime });
+                      }}
                       initialFocus
                     />
                   </PopoverContent>
