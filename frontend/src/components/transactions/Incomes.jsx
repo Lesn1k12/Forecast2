@@ -4,6 +4,7 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form";
 import { z } from "zod"
 import { cn } from "@/lib/utils"
+import { format } from "date-fns"
 import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
 import {
@@ -30,6 +31,7 @@ import {
   SelectValue,
 } from "@/components/ui/select"
 import { Textarea } from "@/components/ui/textarea"
+import { set } from 'date-fns';
 
 
 function Incomes() {
@@ -42,10 +44,8 @@ function Incomes() {
     description: '',
     currency: 'zl'
   });
-  const [date, setDate] = useState()
 
   const { category, amount, time, title, description, currency } = inputState;
-
 
   const handleInput = name => e => {
     setInputState({ ...inputState, [name]: e.target.value });
@@ -54,11 +54,13 @@ function Incomes() {
 
   const handleSubmit = e => {
     e.preventDefault();
-    addTransaction({ ...inputState });
+    const formattedTime = format(time, "yyyy-MM-dd");
+    addTransaction({ ...inputState, time: formattedTime});
+    
     setInputState({
       category: '',
       amount: '',
-      time: '',
+      time: formattedTime,
       title: '',
       description: '',
       currency: 'zl'
@@ -119,18 +121,21 @@ function Incomes() {
                       variant={"outline"}
                       className={cn(
                         "w-[240px] justify-start text-left font-normal",
-                        !date && "text-muted-foreground"
+                        !time && "text-muted-foreground"
                       )}
                     >
                       <CalendarIcon className="mr-2 h-4 w-4" />
-                      {date ? format(date, "PPP") : <span>Pick a date</span>}
+                      {time ? format(time, "yyyy-MM-dd") : <span>Pick a date</span>}
                     </Button>
                   </PopoverTrigger>
                   <PopoverContent className="w-auto p-0" align="start">
                     <Calendar
                       mode="single"
-                      selected={date}
-                      onSelect={setDate}
+                      value = "time"
+                      selected={time}
+                      onSelect={(newTime) => {
+                        setInputState({ ...inputState, time: newTime });
+                      }}
                       initialFocus
                     />
                   </PopoverContent>

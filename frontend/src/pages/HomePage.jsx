@@ -9,6 +9,9 @@ function HomePage() {
         <Button>
             <a href="/dashboard">Dashboard</a>
         </Button>
+        <Button>
+            <a href="/authentication">authentication</a>
+        </Button>
     </div>
   )
 }
