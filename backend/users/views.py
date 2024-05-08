@@ -1,8 +1,8 @@
-from django.shortcuts import render
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework import status
+from rest_framework.exceptions import NotFound
 from django.contrib.auth.models import User
 from django.utils.dateparse import parse_datetime
 from django.contrib.auth.tokens import default_token_generator
@@ -90,16 +90,27 @@ def reset_password(request, token, uidb64):
 @permission_classes([IsAuthenticated])
 def get_user_data(request):
     user = request.user
-    token, created = Token.objects.get_or_create(user=user)
-    context = {'username': user.username, 'email': user.email, 'public_key': token.key}
+    try:
+        token = Token.objects.get(user=user)
+    except Token.DoesNotExist:
+        raise NotFound("Token not found for the given user.")
+    context = {'username': user.username, 'email': user.email, 'public_key': token.key, 'id': user.id}
     return Response(context, status=status.HTTP_200_OK)
+
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def get_all_users(request):
+    users = User.objects.all()
+    serializer = UserSerializer(users, many=True)
+    return Response(serializer.data)
 
 
 # -------------Transactions--------------
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def get_transaction(request):
-    user = request.user
+    # user = request.user
     category = request.data.get('category')
     start_amount = request.data.get('start_amount')
     end_amount = request.data.get('end_amount')
@@ -161,15 +172,14 @@ def delete_transaction(request):
             'id': request.data['id'],
             'user_id': request.user
         }
-
         transaction_to_delete = Transaction.objects.filter(**filters)
         if not transaction_to_delete.exists():
             return Response('Transaction not found', status=status.HTTP_404_NOT_FOUND)
 
         transaction_to_delete.delete()
         return Response('Transaction deleted', status=status.HTTP_200_OK)
-    except:
-        return Response('something went wrong with updating task', status=status.HTTP_400_BAD_REQUEST)
+    except Exception as ex:
+        return Response({"error": ex}, status=status.HTTP_400_BAD_REQUEST)
 
 
 @api_view(['GET'])
@@ -262,8 +272,8 @@ def forecast_transaction(request):
             'time__lte': timezone.now()
         }
         queryset = Transaction.objects.filter(**filters)
-    except:
-        return Response('probably,user havent any transactions', status=status.HTTP_404_NOT_FOUND)
+    except Exception as ex:
+        return Response({"error": ex}, status=status.HTTP_404_NOT_FOUND)
 
     df = pd.DataFrame.from_records(queryset.values())
 
@@ -302,8 +312,7 @@ def forecast_transaction(request):
     # forecast = pd.DataFrame.to_json(forecast)
     # seasonally_data = pd.DataFrame.to_json(seasonally_data)
     returns_front = returns_front.to_json()
-    print(
-        '=====================================================================returns_to_front============================================')
+    print('==================================================returns_to_front===============================')
     # display(returns_front)
     context = {
         returns_front
@@ -321,8 +330,8 @@ def total_mail(request):
             'time__lte': timezone.now()
         }
         queryset = Transaction.objects.filter(**filters)
-    except:
-        return Response('probably,user havent any transactions', status=status.HTTP_404_NOT_FOUND)
+    except Exception as ex:
+        return Response({"error": ex}, status=status.HTTP_404_NOT_FOUND)
 
     df = pd.DataFrame.from_records(queryset.values())
     df['time'] = pd.to_datetime(df['time']).dt.tz_localize(None)  # конвертируем время в дататайм тип и убираем utc
@@ -370,7 +379,6 @@ def take_event(request):
     try:
         events = Events.objects.filter(user=request.user)
         serializer = EventsSerializer(events, many=True)
-        print(serializer.data)
         return Response(serializer.data, status=status.HTTP_200_OK)
     except Exception as e:
         return Response({'error': str(e)}, status=status.HTTP_400_BAD_REQUEST)
@@ -454,7 +462,7 @@ def get_actives(request):
 @permission_classes([IsAuthenticated])
 def get_history_actives(request):
     try:
-        asset = Assets.objects.get(id=request.data['id'], owner_user=request.user)
+        asset = Assets.objects.get(id=request.query_params['id'], owner_user=request.user)
         price_history = PriceHistory.objects.filter(asset=asset)
         serializer = PriceHistorySerializer(price_history, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
@@ -471,13 +479,22 @@ def get_all_actives(request):
         assets = Assets.objects.filter(owner_user=request.user)
         response_data = []
         for asset in assets:
-            latest_price_history = PriceHistory.objects.filter(asset=asset).latest('date')
-            asset_data = {
-                'id': asset.id,
-                'name': asset.name,
-                'current_price': latest_price_history.price,
-                'date': latest_price_history.date
-            }
+            price_history = PriceHistory.objects.filter(asset=asset)
+            if price_history.exists():
+                latest_price_history = price_history.latest('date')
+                asset_data = {
+                    'id': asset.id,
+                    'name': asset.name,
+                    'current_price': latest_price_history.price,
+                    'date': latest_price_history.date
+                }
+            else:
+                asset_data = {
+                    'id': asset.id,
+                    'name': asset.name,
+                    'current_price': 'No price history',
+                    'date': 'No date'
+                }
             response_data.append(asset_data)
         return Response(response_data, status=status.HTTP_200_OK)
     except Exception as e:
@@ -487,17 +504,16 @@ def get_all_actives(request):
 @api_view(['PATCH'])
 @permission_classes([IsAuthenticated])
 def update_actives(request):
-    print(request.data)
     try:
-        asset = Assets.objects.get(id=request.data['id'], owner_user=request.user)
-        asset.name = request.data.get('name', asset.name)
+        asset = Assets.objects.get(id=request.query_params['id'], owner_user=request.user)
+        asset.name = request.query_params.get('name', asset.name)
         asset.save()
-        new_price = request.data.get('new_price')
+        new_price = request.query_params.get('new_price')
         if new_price is not None:
             new_price_history_data = {
                 'asset': asset.id,
                 'price': new_price,
-                'date': request.data.get('date', timezone.now())
+                'date': request.query_params.get('date', timezone.now())
             }
             price_history_serializer = PriceHistorySerializer(data=new_price_history_data)
             if price_history_serializer.is_valid():
@@ -515,7 +531,7 @@ def update_actives(request):
 @permission_classes([IsAuthenticated])
 def delete_actives(request):
     try:
-        asset = Assets.objects.get(id=request.data['id'], owner_user=request.user)
+        asset = Assets.objects.get(id=request.query_params['id'], owner_user=request.user)
         asset.delete()
         return Response('Asset deleted', status=status.HTTP_200_OK)
     except Assets.DoesNotExist:

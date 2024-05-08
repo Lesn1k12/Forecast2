@@ -6,8 +6,6 @@ from rest_framework_simplejwt.views import (
     TokenVerifyView
 )
 
-
-
 urlpatterns = [
     re_path('admin/', admin.site.urls),
     re_path('users/', include('users.urls')),
@@ -15,6 +13,4 @@ urlpatterns = [
     re_path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
     re_path('api/token/refresh/', TokenVerifyView.as_view(), name='token_refresh'),
 
-    
-    
 ]

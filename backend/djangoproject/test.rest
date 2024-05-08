@@ -4,7 +4,7 @@
 POST http://127.0.0.1:8000/users/signup
 Content-Type: application/json
 
-{ "username": "admin3", "password": "admin", "email": "sie10502@vogco.com"}
+{ "username": "admin4", "password": "admin", "email": "edo68020@romog.com"}
 
 
 ###
@@ -27,7 +27,7 @@ POST http://127.0.0.1:8000/api/token/
 Content-Type: application/json
 
 {
-    "username": "admin3",
+    "username": "admin4",
     "password": "admin"
 }
 
@@ -67,11 +67,8 @@ Content-Type: application/json
 
 POST http://127.0.0.1:8000/users/post_transaction
 Content-Type: application/json
-<<<<<<< Updated upstream
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzEwODc5Nzg5LCJpYXQiOjE3MTA1MzQxODksImp0aSI6ImQxYzZiYTUyZTVjNzRkYjQ4MjM4ODE2ZmI3ZmFjNWY4IiwidXNlcl9pZCI6Mn0.R4y81lDaUZxxOhRtlqoOjPGRCkhrpo0cBq7V8PpNIIw
-=======
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzEwNjk4OTgxLCJpYXQiOjE3MTAzNTMzODEsImp0aSI6IjFiNGNjYjQyYjlmYTRjNTc4MjM1ODFmYjk3OTNiOWE1IiwidXNlcl9pZCI6Mn0.R-kRhKxTupMIZ7ke4RtYS6qLGVc1oARqZ6u4t_xa7nE
->>>>>>> Stashed changes
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzE1NTExNTExLCJpYXQiOjE3MTUxNjU5MTEsImp0aSI6ImJmYmIzYjZhNjI5YjRkOTNhNzgwZWY4ZWIxYjA3ZjljIiwidXNlcl9pZCI6NX0.hdv6y2z2_jUpxy_pGDRSWU9HI-qlSEzGun3c6UhFOog
+
 
 {"category": "entertainment ", "amount": "-1000","time":"2023-11-26", "description": "", "currency": "zl"}
 
@@ -79,7 +76,7 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiY
 
 GET http://127.0.0.1:8000/users/get_transaction
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzEwODc5Nzg5LCJpYXQiOjE3MTA1MzQxODksImp0aSI6ImQxYzZiYTUyZTVjNzRkYjQ4MjM4ODE2ZmI3ZmFjNWY4IiwidXNlcl9pZCI6Mn0.R4y81lDaUZxxOhRtlqoOjPGRCkhrpo0cBq7V8PpNIIw
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzE1NTExNTExLCJpYXQiOjE3MTUxNjU5MTEsImp0aSI6ImJmYmIzYjZhNjI5YjRkOTNhNzgwZWY4ZWIxYjA3ZjljIiwidXNlcl9pZCI6NX0.hdv6y2z2_jUpxy_pGDRSWU9HI-qlSEzGun3c6UhFOog
 
 {"end_amount":"10000","start_amount":"-10000", "start_time": "2023-10-21 00:00:00", "end_time": "2023-11-15 00:00:00"}
 
@@ -87,20 +84,22 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiY
 
 DELETE http://127.0.0.1:8000/users/delete_transaction/
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzEwODc5Nzg5LCJpYXQiOjE3MTA1MzQxODksImp0aSI6ImQxYzZiYTUyZTVjNzRkYjQ4MjM4ODE2ZmI3ZmFjNWY4IiwidXNlcl9pZCI6Mn0.R4y81lDaUZxxOhRtlqoOjPGRCkhrpo0cBq7V8PpNIIw
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzE1NTExNTExLCJpYXQiOjE3MTUxNjU5MTEsImp0aSI6ImJmYmIzYjZhNjI5YjRkOTNhNzgwZWY4ZWIxYjA3ZjljIiwidXNlcl9pZCI6NX0.hdv6y2z2_jUpxy_pGDRSWU9HI-qlSEzGun3c6UhFOog
 
-{"id": "0"}
-
+{
+    "id": "4"
+}
 ###
 
 GET http://127.0.0.1:8000/users/get_userdata/
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzE0NzU0ODUyLCJpYXQiOjE3MTQ0MDkyNTIsImp0aSI6ImE4ZjRkZjM4YjJhYjQxODVhNjNhOTBlNDk2ZDkwYjcyIiwidXNlcl9pZCI6M30.v-hUt3OZLN6jKqVTkD-6Vyni21NAn0dL51fb-EplWTM
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzE1NTExNTExLCJpYXQiOjE3MTUxNjU5MTEsImp0aSI6ImJmYmIzYjZhNjI5YjRkOTNhNzgwZWY4ZWIxYjA3ZjljIiwidXNlcl9pZCI6NX0.hdv6y2z2_jUpxy_pGDRSWU9HI-qlSEzGun3c6UhFOog
+
 ###
 
 POST http://127.0.0.1:8000/users/create_event/
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzE0MDQ5NzM4LCJpYXQiOjE3MTM3MDQxMzgsImp0aSI6IjY3NmFhZGE1NDA1ZTQxMzM5NmI5YmE2ODQyOWRhZTIwIiwidXNlcl9pZCI6Mn0.xH8NTxzwAfH_6lA4vp76g9TUFnAtjRPqT8qqUxA5yQ0
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzE1NTExNTExLCJpYXQiOjE3MTUxNjU5MTEsImp0aSI6ImJmYmIzYjZhNjI5YjRkOTNhNzgwZWY4ZWIxYjA3ZjljIiwidXNlcl9pZCI6NX0.hdv6y2z2_jUpxy_pGDRSWU9HI-qlSEzGun3c6UhFOog
 
 {
   "title": "event1",
@@ -112,7 +111,7 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiY
 
 DELETE http://127.0.0.1:8000/users/delete_event/
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzE0MDQ5NzM4LCJpYXQiOjE3MTM3MDQxMzgsImp0aSI6IjY3NmFhZGE1NDA1ZTQxMzM5NmI5YmE2ODQyOWRhZTIwIiwidXNlcl9pZCI6Mn0.xH8NTxzwAfH_6lA4vp76g9TUFnAtjRPqT8qqUxA5yQ0
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzE1NTExNTExLCJpYXQiOjE3MTUxNjU5MTEsImp0aSI6ImJmYmIzYjZhNjI5YjRkOTNhNzgwZWY4ZWIxYjA3ZjljIiwidXNlcl9pZCI6NX0.hdv6y2z2_jUpxy_pGDRSWU9HI-qlSEzGun3c6UhFOog
 
 {
   "id": "27"
@@ -122,13 +121,13 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiY
 
 GET http://127.0.0.1:8000/users/get_events/
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzE0MDQ5NzM4LCJpYXQiOjE3MTM3MDQxMzgsImp0aSI6IjY3NmFhZGE1NDA1ZTQxMzM5NmI5YmE2ODQyOWRhZTIwIiwidXNlcl9pZCI6Mn0.xH8NTxzwAfH_6lA4vp76g9TUFnAtjRPqT8qqUxA5yQ0
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzE1NTExNTExLCJpYXQiOjE3MTUxNjU5MTEsImp0aSI6ImJmYmIzYjZhNjI5YjRkOTNhNzgwZWY4ZWIxYjA3ZjljIiwidXNlcl9pZCI6NX0.hdv6y2z2_jUpxy_pGDRSWU9HI-qlSEzGun3c6UhFOog
 
 ###
 
 PATCH http://127.0.0.1:8000/users/patch_event/
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzE0MDQ5NzM4LCJpYXQiOjE3MTM3MDQxMzgsImp0aSI6IjY3NmFhZGE1NDA1ZTQxMzM5NmI5YmE2ODQyOWRhZTIwIiwidXNlcl9pZCI6Mn0.xH8NTxzwAfH_6lA4vp76g9TUFnAtjRPqT8qqUxA5yQ0
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzE1NTExNTExLCJpYXQiOjE3MTUxNjU5MTEsImp0aSI6ImJmYmIzYjZhNjI5YjRkOTNhNzgwZWY4ZWIxYjA3ZjljIiwidXNlcl9pZCI6NX0.hdv6y2z2_jUpxy_pGDRSWU9HI-qlSEzGun3c6UhFOog
 
 {
   "id": "29",
@@ -140,7 +139,7 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiY
 
 POST http://127.0.0.1:8000/users/create_actives/
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzE1MTk4MDcyLCJpYXQiOjE3MTQ4NTI0NzIsImp0aSI6ImE3ZjQ0MjAxOTU1MjRiY2FiM2E2NmVlMWUxYzFlYWNkIiwidXNlcl9pZCI6NH0.Oe7W8ujJWnKB0Kv7k7AE29vYzSqpJOfiFEWcejPU4Vo
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzE1NTExNTExLCJpYXQiOjE3MTUxNjU5MTEsImp0aSI6ImJmYmIzYjZhNjI5YjRkOTNhNzgwZWY4ZWIxYjA3ZjljIiwidXNlcl9pZCI6NX0.hdv6y2z2_jUpxy_pGDRSWU9HI-qlSEzGun3c6UhFOog
 
 {
   "name": "porn1111o",
@@ -149,50 +148,42 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiY
 }
 
 ###
-
-DELETE http://127.0.0.1:8000/users/delete_actives/
+DELETE http://127.0.0.1:8000/users/delete_actives/?id=55
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzE0NzU0ODUyLCJpYXQiOjE3MTQ0MDkyNTIsImp0aSI6ImE4ZjRkZjM4YjJhYjQxODVhNjNhOTBlNDk2ZDkwYjcyIiwidXNlcl9pZCI6M30.v-hUt3OZLN6jKqVTkD-6Vyni21NAn0dL51fb-EplWTM
-
-{
-  "id": "43"
-}
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzE1NTExNTExLCJpYXQiOjE3MTUxNjU5MTEsImp0aSI6ImJmYmIzYjZhNjI5YjRkOTNhNzgwZWY4ZWIxYjA3ZjljIiwidXNlcl9pZCI6NX0.hdv6y2z2_jUpxy_pGDRSWU9HI-qlSEzGun3c6UhFOog
 
 ###
 
 GET http://127.0.0.1:8000/users/get_actives/
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzE0NzU0ODUyLCJpYXQiOjE3MTQ0MDkyNTIsImp0aSI6ImE4ZjRkZjM4YjJhYjQxODVhNjNhOTBlNDk2ZDkwYjcyIiwidXNlcl9pZCI6M30.v-hUt3OZLN6jKqVTkD-6Vyni21NAn0dL51fb-EplWTM
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzE1NTExNTExLCJpYXQiOjE3MTUxNjU5MTEsImp0aSI6ImJmYmIzYjZhNjI5YjRkOTNhNzgwZWY4ZWIxYjA3ZjljIiwidXNlcl9pZCI6NX0.hdv6y2z2_jUpxy_pGDRSWU9HI-qlSEzGun3c6UhFOog
 
 {
-  "id": "44"
+  "id": "57"
 }
 
 ###
 
-PATCH http://127.0.0.1:8000/users/update_actives/
+PATCH http://127.0.0.1:8000/users/update_actives/?id=57&name=porno11111&new_price=120
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzE1MTk4MDcyLCJpYXQiOjE3MTQ4NTI0NzIsImp0aSI6ImE3ZjQ0MjAxOTU1MjRiY2FiM2E2NmVlMWUxYzFlYWNkIiwidXNlcl9pZCI6NH0.Oe7W8ujJWnKB0Kv7k7AE29vYzSqpJOfiFEWcejPU4Vo
-
-{
-  "id": "49",
-  "name": "porno1",
-  "new_price": "10200"
-}
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzE1NTExNTExLCJpYXQiOjE3MTUxNjU5MTEsImp0aSI6ImJmYmIzYjZhNjI5YjRkOTNhNzgwZWY4ZWIxYjA3ZjljIiwidXNlcl9pZCI6NX0.hdv6y2z2_jUpxy_pGDRSWU9HI-qlSEzGun3c6UhFOog
 
 ###
 
-GET http://127.0.0.1:8000/users/get_price_history/
+GET http://127.0.0.1:8000/users/get_price_history/?id=57
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzE1MTk4MDcyLCJpYXQiOjE3MTQ4NTI0NzIsImp0aSI6ImE3ZjQ0MjAxOTU1MjRiY2FiM2E2NmVlMWUxYzFlYWNkIiwidXNlcl9pZCI6NH0.Oe7W8ujJWnKB0Kv7k7AE29vYzSqpJOfiFEWcejPU4Vo
-
-{
-  "id": "50"
-}
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzE1NTExNTExLCJpYXQiOjE3MTUxNjU5MTEsImp0aSI6ImJmYmIzYjZhNjI5YjRkOTNhNzgwZWY4ZWIxYjA3ZjljIiwidXNlcl9pZCI6NX0.hdv6y2z2_jUpxy_pGDRSWU9HI-qlSEzGun3c6UhFOog
 
 ###
 
 GET http://127.0.0.1:8000/users/get_all_actives/
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzE1MTk4MDcyLCJpYXQiOjE3MTQ4NTI0NzIsImp0aSI6ImE3ZjQ0MjAxOTU1MjRiY2FiM2E2NmVlMWUxYzFlYWNkIiwidXNlcl9pZCI6NH0.Oe7W8ujJWnKB0Kv7k7AE29vYzSqpJOfiFEWcejPU4Vo
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzE1NTExNTExLCJpYXQiOjE3MTUxNjU5MTEsImp0aSI6ImJmYmIzYjZhNjI5YjRkOTNhNzgwZWY4ZWIxYjA3ZjljIiwidXNlcl9pZCI6NX0.hdv6y2z2_jUpxy_pGDRSWU9HI-qlSEzGun3c6UhFOog
 
+###
+
+GET http://127.0.0.1:8000/users/get_all_users/
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzE1NTExNTExLCJpYXQiOjE3MTUxNjU5MTEsImp0aSI6ImJmYmIzYjZhNjI5YjRkOTNhNzgwZWY4ZWIxYjA3ZjljIiwidXNlcl9pZCI6NX0.hdv6y2z2_jUpxy_pGDRSWU9HI-qlSEzGun3c6UhFOog
+
+###
