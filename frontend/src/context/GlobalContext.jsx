@@ -1,6 +1,7 @@
 import React, { useContext, useState } from "react"
 import authService from './auth/AuthService';
 import axios from 'axios'
+import { set } from "date-fns";
 
 const BASE_URL = "http://localhost:8000/";
 
@@ -17,6 +18,9 @@ export const ContextProvider = ({children}) => {
     const [lastAsset, setLastAsset] = useState([])
     const [assetHistory, setAssetHistory] = useState([])
     const [predict, setPredict] = useState([])
+    const [allAssets, setAllAssets] = useState([])
+    const [asset, setAsset] = useState([])
+    const [history, setHistory] = useState([])
 
 
     const addTransaction = async (transaction) => {
@@ -45,7 +49,6 @@ export const ContextProvider = ({children}) => {
             setError(error.response?.data?.message || "Something went wrong");
         }
     }
-
 
     const getTransaction = async () => {
         try {
@@ -90,6 +93,9 @@ export const ContextProvider = ({children}) => {
         const response = await axios.delete(`${BASE_URL}users/delete_transaction/${id}`, {
           headers: {
             'Authorization': `Bearer ${token}`
+          },
+          data: { 
+            id: id
           }
         });
     
@@ -122,12 +128,11 @@ export const ContextProvider = ({children}) => {
 
     //історія транзакцій
     const transactionHistory = () => {
-      const history = [...incomes]
+      const history = [...incomes, ...expenses]
       history.sort((a, b) => {
           return new Date(b.createdAt) - new Date(a.createdAt)
       })
-
-      return history
+      return history;
   }
 
      //отримання предикта
@@ -145,9 +150,13 @@ export const ContextProvider = ({children}) => {
         // Перевірити, чи отримано відповідь з успіхом
         if (response && response.data) {
           // Додаємо отримані дані до стану або робимо інші дії з ними
-          const predict = response.data;
-          setPredict(predict)
-          console.log("предикт:",predict)
+          const rawData = JSON.parse(response.data[0]);
+          // Розпакувати дані
+          const data = Object.keys(rawData.ds).map((key, index) => ({
+            time: new Date(parseInt(rawData.ds[key])).toLocaleDateString(), // Час
+            value: rawData.yhat[key] // Значення
+          }));
+          setPredict(data);
         } else {
           console.error("Invalid response:", response);
         }
@@ -222,6 +231,34 @@ export const ContextProvider = ({children}) => {
       }
     }
 
+    //отримати актив
+    const getAsset = async (id) => {
+      try {
+        const token = authService.getTokenFromLocalStorage();
+        const response = await axios.get(`${BASE_URL}users/get_actives/`,{
+          headers: {
+          'Authorization': `Bearer ${token}`,
+          },
+          params: {
+            id: id
+          }
+        });
+
+        if (response && response.data) {
+          console.log("Success:", response.data);
+          const asset = response.data;
+          setAsset(asset)
+        }
+        else {
+          console.error("Invalid response:", response); 
+        }
+      } catch (error) {
+        console.error("Error:", error);
+        console.log("Full error object:", error);
+        setError(error.response?.data?.message || "Something went wrong");
+      }
+    }
+
     //видалити актив
     const deleteAsset = async (id) => {
       try {
@@ -229,6 +266,9 @@ export const ContextProvider = ({children}) => {
           const response = await axios.delete(`${BASE_URL}users/delete_actives/`, {
               headers: {
                   'Authorization': `Bearer ${token}`
+              },
+              data: {
+                  id: id
               }
           });
 
@@ -251,6 +291,9 @@ export const ContextProvider = ({children}) => {
           const response = await axios.put(`${BASE_URL}users/edit_actives/`, {
               headers: {
                 'Authorization': `Bearer ${token}`
+              },
+              data: {
+                id: id
               }
           });
 
@@ -268,12 +311,15 @@ export const ContextProvider = ({children}) => {
     }
 
     //отримати останній актив
-    const getLastAsset = async () => {
+    const getLastAsset = async (id) => {
       try {
           const token = authService.getTokenFromLocalStorage();
           const response = await axios.get(`${BASE_URL}users/get_actives`, {
               headers: {
                   'Authorization': `Bearer ${token}`
+              },
+              params: {
+                  id: id
               }
           });
 
@@ -292,12 +338,15 @@ export const ContextProvider = ({children}) => {
     }
 
     //отримати історію актива
-    const getAssetHistory = async () => {
+    const getAssetHistory = async (id) => {
       try {
           const token = authService.getTokenFromLocalStorage();
           const response = await axios.get(`${BASE_URL}users/get_price_history/`, {
               headers: {
                   'Authorization': `Bearer ${token}`
+              },
+              params: {
+                  id: id
               }
           });
 
@@ -312,6 +361,34 @@ export const ContextProvider = ({children}) => {
           console.error("Error:", error);
           console.log("Full error object:", error);
           setError(error.response?.data?.message || "Something went wrong");
+      }
+    }
+
+    const getAllAssets = async () => {
+      try{
+        const token = authService.getTokenFromLocalStorage();
+        const response = await axios.get(`${BASE_URL}users/get_all_actives/`, {
+          headers: {
+            'Authorization': `Bearer ${token}`
+          }
+        });
+    
+        console.log("danni:", response);
+    
+        // Перевірити, чи отримано відповідь з успіхом
+        if (response && response.data) {
+          // Додаємо отримані дані до стану або робимо інші дії з ними
+          const allassets = response.data;
+          setAllAssets(allassets)
+          console.log("assets:",allassets)
+        } else {
+          console.error("Invalid response:", response);
+        }
+      }
+      catch (error) {
+        console.error("Error:", error);
+        console.log("Full error object:", error);
+        setError(error.response?.data?.message || "Something went wrong");
       }
     }
 
@@ -336,7 +413,13 @@ export const ContextProvider = ({children}) => {
           getLastAsset,
           lastAsset,
           getAssetHistory,
-          assetHistory
+          assetHistory,
+          getAllAssets,
+          allAssets,
+          predict,
+          getAsset,
+          asset,
+
       }}>
           {children}
     </GlobalContext.Provider>

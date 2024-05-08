@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { ContextProvider, useGlobalContext } from "../../context/GlobalContext";
+import AssetAnalytics from "./AssetAnalytics";
 import moment from "moment";
+
 import {
   Card,
   CardContent,
@@ -42,8 +44,13 @@ import {
 } from "@/components/ui/popover";
 
 export default function Actives() {
-  const { createAsset, deleteAsset, editAsset, getLastAsset, getAssetHistory, setError, error } =
+  const { createAsset, deleteAsset, editAsset, getLastAsset, getAssetHistory, getAllAssets, allAssets, setError, error } =
     useGlobalContext();
+
+  useEffect(() => {
+    getAllAssets();
+    console.log("активи", allAssets);
+  }, []);
 
   const [inputState, setInputState] = useState({
     name: '',
@@ -156,24 +163,28 @@ export default function Actives() {
       </Card>
       <Card>
         <Table>
-          <TableCaption>A list of your recent invoices.</TableCaption>
+          <TableCaption>A list of your assets.</TableCaption>
           <TableHeader>
             <TableRow>
               <TableHead className="w-[100px]">Name</TableHead>
               <TableHead>Last date</TableHead>
               <TableHead>Category</TableHead>
               <TableHead>Increase</TableHead>
+              <TableHead>Analitics</TableHead>
               <TableHead className="text-right">Amount</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
-            <TableRow>         
-              <TableCell className="font-medium">INV001</TableCell>
-              <TableCell>01.01.2000</TableCell>
-              <TableCell>Active</TableCell>
-              <TableCell>+10%</TableCell>
-              <TableCell className="text-right">$250.00</TableCell>
+          {allAssets.map((asset) => (
+            <TableRow key={asset.id}>
+              <TableCell className="font-medium">{asset.name}</TableCell>
+              <TableCell>{asset.date}</TableCell>
+              <TableCell>категорія</TableCell>
+              <TableCell>increase</TableCell>
+              <TableCell><AssetAnalytics id={asset.id} /></TableCell>
+              <TableCell className="text-right">{asset.current_price}</TableCell>
             </TableRow>
+          ))}
           </TableBody>
         </Table>
       </Card>

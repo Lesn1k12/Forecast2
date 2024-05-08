@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useGlobalContext } from "../../context/GlobalContext";
 import {
   LineChart,
@@ -21,20 +21,32 @@ import {
 } from "@/components/ui/card";
 
 function TransactionChart() {
-  const { getTransaction, incomes, expenses, error, setError } = useGlobalContext();
+  const { getTransaction, incomes, expenses, error, setError } =
+    useGlobalContext();
+  const [chartData, setChartData] = useState([]);
 
   useEffect(() => {
     getTransaction();
   }, []);
 
+  useEffect(() => {
+    const combinedData = [
+      ...incomes.map((income) => ({
+        time: income.time,
+        amount: income.amount,
+        type: "income",
+      })),
+      ...expenses.map((expense) => ({
+        time: expense.time,
+        amount: expense.amount,
+        type: "expense",
+      })),
+    ];
 
+    combinedData.sort((a, b) => new Date(a.time) - new Date(b.time));
 
-  const data = [
-    incomes,
-    expenses,
-    console.log("доходи", incomes),
-    console.log("витрати", expenses)
-  ];
+    setChartData(combinedData);
+  }, [incomes, expenses]);
 
   return (
     <Card className="w-full mb-5 h-[50%]" style={{ width: "100%" }}>
@@ -42,12 +54,12 @@ function TransactionChart() {
         <div>Transaction Chart</div>
       </CardHeader>
       <CardContent>
-        <div className="w-full">
+        <div className="w-full p-0">
           <ResponsiveContainer width="100%" height={200}>
             <LineChart
               width={500}
               height={200}
-              data={data}
+              data={chartData}
               margin={{
                 top: 10,
                 right: 30,
@@ -56,13 +68,13 @@ function TransactionChart() {
               }}
             >
               <CartesianGrid strokeDasharray="3 3" />
-              <XAxis dataKey="name" />
+              <XAxis dataKey="time" />
               <YAxis />
               <Tooltip />
               <Line
                 connectNulls
                 type="monotone"
-                dataKey="uv"
+                dataKey="amount"
                 stroke="#8884d8"
                 fill="#8884d8"
               />

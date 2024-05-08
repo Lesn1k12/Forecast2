@@ -1,10 +1,10 @@
-import { useContext, useState } from 'react';
+import { useContext, useState } from "react";
 import { CalendarIcon } from "lucide-react";
-import { zodResolver } from "@hookform/resolvers/zod"
+import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { z } from "zod"
-import { cn } from "@/lib/utils"
-import { format } from "date-fns"
+import { z } from "zod";
+import { cn } from "@/lib/utils";
+import { format } from "date-fns";
 import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
 import {
@@ -20,54 +20,51 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card"
-import { Label } from "@/components/ui/label"
-import { Input } from "@/components/ui/input"
+} from "@/components/ui/card";
+import { Label } from "@/components/ui/label";
+import { Input } from "@/components/ui/input";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select"
-import { Textarea } from "@/components/ui/textarea"
-import { set } from 'date-fns';
-
+} from "@/components/ui/select";
+import { Textarea } from "@/components/ui/textarea";
+import { set } from "date-fns";
 
 function Incomes() {
   const { addTransaction, error, setError } = useGlobalContext();
   const [inputState, setInputState] = useState({
-    category: '',
-    amount: '',
-    time: '',
-    title: '',
-    description: '',
-    currency: 'zl'
+    category: "category",
+    amount: "",
+    time: "",
+    title: "",
+    description: "",
+    currency: "zl",
   });
 
   const { category, amount, time, title, description, currency } = inputState;
 
-  const handleInput = name => e => {
+  const handleInput = (name) => (e) => {
     setInputState({ ...inputState, [name]: e.target.value });
-    setError('');
+    setError("");
   };
 
-  const handleSubmit = e => {
+  const handleSubmit = (e) => {
     e.preventDefault();
     const formattedTime = format(time, "yyyy-MM-dd");
-    addTransaction({ ...inputState, time: formattedTime});
-    
+    addTransaction({ ...inputState, time: formattedTime });
+
     setInputState({
-      category: '',
-      amount: '',
+      category: "category",
+      amount: "",
       time: formattedTime,
-      title: '',
-      description: '',
-      currency: 'zl'
+      title: "",
+      description: "",
+      currency: "zl",
     });
   };
-
-
 
   return (
     <div>
@@ -81,28 +78,44 @@ function Incomes() {
             <div className="grid w-full items-center gap-4">
               <div className="flex flex-col space-y-1.5">
                 <Label htmlFor="name"></Label>
-                <Input 
+                <Input
                   className=" focus:border-blue-400"
-                  id="title" 
-                  type="text" 
-                  placeholder="title" 
-                  name = "title"
+                  id="title"
+                  type="text"
+                  placeholder="title"
+                  name="title"
                   value={title}
                   autoComplete="off"
-                  onChange={handleInput('title')}/>
-                <Input 
+                  onChange={handleInput("title")}
+                />
+                <Input
                   className=" focus:border-blue-400"
-                  id="amount" 
-                  type="text" 
-                  placeholder="amount" 
-                  name = "amount"
+                  id="amount"
+                  type="text"
+                  placeholder="amount"
+                  name="amount"
                   value={amount}
                   autoComplete="off"
-                  onChange={handleInput('amount')}
-                  required/>
-                <Select>
+                  onChange={handleInput("amount")}
+                  required
+                />
+                <Select
+                  onValueChange={(value) =>
+                    setInputState((prev) => ({
+                      ...prev,
+                      category: value,
+                    }))
+                  }
+                >
                   <SelectTrigger className="w-[180px]">
-                    <SelectValue required value={category} name="category" id="category" onChange={handleInput('category')} placeholder='category'/>
+                    <SelectValue
+                      required
+                      value={category}
+                      name="category"
+                      id="category"
+                      onChange={handleInput("category")}
+                      placeholder="category"
+                    />
                   </SelectTrigger>
                   <SelectContent>
                     <SelectItem value="salary">salary</SelectItem>
@@ -125,13 +138,17 @@ function Incomes() {
                       )}
                     >
                       <CalendarIcon className="mr-2 h-4 w-4" />
-                      {time ? format(time, "yyyy-MM-dd") : <span>Pick a date</span>}
+                      {time ? (
+                        format(time, "yyyy-MM-dd")
+                      ) : (
+                        <span>Pick a date</span>
+                      )}
                     </Button>
                   </PopoverTrigger>
                   <PopoverContent className="w-auto p-0" align="start">
                     <Calendar
                       mode="single"
-                      value = "time"
+                      value="time"
                       selected={time}
                       onSelect={(newTime) => {
                         setInputState({ ...inputState, time: newTime });
@@ -140,23 +157,28 @@ function Incomes() {
                     />
                   </PopoverContent>
                 </Popover>
-                <Textarea 
-                className="resize-none"
-                placeholder="Type your message here."
-                name = "description"
-                value={description}
-                autoComplete="off"
-                onChange={handleInput('description')}
-                require />
+                <Textarea
+                  className="resize-none"
+                  placeholder="Type your message here."
+                  name="description"
+                  value={description}
+                  autoComplete="off"
+                  onChange={handleInput("description")}
+                  require
+                />
               </div>
             </div>
           </form>
         </CardContent>
         <CardFooter className="flex justify-center">
-          <Button className="shadow-sm active:bg-blue-300 rounded-xl" onClick={handleSubmit}>Add income</Button>
+          <Button
+            className="shadow-sm active:bg-blue-300 rounded-xl"
+            onClick={handleSubmit}
+          >
+            Add income
+          </Button>
         </CardFooter>
       </Card>
-      
     </div>
   );
 }
