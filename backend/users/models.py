@@ -30,4 +30,4 @@ class Assets(models.Model):
 class PriceHistory(models.Model):
     asset = models.ForeignKey(Assets, related_name='price_history', on_delete=models.CASCADE)
     price = models.IntegerField(validators=[MaxValueValidator(limit_value=9999999999)], default=0)
-    date = models.DateTimeField()
+    date = models.DateTimeField(default=timezone.now)

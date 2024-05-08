@@ -4,9 +4,9 @@ from .models import Transaction, Events, Assets, PriceHistory
 
 
 class UserSerializer(serializers.ModelSerializer):
-    class Meta(object):
+    class Meta:
         model = User
-        fields = ['id', 'username', 'password', 'email']
+        fields = ['id', 'username', 'email', 'public_key']
 
 
 class TransactionSerializer(serializers.ModelSerializer):
