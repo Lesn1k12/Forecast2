@@ -132,11 +132,7 @@ export default function Actives() {
   };
 
   return (
-    <Card>
-  <CardHeader>
-    
-    
-  </CardHeader>
+    <Card className="h-full">
   <CardContent>
   <div className="flex justify-center items-center h-90v w-65vw bg-white rounded-xl shadow-box">
       <div className="grid grid-cols-2 gap-4 p-4">
