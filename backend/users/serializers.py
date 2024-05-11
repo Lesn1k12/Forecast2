@@ -26,7 +26,7 @@ class EventsSerializer(serializers.ModelSerializer):
 class AssetsSerializer(serializers.ModelSerializer):
     class Meta(object):
         model = Assets
-        fields = ['name', 'unique_id', 'owner_user']
+        fields = ['name', 'unique_id', 'owner_user', 'category']
 
 
 class PriceHistorySerializer(serializers.ModelSerializer):

@@ -25,14 +25,14 @@ urlpatterns = [
     re_path('total_mail', views.total_mail),
     # ------Events------
     re_path('create_event', views.create_event),
-    re_path('delete_event', views.delete_event),
     re_path('get_events', views.take_event),
     re_path('patch_event', views.update_event),
+    re_path('delete_event', views.delete_event),
     # ------Assets------
     re_path('create_actives', views.create_actives),
-    re_path('delete_actives', views.delete_actives),
     re_path('get_actives', views.get_actives),
     re_path('get_price_history', views.get_history_actives),
-    re_path('update_actives', views.update_actives),
     re_path("get_all_actives", views.get_all_actives),
+    re_path('update_actives', views.update_actives),
+    re_path('delete_actives', views.delete_actives),
 ]

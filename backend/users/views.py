@@ -169,7 +169,7 @@ def create_transaction(request):
 def delete_transaction(request):
     try:
         filters = {
-            'id': request.data['id'],
+            'id': request.query_params['id'],
             'user_id': request.user
         }
         transaction_to_delete = Transaction.objects.filter(**filters)
@@ -185,7 +185,6 @@ def delete_transaction(request):
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def sort_by_category(request):  # получить все транзакции по одной категории
-
     filters = {
         'user': request.user,
         'category': request.data.get('category')
@@ -418,16 +417,18 @@ def update_event(request):
 @permission_classes([IsAuthenticated])
 def create_actives(request):
     asset_data = {
-        'name': request.data.get('name'),
-        'owner_user': request.user.id
+        'name': request.query_params.get('name'),
+        'owner_user': request.user.id,
+        'category': request.query_params.get('category')
+
     }
     asset_serializer = AssetsSerializer(data=asset_data)
     if asset_serializer.is_valid():
         asset_serializer.save()
         price_history_data = {
             'asset': asset_serializer.instance.id,
-            'price': request.data.get('price'),
-            'date': parse_datetime(request.data.get('date', timezone.now().isoformat()))
+            'price': request.query_params.get('price'),
+            'date': parse_datetime(request.query_params.get('date', timezone.now().isoformat())),
             # "date": "2023-10-21T00:00:00" - не удалять.
         }
         price_history_serializer = PriceHistorySerializer(data=price_history_data)
@@ -443,7 +444,7 @@ def create_actives(request):
 @permission_classes([IsAuthenticated])
 def get_actives(request):
     try:
-        asset = Assets.objects.get(id=request.data['id'],
+        asset = Assets.objects.get(id=request.query_params['id'],
                                    owner_user=request.user)  # Получаем последнюю запись истории цен для этого актива
         latest_price_history = PriceHistory.objects.filter(asset=asset).latest('date')
         response_data = {
