@@ -6,6 +6,7 @@ import Actives from "@/components/actives/Actives.jsx";
 import MyCalendar from "@/components/calendar/Calendar.jsx";
 import Transaction from "@/components/transactions/Transaction.jsx";
 import CryptoTransactioins from "@/components/cryptoTransactions/CryptoTransactioins.jsx";
+import Chat from "@/components/chat/Chat.jsx";
 import { ContextProvider, useGlobalContext } from '../context/GlobalContext';
 
 export default function DashboardPage() {
@@ -20,9 +21,11 @@ export default function DashboardPage() {
       case 3:
         return <MyCalendar />;
       case 4:
-        return <Transaction />;
+        return <Chat />;
       case 5:
-        return <CryptoTransactioins />;
+        return <Transaction />;
+      case 6:
+         return <CryptoTransactioins />;
       default:
         return <Dashboard />;
     }
@@ -30,15 +33,17 @@ export default function DashboardPage() {
 
   return (
     <ContextProvider>
-      <div className=" gap-4 h-screen w-screen flex">
-        <div className="p-10">
+      <div className='gap-4 h-screen w-screen flex overflow-x-hidden'>
+        <div className='p-10'>
           <Sidebar active={active} setActive={setActive} />
           <BottomNavBar active={active} setActive={setActive} />
-        </div>
+        </div> 
 
-        <div className="max-h-screen h-screen w-full py-10 pr-10 overflow-x-hidden">
-          <main>{displayData()}</main>
-        </div>
+        <div className='flex-grow py-10 pr-10'>
+          <main className="h-full">
+            {displayData()}
+          </main>
+        </div> 
       </div>
     </ContextProvider>
   );

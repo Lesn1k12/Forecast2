@@ -21,6 +21,7 @@ export const ContextProvider = ({children}) => {
     const [allAssets, setAllAssets] = useState([])
     const [asset, setAsset] = useState([])
     const [history, setHistory] = useState([])
+    const [ AllUsers, setAllUsers] = useState([])
 
 
     const addTransaction = async (transaction) => {
@@ -206,6 +207,34 @@ export const ContextProvider = ({children}) => {
         console.log("Full error object:", error);
         setError(error.response?.data?.message || "Something went wrong");
       }
+    }
+
+    //дістати всіх юзерів
+    const getAllUsers = async () => {
+      try {
+        const token = authService.getTokenFromLocalStorage();
+        const response = await axios.get(`${BASE_URL}users/get_all_users`, {
+          headers: {
+            'Authorization': `Bearer ${token}`
+          }
+        });
+    
+        console.log("danni:", response);
+    
+        // Перевірити, чи отримано відповідь з успіхом
+        if (response && response.data) {
+          // Додаємо отримані дані до стану або робимо інші дії з ними
+          const allLser = response.data;
+          setAllUsers(allLser )
+        } else {
+          console.error("Invalid response:", response);
+        }
+      } catch (error) {
+        console.error("Error:", error);
+        console.log("Full error object:", error);
+        setError(error.response?.data?.message || "Something went wrong");
+      }
+
     }
 
     //створити актив

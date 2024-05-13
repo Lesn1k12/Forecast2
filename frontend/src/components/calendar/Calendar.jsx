@@ -7,9 +7,6 @@ import { toast } from "sonner"
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input"
 
-
-import axios from "axios";
-
 import "react-big-calendar/lib/css/react-big-calendar.css";
 
 import {
@@ -17,7 +14,6 @@ import {
   CardContent,
   CardFooter
 } from "@/components/ui/card";
-
 
 const now = new Date();
 
@@ -28,28 +24,6 @@ const MyCalendar = () => {
     start: new Date(),
     end: new Date(),
   });
-
-  
-
-
-  
-
-  // axios.get('')
-  // .then(response => {
-  //   console.log(response.data);
-  // })
-  // .catch(error => {
-  //   console.error('There was an error!', error);
-  // });
-
-
-  // axios.post('', newEvent)
-  // .then(response => {
-  //   console.log('Event created successfully:', response.data);
-  // })
-  // .catch(error => {
-  //   console.error('There was an error!', error);
-  // });
 
   const localizer = momentLocalizer(moment);
 
@@ -82,10 +56,6 @@ const MyCalendar = () => {
     setNewEvent({ title: "", start: new Date(), end: new Date() });
     toast.success("Event has been created.");
   };
-  
-  
-  
-  
 
   const handleTitleChange = (e) => {
     setNewEvent({ ...newEvent, title: e.target.value });
@@ -101,12 +71,11 @@ const MyCalendar = () => {
     setNewEvent({ ...newEvent, end: new Date(date.getTime() - date.getTimezoneOffset() * 60000) });
   };
   
-  
   return (
-    <Card className=''>
-      <CardContent className="p-5">
+    <Card className='h-full flex flex-col'>
+      <CardContent className="p-5 flex-grow">
         <div className="">
-          <div style={{ height: 765 }}>
+          <div style={{ height: 760 }}>
             <Calendar
               localizer={localizer}
               events={myEventsList}
@@ -121,27 +90,27 @@ const MyCalendar = () => {
         </div>
       </CardContent>
       <CardFooter className="px-5">
-          <div className="flex gap-2">
-            <Input
-              type="text"
-              placeholder="Event name"
-              value={newEvent.title}
-              onChange={handleTitleChange}
-            />
-            <Input
-              type="datetime-local"
-              value={newEvent.start.toISOString().substring(0, 16)} 
-              onChange={(e) => handleStartDateChange(new Date(e.target.value))}
-            />
-            <Input
-              type="datetime-local"
-              value={newEvent.end.toISOString().substring(0, 16)} 
-              onChange={(e) => handleEndDateChange(new Date(e.target.value))}
-            />
-            <Button variant="secondary" onClick={handleAddEvent}>Add</Button>    
-          </div>
+        <div className="flex gap-2">
+          <Input
+            type="text"
+            placeholder="Event name"
+            value={newEvent.title}
+            onChange={handleTitleChange}
+          />
+          <Input
+            type="datetime-local"
+            value={newEvent.start.toISOString().substring(0, 16)} 
+            onChange={(e) => handleStartDateChange(new Date(e.target.value))}
+          />
+          <Input
+            type="datetime-local"
+            value={newEvent.end.toISOString().substring(0, 16)} 
+            onChange={(e) => handleEndDateChange(new Date(e.target.value))}
+          />
+          <Button variant="secondary" onClick={handleAddEvent}>Add</Button>    
+        </div>
         <Toaster position="bottom-right" />
-        </CardFooter>
+      </CardFooter>
     </Card>
   );
 };

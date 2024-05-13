@@ -23,13 +23,15 @@ import {
 
 function TransactionPredict() {
   const { getPredict, predict, error, setError } = useGlobalContext();
+  const [data, setData] = useState([]);
 
   useEffect(() => {
     getPredict();
     console.log("fdsadf", predict);
+    setData(predict);
   }, []);
 
-  const data = predict;
+  
   console.log(data);
   return (
     <Card className="w-full mb-4 h-[50%]" style={{ width: "100%" }}>
