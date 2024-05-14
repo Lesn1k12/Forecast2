@@ -420,7 +420,6 @@ def create_actives(request):
         'name': request.query_params.get('name'),
         'owner_user': request.user.id,
         'category': request.query_params.get('category')
-
     }
     asset_serializer = AssetsSerializer(data=asset_data)
     if asset_serializer.is_valid():
@@ -445,12 +444,13 @@ def create_actives(request):
 def get_actives(request):
     try:
         asset = Assets.objects.get(id=request.query_params['id'],
-                                   owner_user=request.user)  # Получаем последнюю запись истории цен для этого актива
+                                   owner_user=request.user)
         latest_price_history = PriceHistory.objects.filter(asset=asset).latest('date')
         response_data = {
             'name': asset.name,
             'current_price': latest_price_history.price,
-            'date': latest_price_history.date
+            'date': latest_price_history.date,
+            'category': asset.category
         }
         return Response(response_data, status=status.HTTP_200_OK)
     except Assets.DoesNotExist:
@@ -480,19 +480,31 @@ def get_all_actives(request):
         assets = Assets.objects.filter(owner_user=request.user)
         response_data = []
         for asset in assets:
-            price_history = PriceHistory.objects.filter(asset=asset)
-            if price_history.exists():
-                latest_price_history = price_history.latest('date')
+            price_history = PriceHistory.objects.filter(asset=asset).order_by('-date')[:2]
+            if len(price_history) == 2:
+                price_change = ((price_history[0].price - price_history[1].price) / price_history[1].price) * 100
                 asset_data = {
                     'id': asset.id,
                     'name': asset.name,
-                    'current_price': latest_price_history.price,
-                    'date': latest_price_history.date
+                    'current_price': price_history[0].price,
+                    'date': price_history[0].date,
+                    'category': asset.category,
+                    'price_change': price_change
+                }
+
+            elif price_history.exists():
+                asset_data = {
+                    'id': asset.id,
+                    'name': asset.name,
+                    'current_price': price_history[0].price,
+                    'date': price_history[0].date,
+                    'category': asset.category
                 }
             else:
                 asset_data = {
                     'id': asset.id,
                     'name': asset.name,
+                    'category': asset.category,
                     'current_price': 'No price history',
                     'date': 'No date'
                 }
@@ -508,19 +520,22 @@ def update_actives(request):
     try:
         asset = Assets.objects.get(id=request.query_params['id'], owner_user=request.user)
         asset.name = request.query_params.get('name', asset.name)
-        asset.save()
+        asset.category = request.query_params.get('category')
         new_price = request.query_params.get('new_price')
         if new_price is not None:
             new_price_history_data = {
                 'asset': asset.id,
                 'price': new_price,
-                'date': request.query_params.get('date', timezone.now())
+                'date': request.query_params.get('date', timezone.now()),
+                'category': asset.category
             }
             price_history_serializer = PriceHistorySerializer(data=new_price_history_data)
             if price_history_serializer.is_valid():
                 price_history_serializer.save()
+                asset.save()
                 return Response('Asset price and name updated', status=status.HTTP_200_OK)
             return Response(price_history_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        asset.save()
         return Response('Asset name updated', status=status.HTTP_200_OK)
     except Assets.DoesNotExist:
         return Response({'error': 'Asset not found'}, status=status.HTTP_404_NOT_FOUND)
