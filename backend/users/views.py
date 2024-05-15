@@ -417,17 +417,17 @@ def update_event(request):
 @permission_classes([IsAuthenticated])
 def create_actives(request):
     asset_data = {
-        'name': request.query_params.get('name'),
+        'name': request.data.get('name'),
         'owner_user': request.user.id,
-        'category': request.query_params.get('category')
+        'category': request.data.get('category')
     }
     asset_serializer = AssetsSerializer(data=asset_data)
     if asset_serializer.is_valid():
         asset_serializer.save()
         price_history_data = {
             'asset': asset_serializer.instance.id,
-            'price': request.query_params.get('price'),
-            'date': parse_datetime(request.query_params.get('date', timezone.now().isoformat())),
+            'price': request.data.get('price'),
+            'date': parse_datetime(request.data.get('date', timezone.now().isoformat())),
             # "date": "2023-10-21T00:00:00" - не удалять.
         }
         price_history_serializer = PriceHistorySerializer(data=price_history_data)
@@ -498,7 +498,8 @@ def get_all_actives(request):
                     'name': asset.name,
                     'current_price': price_history[0].price,
                     'date': price_history[0].date,
-                    'category': asset.category
+                    'category': asset.category,
+                    'price_change': 'No price change data'
                 }
             else:
                 asset_data = {
@@ -506,7 +507,8 @@ def get_all_actives(request):
                     'name': asset.name,
                     'category': asset.category,
                     'current_price': 'No price history',
-                    'date': 'No date'
+                    'date': 'No date',
+                    'price_change': 'No price change data'
                 }
             response_data.append(asset_data)
         return Response(response_data, status=status.HTTP_200_OK)
