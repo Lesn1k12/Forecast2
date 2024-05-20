@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { ContextProvider, useGlobalContext } from "../../context/GlobalContext";
 import AssetAnalytics from "./AssetAnalytics";
+import CreateAssets from "./CreateAssets";
+import UpdateAsset from "./UpdateAsset";
 import moment from "moment";
-
 import {
   Card,
   CardContent,
@@ -44,7 +45,7 @@ import {
 } from "@/components/ui/popover";
 
 export default function Actives() {
-  const { createAsset, deleteAsset, editAsset, getLastAsset, getAssetHistory, getAllAssets, allAssets, setError, error } =
+  const {deleteAsset, editAsset, getLastAsset, getAssetHistory, getAllAssets, allAssets, setError, error } =
     useGlobalContext();
 
   useEffect(() => {
@@ -52,112 +53,12 @@ export default function Actives() {
     console.log("активи", allAssets);
   }, []);
 
-  const [inputState, setInputState] = useState({
-    name: '',
-    price: '',
-    date: '',
-  });
-
-  const { name, price, date } = inputState;
-
-  const handleInput = (name) => (e) => {
-    setInputState({ ...inputState, [name]: e.target.value });
-    setError("");
-  };
-
-  const handleSubmit = e => {
-    e.preventDefault();
-    createAsset({ ...inputState });
-    setInputState({
-      name: '',
-      price: '',
-      date: '',
-    });
-  };
-
   return (
     <div className="flex flex-col gap-4">
       <Card>
         <CardHeader className="flex flex-row">
           <CardTitle>Actives</CardTitle>
-          <Dialog>
-            <DialogTrigger asChild>
-              <Button variant="outline">add new active</Button>
-            </DialogTrigger>
-            <DialogContent className="sm:max-w-[425px]">
-              <DialogHeader>
-                <DialogTitle>New active:</DialogTitle>
-                <DialogDescription>
-                  Add information about your active
-                </DialogDescription>
-              </DialogHeader>
-              <div className="grid gap-4 py-4">
-                <div className="grid grid-cols-4 items-center gap-4">
-                  <Label htmlFor="title" className="text-right">
-                    Title
-                  </Label>
-                  <Input 
-                  name="name"
-                  id="name" 
-                  defaultValue="name" 
-                  className="col-span-3"
-                  value={name}
-                  onChange={handleInput('name')}
-                  />
-                </div>
-                <div className="grid grid-cols-4 items-center gap-4">
-                  <Label htmlFor="cost" className="text-right">
-                    Cost
-                  </Label>
-                  <Input
-                    name="price"
-                    id="price"
-                    defaultValue="price"
-                    className="col-span-3"
-                    value={price}
-                    onChange={handleInput("price")}
-                  />
-                </div>
-                <div className="grid grid-cols-4 items-center gap-4">
-                  <Label htmlFor="title" className="text-right">
-                    Time
-                  </Label>
-                  <Popover>
-                    <PopoverTrigger asChild>
-                      <Button
-                        variant={"outline"}
-                        className={cn(
-                          "w-[240px] justify-start text-left font-normal",
-                          !date && "text-muted-foreground"
-                        )}
-                      >
-                        <CalendarIcon className="mr-2 h-4 w-4" />
-                        {date ? format(date, "PPP") : <span>Pick a date</span>}
-                      </Button>
-                    </PopoverTrigger>
-                    <PopoverContent className="w-auto p-0" align="start">
-                      <Calendar
-                        mode="single"
-                        value="date"
-                        selected={date}
-                        onSelect={(newDate) => {
-                          setInputState({ ...inputState, date: newDate });
-                        }}
-                        initialFocus
-                      />
-                    </PopoverContent>
-                  </Popover>
-                </div>
-              </div>
-              <DialogFooter>
-                <DialogClose asChild>
-                  <Button type="button" variant="secondary" onClick={handleSubmit} >
-                    Save changes
-                  </Button>
-                </DialogClose>
-              </DialogFooter>
-            </DialogContent>
-          </Dialog>
+          <CreateAssets />
         </CardHeader>
         <CardContent></CardContent>
       </Card>
@@ -171,6 +72,7 @@ export default function Actives() {
               <TableHead>Category</TableHead>
               <TableHead>Increase</TableHead>
               <TableHead>Analitics</TableHead>
+              <TableHead>Edit</TableHead>
               <TableHead className="text-right">Amount</TableHead>
             </TableRow>
           </TableHeader>
@@ -182,6 +84,7 @@ export default function Actives() {
               <TableCell>категорія</TableCell>
               <TableCell>increase</TableCell>
               <TableCell><AssetAnalytics id={asset.id} /></TableCell>
+              <TableCell><UpdateAsset id={asset.id} /></TableCell>
               <TableCell className="text-right">{asset.current_price}</TableCell>
             </TableRow>
           ))}

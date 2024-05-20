@@ -225,7 +225,7 @@ export const ContextProvider = ({children}) => {
         if (response && response.data) {
           // Додаємо отримані дані до стану або робимо інші дії з ними
           const allLser = response.data;
-          setAllUsers(allLser )
+          setAllUsers(allLser)
         } else {
           console.error("Invalid response:", response);
         }
@@ -261,7 +261,7 @@ export const ContextProvider = ({children}) => {
     }
 
     //отримати актив
-    const getAsset = async (id) => {
+    const getAsset = async (id, ) => {
       try {
         const token = authService.getTokenFromLocalStorage();
         const response = await axios.get(`${BASE_URL}users/get_actives/`,{
@@ -448,7 +448,8 @@ export const ContextProvider = ({children}) => {
           predict,
           getAsset,
           asset,
-
+          getAllUsers,
+          AllUsers,
       }}>
           {children}
     </GlobalContext.Provider>
