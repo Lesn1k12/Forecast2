@@ -46,12 +46,12 @@ function AssetAnalytics({ id }) {
       </DialogTrigger>
       <DialogContent className="sm:max-w-md">
         <DialogHeader>
-          <DialogTitle>{asset.name} :name</DialogTitle>
+          <DialogTitle>name: {asset.name}</DialogTitle>
           <DialogDescription>
-            {asset.current_price} :price
+            price: {asset.current_price}$
           </DialogDescription>
         </DialogHeader>
-        <AssetChart />
+        <AssetChart id={id}/>
         <DialogFooter className="sm:justify-start">
           <DialogClose asChild>
             <Button type="button" variant="secondary" onClick={() => {setOpen(), console.log(open)}}>

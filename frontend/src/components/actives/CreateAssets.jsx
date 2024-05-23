@@ -128,14 +128,14 @@ function CreateAssets() {
                     />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="finances">finances</SelectItem>
-                    <SelectItem value="crupto">crupto</SelectItem>
-                    <SelectItem value="immovability">immovability</SelectItem>
-                    <SelectItem value="technique">technique</SelectItem>
-                    <SelectItem value="intellectual property">intellectual property</SelectItem>
-                    <SelectItem value="physical property">physical property</SelectItem>
-                    <SelectItem value="investmensts">investmensts</SelectItem>
-                    <SelectItem value="other">other</SelectItem>
+                    <SelectItem value="f">finances</SelectItem>
+                    <SelectItem value="c">crupto</SelectItem>
+                    <SelectItem value="i">immovability</SelectItem>
+                    <SelectItem value="t">technique</SelectItem>
+                    <SelectItem value="ip">intellectual property</SelectItem>
+                    <SelectItem value="pp">physical property</SelectItem>
+                    <SelectItem value="inv">investmensts</SelectItem>
+                    <SelectItem value="o">other</SelectItem>
                   </SelectContent>
                 </Select>
             </div>

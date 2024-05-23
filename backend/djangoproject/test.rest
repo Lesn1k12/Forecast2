@@ -164,12 +164,13 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiY
 
 POST http://127.0.0.1:8000/users/create_actives/
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzE1OTc1Mjk2LCJpYXQiOjE3MTU2Mjk2OTYsImp0aSI6ImFmODc5ZTZjNDQ5MjRjNTZhM2ExYzhhYjFhMTY3NjljIiwidXNlcl9pZCI6N30.d8KOorVfY2JJX-2A8JjGh3tYcxiRsoND71wkDq3WNu8
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzE2ODAwNjg5LCJpYXQiOjE3MTY0NTUwODksImp0aSI6ImU4ZTdjNjY2MmJhMzQ0NTNiZjhiOWM3MTM5ZDY3NTJhIiwidXNlcl9pZCI6M30.edwW8ItnzL5ttzt7ND4rDGU-HskR3PofPEJDkQqCBmU
 
 {
   "name": "test",
   "price": "80",
-  "category": "pp"
+  "category": "pp",
+  "date": "2023-10-21T00:00:00Z"
 }
 
 ###
@@ -185,15 +186,16 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiY
 
 ###
 
-PATCH http://127.0.0.1:8000/users/update_actives/?id=78&name=test1&new_price=80&category=alt&date=2023-10-21T00:00:00Z
+PUT http://127.0.0.1:8000/users/update_actives/?id=7&new_price=80&date=2023-10-21T00:00:00Z
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzE1OTc1Mjk2LCJpYXQiOjE3MTU2Mjk2OTYsImp0aSI6ImFmODc5ZTZjNDQ5MjRjNTZhM2ExYzhhYjFhMTY3NjljIiwidXNlcl9pZCI6N30.d8KOorVfY2JJX-2A8JjGh3tYcxiRsoND71wkDq3WNu8
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzE2ODAzNDYwLCJpYXQiOjE3MTY0NTc4NjAsImp0aSI6IjlmYzAwMGM0NzM2YzQyYWQ4NjcxNGUzNWVkYjFiZjgxIiwidXNlcl9pZCI6M30.SXHOznHdi90s9GrpLrH6A9rZwRZj39RdN454cmVdT-w
+
 
 ###
 
-GET http://127.0.0.1:8000/users/get_price_history/?id=77
+GET http://127.0.0.1:8000/users/get_price_history/?id=7
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzE1OTc1Mjk2LCJpYXQiOjE3MTU2Mjk2OTYsImp0aSI6ImFmODc5ZTZjNDQ5MjRjNTZhM2ExYzhhYjFhMTY3NjljIiwidXNlcl9pZCI6N30.d8KOorVfY2JJX-2A8JjGh3tYcxiRsoND71wkDq3WNu8
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzE2ODAzNDYwLCJpYXQiOjE3MTY0NTc4NjAsImp0aSI6IjlmYzAwMGM0NzM2YzQyYWQ4NjcxNGUzNWVkYjFiZjgxIiwidXNlcl9pZCI6M30.SXHOznHdi90s9GrpLrH6A9rZwRZj39RdN454cmVdT-w
 
 ###
 

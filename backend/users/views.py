@@ -482,7 +482,7 @@ def get_all_actives(request):
         for asset in assets:
             price_history = PriceHistory.objects.filter(asset=asset).order_by('-date')[:2]
             if len(price_history) == 2:
-                price_change = ((price_history[0].price - price_history[1].price) / price_history[1].price) * 100
+                price_change = round((((price_history[0].price - price_history[1].price) / price_history[1].price) * 100), 3)
                 asset_data = {
                     'id': asset.id,
                     'name': asset.name,
@@ -516,20 +516,19 @@ def get_all_actives(request):
         return Response({'error': str(e)}, status=status.HTTP_400_BAD_REQUEST)
 
 
-@api_view(['PATCH'])
+@api_view(['PUT'])
 @permission_classes([IsAuthenticated])
 def update_actives(request):
     try:
         asset = Assets.objects.get(id=request.query_params['id'], owner_user=request.user)
         asset.name = request.query_params.get('name', asset.name)
-        asset.category = request.query_params.get('category')
         new_price = request.query_params.get('new_price')
         if new_price is not None:
+            new_price = int(new_price)  # конвертируем цену из строки в целое число
             new_price_history_data = {
                 'asset': asset.id,
                 'price': new_price,
                 'date': request.query_params.get('date', timezone.now()),
-                'category': asset.category
             }
             price_history_serializer = PriceHistorySerializer(data=new_price_history_data)
             if price_history_serializer.is_valid():
@@ -543,6 +542,8 @@ def update_actives(request):
         return Response({'error': 'Asset not found'}, status=status.HTTP_404_NOT_FOUND)
     except Exception as e:
         return Response({'error': str(e)}, status=status.HTTP_400_BAD_REQUEST)
+
+
 
 
 @api_view(['DELETE'])

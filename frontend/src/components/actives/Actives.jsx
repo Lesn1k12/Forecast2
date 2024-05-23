@@ -81,8 +81,8 @@ export default function Actives() {
             <TableRow key={asset.id}>
               <TableCell className="font-medium">{asset.name}</TableCell>
               <TableCell>{asset.date}</TableCell>
-              <TableCell>категорія</TableCell>
-              <TableCell>increase</TableCell>
+              <TableCell>{asset.category}</TableCell>
+              <TableCell>{asset.price_change}</TableCell>
               <TableCell><AssetAnalytics id={asset.id} /></TableCell>
               <TableCell><UpdateAsset id={asset.id} /></TableCell>
               <TableCell className="text-right">{asset.current_price}</TableCell>
