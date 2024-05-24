@@ -43,3 +43,17 @@ class PriceHistory(models.Model):
     asset = models.ForeignKey(Assets, related_name='price_history', on_delete=models.CASCADE)
     price = models.IntegerField(validators=[MaxValueValidator(limit_value=9999999999)], default=0)
     date = models.DateTimeField(default=timezone.now)
+
+
+# class Chat(models.Model):
+#     user0 = models.ForeignKey(User, on_delete=models.CASCADE, related_name='user0')
+#     user1 = models.ForeignKey(User, on_delete=models.CASCADE, related_name='user1')
+#     chat_id = models.IntegerField(default=0)
+#
+#
+# class Message(models.Model):
+#     chat = models.ForeignKey(Chat, on_delete=models.CASCADE)
+#     user = models.ForeignKey(User, on_delete=models.CASCADE)
+#     text = models.CharField(max_length=255)
+#     time = models.DateTimeField(default=timezone.now)
+#     reed = models.BooleanField(default=False)

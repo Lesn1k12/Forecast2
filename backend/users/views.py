@@ -499,7 +499,7 @@ def get_all_actives(request):
                     'current_price': price_history[0].price,
                     'date': price_history[0].date,
                     'category': asset.category,
-                    'price_change': 'No price change data'
+                    'price_change':  0
                 }
             else:
                 asset_data = {
@@ -508,7 +508,7 @@ def get_all_actives(request):
                     'category': asset.category,
                     'current_price': 'No price history',
                     'date': 'No date',
-                    'price_change': 'No price change data'
+                    'price_change': 0
                 }
             response_data.append(asset_data)
         return Response(response_data, status=status.HTTP_200_OK)
@@ -524,7 +524,7 @@ def update_actives(request):
         asset.name = request.query_params.get('name', asset.name)
         new_price = request.query_params.get('new_price')
         if new_price is not None:
-            new_price = int(new_price)  # конвертируем цену из строки в целое число
+            new_price = int(new_price)
             new_price_history_data = {
                 'asset': asset.id,
                 'price': new_price,
@@ -542,8 +542,6 @@ def update_actives(request):
         return Response({'error': 'Asset not found'}, status=status.HTTP_404_NOT_FOUND)
     except Exception as e:
         return Response({'error': str(e)}, status=status.HTTP_400_BAD_REQUEST)
-
-
 
 
 @api_view(['DELETE'])
