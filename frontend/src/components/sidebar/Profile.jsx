@@ -19,10 +19,10 @@ function Profile() {
   }, [userAdress]);
 
   return (
-      <div className="grid grid-rows-2 p-2">
-        <span className="font-semibold">{userData.username}</span>
-        <span className="text-xs text-gray-600">{userData.email}</span>
-        <span className="text-xs text-gray-600">{publkey}</span>
+      <div className="grid grid-rows-2 p-2 w-[75%]">
+        <span className="font-semibold truncate">{userData.username}</span>
+        <span className="text-xs text-gray-600 truncate">{userData.email}</span>
+        <span className="text-xs text-gray-600 truncate">{publkey}</span>
       </div>
   );
 }

@@ -3,6 +3,7 @@ import { ContextProvider, useGlobalContext } from "../../context/GlobalContext";
 import AssetAnalytics from "./AssetAnalytics";
 import CreateAssets from "./CreateAssets";
 import UpdateAsset from "./UpdateAsset";
+import DeleteAsset from "./DeleteAsset";
 import moment from "moment";
 import {
   Card,
@@ -45,8 +46,7 @@ import {
 } from "@/components/ui/popover";
 
 export default function Actives() {
-  const {deleteAsset, editAsset, getLastAsset, getAssetHistory, getAllAssets, allAssets, setError, error } =
-    useGlobalContext();
+  const {deleteAsset, editAsset, getLastAsset, getAssetHistory, getAllAssets, allAssets, setError, error } = useGlobalContext();
 
   useEffect(() => {
     getAllAssets();
@@ -74,6 +74,7 @@ export default function Actives() {
               <TableHead>Analitics</TableHead>
               <TableHead>Edit</TableHead>
               <TableHead className="text-right">Amount</TableHead>
+              <TableHead>Delete</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -82,10 +83,11 @@ export default function Actives() {
               <TableCell className="font-medium">{asset.name}</TableCell>
               <TableCell>{asset.date}</TableCell>
               <TableCell>{asset.category}</TableCell>
-              <TableCell>{asset.price_change}</TableCell>
+              <TableCell>{asset.price_change}%</TableCell>
               <TableCell><AssetAnalytics id={asset.id} /></TableCell>
               <TableCell><UpdateAsset id={asset.id} /></TableCell>
-              <TableCell className="text-right">{asset.current_price}</TableCell>
+              <TableCell className="text-right">{asset.current_price}$</TableCell>
+              <TableHead><DeleteAsset id={asset.id}/></TableHead>
             </TableRow>
           ))}
           </TableBody>

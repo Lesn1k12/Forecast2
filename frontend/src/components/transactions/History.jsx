@@ -1,30 +1,87 @@
-import React, { useEffect } from "react";
-
+import React, { useEffect, useState } from "react";
 import { useGlobalContext } from "../../context/GlobalContext";
+import {
+  LineChart,
+  Line,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  Legend,
+  ResponsiveContainer,
+} from "recharts";
 
-import { ScrollArea } from "@/components/ui/scroll-area";
-import { Separator } from "@/components/ui/separator";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 
-function History() {
-  const { transactionHistory, error, setError } = useGlobalContext();
+function TransactionChart() {
+  const { getTransaction, incomes, expenses, error, setError } =
+    useGlobalContext();
+  const [chartData, setChartData] = useState([]);
 
-  const [...history] = transactionHistory();
+  useEffect(() => {
+    getTransaction();
+  }, []);
+
+  useEffect(() => {
+    const combinedData = [
+      ...incomes.map((income) => ({
+        time: income.time,
+        amount: income.amount,
+        type: "income",
+      })),
+      ...expenses.map((expense) => ({
+        time: expense.time,
+        amount: expense.amount,
+        type: "expense",
+      })),
+    ];
+
+    combinedData.sort((a, b) => new Date(a.time) - new Date(b.time));
+
+    setChartData(combinedData);
+  }, [incomes, expenses]);
 
   return (
-    <div className="max-h-full ">
-      <ScrollArea className="max-h-screen h-72 w-48 rounded-md border">
-        <div className="p-4">
-          <h4 className="mb-4 text-sm font-medium leading-none">History</h4>
-          {history.map((transaction, index) => (
-            <div key={index} className="text-sm">
-              {transaction.category} - {transaction.amount}$
-              <Separator className="my-2" />
-            </div>
-          ))}
-        </div>
-      </ScrollArea>
-    </div>
+    <Card className="w-full mb-5 h-[50%] pb-0" style={{ width: "100%" }}>
+      <CardHeader>
+        <div>Transaction Chart</div>
+      </CardHeader>
+      <CardContent className="pb-0">
+          <ResponsiveContainer width="100%" height={210}>
+            <LineChart
+              width={500}
+              height={200}
+              data={chartData}
+              margin={{
+                top: 10,
+                right: 30,
+                left: 0,
+                bottom: 0,
+              }}
+            >
+              <CartesianGrid strokeDasharray="3 3" />
+              <XAxis dataKey="time" />
+              <YAxis />
+              <Tooltip />
+              <Line
+                connectNulls
+                type="monotone"
+                dataKey="amount"
+                stroke="#8884d8"
+                fill="#8884d8"
+              />
+            </LineChart>
+          </ResponsiveContainer>
+      </CardContent>
+    </Card>
   );
 }
 
-export default History;
+export default TransactionChart;

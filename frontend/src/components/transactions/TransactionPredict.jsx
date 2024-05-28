@@ -38,10 +38,10 @@ function TransactionPredict() {
       <CardHeader>
         <div>Transaction Predict</div>
       </CardHeader>
-      <CardContent>
+      <CardContent className="px-4">
         <div className="w-full">
-          <ResponsiveContainer width="100%" height={400}>
-            <LineChart width={800} height={400} data={predict}>
+          <ResponsiveContainer width="100%" height={210}>
+            <LineChart width={500} height={200} data={predict}>
               <CartesianGrid strokeDasharray="3 3" />
               <XAxis dataKey="time" />
               <YAxis />

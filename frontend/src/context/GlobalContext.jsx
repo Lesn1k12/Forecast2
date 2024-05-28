@@ -20,7 +20,7 @@ export const ContextProvider = ({ children }) => {
   const [allAssets, setAllAssets] = useState([]);
   const [asset, setAsset] = useState([]);
   const [history, setHistory] = useState([]);
-  const [AllUsers, setAllUsers] = useState([]);
+  const [allUsers, setAllUsers] = useState([]);
 
   const addTransaction = async (transaction) => {
     try {
@@ -56,7 +56,7 @@ export const ContextProvider = ({ children }) => {
   const getTransaction = async () => {
     try {
       const token = authService.getTokenFromLocalStorage();
-      const response = await axios.get(`${BASE_URL}users/get_transactions`, {
+      const response = await axios.get(`${BASE_URL}users/get_transaction`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -304,27 +304,25 @@ export const ContextProvider = ({ children }) => {
   //видалити актив
   const deleteAsset = async (id) => {
     try {
-      const token = authService.getTokenFromLocalStorage();
-      const response = await axios.delete(`${BASE_URL}users/delete_actives/`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-        data: {
-          id: id,
-        },
-      });
+        const token = authService.getTokenFromLocalStorage();
+        const delAssetUrl = `${BASE_URL}users/delete_actives/?id=${id}`;
+        const response = await axios.delete(delAssetUrl, {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+        });
 
-      if (response && response.data) {
-        console.log("Success:", response.data);
-      } else {
-        console.error("Invalid response:", response);
-      }
+        if (response && response.data) {
+            console.log("Success:", response.data);
+        } else {
+            console.error("Invalid response:", response);
+        }
     } catch (error) {
-      console.error("Error:", error);
-      console.log("Full error object:", error);
-      setError(error.response?.data?.message || "Something went wrong");
+        console.error("Error:", error);
+        console.log("Full error object:", error);
+        setError(error.response?.data?.message || "Something went wrong");
     }
-  };
+};
 
   //редагувати актив
   const editAsset = async (id, new_price, date) => {
@@ -457,7 +455,7 @@ export const ContextProvider = ({ children }) => {
         getAsset,
         asset,
         getAllUsers,
-        AllUsers,
+        allUsers,
       }}
     >
       {children}
