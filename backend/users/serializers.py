@@ -1,13 +1,12 @@
 from rest_framework import serializers
-from django.contrib.auth.models import User
-from .models import Transaction, Events, Assets, PriceHistory
+from .models import Transaction, Events, Assets, PriceHistory, User
 # from .models import Transaction, Events, Assets, PriceHistory, Chat, Message
 
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ['id', 'username', 'email']
+        fields = ['id', 'username', 'email', 'public_key']
 
 
 class TransactionSerializer(serializers.ModelSerializer):

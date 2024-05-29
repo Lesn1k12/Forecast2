@@ -3,7 +3,7 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.exceptions import NotFound
-from django.contrib.auth.models import User
+from .models import User
 from django.utils.dateparse import parse_datetime
 from django.contrib.auth.tokens import default_token_generator
 from .serializers import UserSerializer, TransactionSerializer, EventsSerializer, AssetsSerializer, \
