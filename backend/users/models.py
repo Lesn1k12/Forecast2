@@ -44,7 +44,6 @@ class PriceHistory(models.Model):
     price = models.IntegerField(validators=[MaxValueValidator(limit_value=9999999999)], default=0)
     date = models.DateTimeField(default=timezone.now)
 
-
 # class Chat(models.Model):
 #     user0 = models.ForeignKey(User, on_delete=models.CASCADE, related_name='user0')
 #     user1 = models.ForeignKey(User, on_delete=models.CASCADE, related_name='user1')

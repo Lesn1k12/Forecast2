@@ -80,10 +80,10 @@ Content-Type: application/json
 
 POST http://127.0.0.1:8000/users/post_transaction
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzE1NTExNTExLCJpYXQiOjE3MTUxNjU5MTEsImp0aSI6ImJmYmIzYjZhNjI5YjRkOTNhNzgwZWY4ZWIxYjA3ZjljIiwidXNlcl9pZCI6NX0.hdv6y2z2_jUpxy_pGDRSWU9HI-qlSEzGun3c6UhFOog
-
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzE3MzEzNDkzLCJpYXQiOjE3MTY5Njc4OTMsImp0aSI6IjFmMDI2MjA1MzE4YzQzODU5Y2NlOTYyNzkwMTQ1M2M0IiwidXNlcl9pZCI6N30.XfrBiNGqSDWuqcRV19K4389MWYrmQKwsBzU49MjQJ-s
 
 {
+  "title": "asd",
   "category": "entertainment ",
   "amount": "-1000",
   "time": "2023-11-26",
@@ -95,13 +95,9 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiY
 
 GET http://127.0.0.1:8000/users/get_transaction
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzE2ODAzNDYwLCJpYXQiOjE3MTY0NTc4NjAsImp0aSI6IjlmYzAwMGM0NzM2YzQyYWQ4NjcxNGUzNWVkYjFiZjgxIiwidXNlcl9pZCI6M30.SXHOznHdi90s9GrpLrH6A9rZwRZj39RdN454cmVdT-w
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzE3MzEzNDkzLCJpYXQiOjE3MTY5Njc4OTMsImp0aSI6IjFmMDI2MjA1MzE4YzQzODU5Y2NlOTYyNzkwMTQ1M2M0IiwidXNlcl9pZCI6N30.XfrBiNGqSDWuqcRV19K4389MWYrmQKwsBzU49MjQJ-s
 
 {
-  "end_amount": "10000",
-  "start_amount": "-10000",
-  "start_time": "2023-10-21 00:00:00",
-  "end_time": "2023-11-15 00:00:00"
 }
 
 ###
