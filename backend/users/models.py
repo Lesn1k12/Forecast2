@@ -1,3 +1,4 @@
+import uuid
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 from django.core.validators import MaxValueValidator
@@ -5,7 +6,7 @@ from django.utils import timezone
 
 
 class User(AbstractUser):
-    public_key = models.CharField(max_length=255, default='', blank=True)
+    public_key = models.CharField(max_length=255, default='')
 
 
 class Transaction(models.Model):
@@ -27,15 +28,15 @@ class Events(models.Model):
 
 class Assets(models.Model):
     available_categories = {
-        "f": "finances",
-        "c": "crypto",
-        "i": "immovability",
-        "t": "technique",
-        "ip": "intellectual property",
-        "pp": "physical property",
-        "inv": "investments",
-        "alt": "alternative",
-        "o": "others"
+        "finances": "finances",
+        "crypto": "crypto",
+        "immovability": "immovability",
+        "technique": "technique",
+        "intellectual property": "intellectual property",
+        "physical property": "physical property",
+        "investments": "investments",
+        "alternative": "alternative",
+        "others": "others"
     }
     name = models.CharField(max_length=255)
     unique_id = models.IntegerField(default=0)
@@ -48,15 +49,16 @@ class PriceHistory(models.Model):
     price = models.IntegerField(validators=[MaxValueValidator(limit_value=9999999999)], default=0)
     date = models.DateTimeField(default=timezone.now)
 
-# class Chat(models.Model):
-#     user0 = models.ForeignKey(User, on_delete=models.CASCADE, related_name='user0')
-#     user1 = models.ForeignKey(User, on_delete=models.CASCADE, related_name='user1')
-#     chat_id = models.IntegerField(default=0)
-#
-#
-# class Message(models.Model):
-#     chat = models.ForeignKey(Chat, on_delete=models.CASCADE)
-#     user = models.ForeignKey(User, on_delete=models.CASCADE)
-#     text = models.CharField(max_length=255)
-#     time = models.DateTimeField(default=timezone.now)
-#     reed = models.BooleanField(default=False)
+
+class Chat(models.Model):
+    user0 = models.ForeignKey(User, on_delete=models.CASCADE, related_name='user0')
+    user1 = models.ForeignKey(User, on_delete=models.CASCADE, related_name='user1')
+    chat_id = models.UUIDField(default=uuid.uuid4, unique=True)
+
+
+class Message(models.Model):
+    chat = models.ForeignKey(Chat, on_delete=models.CASCADE)
+    sender = models.ForeignKey(User, on_delete=models.CASCADE, related_name='sent_messages')
+    receiver = models.ForeignKey(User, on_delete=models.CASCADE, related_name='received_messages')
+    text = models.CharField(max_length=2048)
+    time = models.DateTimeField(default=timezone.now)

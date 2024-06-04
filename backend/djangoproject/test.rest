@@ -5,11 +5,10 @@ POST http://127.0.0.1:8000/users/signup
 Content-Type: application/json
 
 {
-  "username": "admin5",
-  "password": "admin",
-  "email": "itg51649@fosiq.com"
+  "username": "user4",
+  "password": "asd",
+  "email": "user1@fosiq.com"
 }
-
 
 ###
 
@@ -17,8 +16,8 @@ POST http://127.0.0.1:8000/users/login
 Content-Type: application/json
 
 {
-  "username": "your_username",
-  "password": "your_password"
+  "username": "admin1111111121311",
+  "password": "admin"
 }
 
 ###
@@ -34,8 +33,8 @@ POST http://127.0.0.1:8000/api/token/
 Content-Type: application/json
 
 {
-  "username": "admin5",
-  "password": "admin"
+  "username": "user4",
+  "password": "asd"
 }
 
 ###
@@ -114,7 +113,7 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiY
 
 GET http://127.0.0.1:8000/users/get_userdata/
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzE1NTExNTExLCJpYXQiOjE3MTUxNjU5MTEsImp0aSI6ImJmYmIzYjZhNjI5YjRkOTNhNzgwZWY4ZWIxYjA3ZjljIiwidXNlcl9pZCI6NX0.hdv6y2z2_jUpxy_pGDRSWU9HI-qlSEzGun3c6UhFOog
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzE3NTI4NDYzLCJpYXQiOjE3MTcxODI4NjMsImp0aSI6IjkzOWNiNjU3N2VlYzQyZDZhNjBkMzhlY2VkNzVlMjdjIiwidXNlcl9pZCI6MX0.kBmPzMZJm9W0WWKqJB7p55z8PX2EI7rwkCQFXQfmruI
 
 ###
 
@@ -160,12 +159,12 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiY
 
 POST http://127.0.0.1:8000/users/create_actives/
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzE3MzI2Nzc1LCJpYXQiOjE3MTY5ODExNzUsImp0aSI6ImU4NzM5OWNkNmYyOTRmN2I5Yjk2ZThmOTcxMTZhNWU0IiwidXNlcl9pZCI6MX0.AZtk1_P-cz07qvtyolW-dBy3E42RYILmMAvuYXvYskE
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzE3NTI4NDYzLCJpYXQiOjE3MTcxODI4NjMsImp0aSI6IjkzOWNiNjU3N2VlYzQyZDZhNjBkMzhlY2VkNzVlMjdjIiwidXNlcl9pZCI6MX0.kBmPzMZJm9W0WWKqJB7p55z8PX2EI7rwkCQFXQfmruI
 
 {
   "name": "test",
   "price": "80",
-  "category": "pp",
+  "category": "crypto",
   "date": "2023-10-21T00:00:00Z"
 }
 
@@ -197,12 +196,41 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiY
 
 GET http://127.0.0.1:8000/users/get_all_actives/
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzE2ODAzNDYwLCJpYXQiOjE3MTY0NTc4NjAsImp0aSI6IjlmYzAwMGM0NzM2YzQyYWQ4NjcxNGUzNWVkYjFiZjgxIiwidXNlcl9pZCI6M30.SXHOznHdi90s9GrpLrH6A9rZwRZj39RdN454cmVdT-w
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzE3NTI4NDYzLCJpYXQiOjE3MTcxODI4NjMsImp0aSI6IjkzOWNiNjU3N2VlYzQyZDZhNjBkMzhlY2VkNzVlMjdjIiwidXNlcl9pZCI6MX0.kBmPzMZJm9W0WWKqJB7p55z8PX2EI7rwkCQFXQfmruI
 
 ###
 
 GET http://127.0.0.1:8000/users/get_all_users/
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzE3MzI2Nzc1LCJpYXQiOjE3MTY5ODExNzUsImp0aSI6ImU4NzM5OWNkNmYyOTRmN2I5Yjk2ZThmOTcxMTZhNWU0IiwidXNlcl9pZCI6MX0.AZtk1_P-cz07qvtyolW-dBy3E42RYILmMAvuYXvYskE
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzE3NTI4NDYzLCJpYXQiOjE3MTcxODI4NjMsImp0aSI6IjkzOWNiNjU3N2VlYzQyZDZhNjBkMzhlY2VkNzVlMjdjIiwidXNlcl9pZCI6MX0.kBmPzMZJm9W0WWKqJB7p55z8PX2EI7rwkCQFXQfmruI
 
 ###
+
+PATCH http://127.0.0.1:8080/users/add_public_key/
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzE3NTI4NDYzLCJpYXQiOjE3MTcxODI4NjMsImp0aSI6IjkzOWNiNjU3N2VlYzQyZDZhNjBkMzhlY2VkNzVlMjdjIiwidXNlcl9pZCI6MX0.kBmPzMZJm9W0WWKqJB7p55z8PX2EI7rwkCQFXQfmruI
+
+{
+  "public_key": "a"
+}
+
+###
+POST http://127.0.0.1:8080/users/test
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzE3NTI4NDYzLCJpYXQiOjE3MTcxODI4NjMsImp0aSI6IjkzOWNiNjU3N2VlYzQyZDZhNjBkMzhlY2VkNzVlMjdjIiwidXNlcl9pZCI6MX0.kBmPzMZJm9W0WWKqJB7p55z8PX2EI7rwkCQFXQfmruI
+
+{
+  "message": "porno"
+}
+
+###
+
+GET http://127.0.0.1:8080/users/chat/4bf8052b9e944945998477372d8f5a5a/messages/?page=1&page_size=20
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzE3Nzg5Nzk2LCJpYXQiOjE3MTc0NDQxOTYsImp0aSI6ImVlZmZiMTk5N2NiNzRiNTI4ODljNjkxM2ViMzBlMGZhIiwidXNlcl9pZCI6MX0.dUOrDOK54w3cQsIu-BTYF0bW91nIreOva0Xd_g5hlkI
+
+###
+
+GET http://127.0.0.1:8080/users/get_chats
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzE3ODQwOTExLCJpYXQiOjE3MTc0OTUzMTEsImp0aSI6ImYyZWUzZjAxMTE1YjRjOTdhYzQyNGMxZTBlMzE5MWQxIiwidXNlcl9pZCI6NH0.Engq-4j5uQIuor8K-jyPc9WkT1gBiWZZ6u-Jg-2ADrU

@@ -201,3 +201,6 @@ SIMPLE_JWT = {
 }
 
 AUTH_USER_MODEL = "users.User"
+
+ASGI_APPLICATION = 'djangoproject.asgi.application'
+
