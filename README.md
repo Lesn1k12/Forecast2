@@ -3,7 +3,7 @@
 ## Opis
 Ten projekt jest semestralnym zadaniem, składającym się z części frontend, backend i solana blockchain. Celem projektu jest stworzenie pełnofunkcjonalnej aplikacji webowej przy użyciu nowoczesnych technologii.
 
-## struktura:
+<!-- ## struktura:
 ### ├── backend/  # Część backend projektu
 ### │ ├── app.py  # Główny plik backend
 ### │ ├── requirements.txt # Zależności Python
@@ -26,7 +26,29 @@ Ten projekt jest semestralnym zadaniem, składającym się z części frontend, 
 ### ├── .gitmodules  # Plik konfiguracji submodułów Git
 ### ├── package-lock.json # Plik blokowania zależności npm
 ### ├── package.json # Plik konfiguracyjny npm
-### └── README.md # Plik z dokumentacją
+### └── README.md # Plik z dokumentacją -->
+
+## Backend
+- **app.py**: Main backend file.
+- **requirements.txt**: Python dependencies.
+- **web3_moneybox**: Anchor smart contract directory.
+- **Other backend files...**
+
+## Frontend
+- **src/**: Source code for the frontend.
+  - **components/**: React components.
+  - **App.js**: Main application component.
+  - **index.js**: Entry point of the application.
+- **public/**: Public files, including the main HTML file.
+- **package.json**: npm configuration file.
+- **Other frontend files...**
+
+## Common Directories and Files
+- **node_modules/**: Node.js dependencies.
+- **.gitignore**: Specifies intentionally untracked files to ignore.
+- **.gitmodules**: Git submodules configuration.
+- **package-lock.json**: npm dependency lock file.
+- **README.md**: Project documentation.
 
 # architektura
 ![Project architucture](./frontend/src/img/forecast.jpg)
