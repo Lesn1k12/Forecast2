@@ -3,36 +3,36 @@
 ## Opis
 Ten projekt jest semestralnym zadaniem, składającym się z części frontend, backend i solana blockchain. Celem projektu jest stworzenie pełnofunkcjonalnej aplikacji webowej przy użyciu nowoczesnych technologii.
 
-# struktura:
-# ├── backend/  # Część backend projektu
-# │ ├── app.py  # Główny plik backend
-# │ ├── requirements.txt # Zależności Python
-# | ├── web3 monejbox # anchor smart contact
-# │ └── ... # Inne pliki backend
-# │
-# ├── frontend/ # Część frontend projektu
-# │ ├── src/ # Kod źródłowy frontendu
-# │ │ ├── components/ # Komponenty React
-# │ │ ├── App.js # Główny komponent aplikacji
-# │ │ └── index.js  # Punkt wejścia do aplikacji
-# │ ├── public/ # Pliki publiczne
-# │ │ ├── index.html # Główny plik HTML
-# │ │ └── ... # Inne pliki publiczne
-# │ ├── package.json # Plik konfiguracyjny npm
-# │ └── ... # Inne pliki frontendu
-# │
-# ├── node_modules/  # Katalog z zależnościami Node.js
-# ├── .gitignore  # Plik do ignorowania plików w Git
-# ├── .gitmodules  # Plik konfiguracji submodułów Git
-# ├── package-lock.json # Plik blokowania zależności npm
-# ├── package.json # Plik konfiguracyjny npm
-# └── README.md # Plik z dokumentacją
+## struktura:
+### ├── backend/  # Część backend projektu
+### │ ├── app.py  # Główny plik backend
+### │ ├── requirements.txt # Zależności Python
+### | ├── web3 monejbox # anchor smart contact
+### │ └── ... # Inne pliki backend
+### │
+### ├── frontend/ # Część frontend projektu
+### │ ├── src/ # Kod źródłowy frontendu
+### │ │ ├── components/ # Komponenty React
+### │ │ ├── App.js # Główny komponent aplikacji
+### │ │ └── index.js  # Punkt wejścia do aplikacji
+### │ ├── public/ # Pliki publiczne
+### │ │ ├── index.html # Główny plik HTML
+### │ │ └── ... # Inne pliki publiczne
+### │ ├── package.json # Plik konfiguracyjny npm
+### │ └── ... # Inne pliki frontendu
+### │
+### ├── node_modules/  # Katalog z zależnościami Node.js
+### ├── .gitignore  # Plik do ignorowania plików w Git
+### ├── .gitmodules  # Plik konfiguracji submodułów Git
+### ├── package-lock.json # Plik blokowania zależności npm
+### ├── package.json # Plik konfiguracyjny npm
+### └── README.md # Plik z dokumentacją
 
 # architektura
 ![Project architucture](./frontend/src/img/forecast.jpg)
 
-## Frontend
-# Komponenty Transakcji 
+# Frontend
+## Komponenty Transakcji 
 
 ## Opis
 Komponenty transakcji w Forecast2 są zaprojektowane do zarządzania różnymi aspektami finansowymi aplikacji, takimi jak wydatki, dochody, historia transakcji, analiza i prognozowanie.
