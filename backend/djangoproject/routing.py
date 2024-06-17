@@ -15,6 +15,5 @@ from django.urls import re_path
 application = ProtocolTypeRouter({
     "http": get_asgi_application(),
     "websocket": URLRouter([
-        re_path(r"ws/chat/\?user=(?P<user>\d+)&receiver_id=(?P<receiver_id>\d+)/$", consumers.ChatConsumer.as_asgi()),
-    ]),
+        re_path(r"ws/chat/(?P<user>\d+)/(?P<receiver_id>\d+)/$", consumers.ChatConsumer.as_asgi()), ]),
 })

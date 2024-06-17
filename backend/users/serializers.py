@@ -15,11 +15,10 @@ class TransactionSerializer(serializers.ModelSerializer):
         model = Transaction
         fields = ['user', 'category', 'time', 'amount', 'description', 'currency', 'title']
 
-
 class EventsSerializer(serializers.ModelSerializer):
     class Meta(object):
         model = Events
-        fields = ['user', 'title', 'start_time', 'end_time']
+        fields = ['user', 'title', 'start_time', 'end_time', 'id']
 
 
 class AssetsSerializer(serializers.ModelSerializer):

@@ -39,5 +39,5 @@ urlpatterns = [
     # ------Chat------
     # /chat/${chatId}/messages?page=${page}&page_size=20
     path('chat/<str:chat_id>/messages/', views.get_history_chat),
-    re_path('get_chats', views.get_chats)
+    re_path('get_chats', views.get_chats),
 ]

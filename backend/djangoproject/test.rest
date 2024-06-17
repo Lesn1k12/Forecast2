@@ -33,7 +33,7 @@ POST http://127.0.0.1:8000/api/token/
 Content-Type: application/json
 
 {
-  "username": "user4",
+  "username": "user1",
   "password": "asd"
 }
 
@@ -131,10 +131,10 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiY
 
 DELETE http://127.0.0.1:8000/users/delete_event/
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzE1NTExNTExLCJpYXQiOjE3MTUxNjU5MTEsImp0aSI6ImJmYmIzYjZhNjI5YjRkOTNhNzgwZWY4ZWIxYjA3ZjljIiwidXNlcl9pZCI6NX0.hdv6y2z2_jUpxy_pGDRSWU9HI-qlSEzGun3c6UhFOog
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzE4NzM2NjQ3LCJpYXQiOjE3MTgzOTEwNDcsImp0aSI6ImNmOTg2NGUzMDgwODRlNTJiMDgxODQyZmU0MGYyNTI4IiwidXNlcl9pZCI6M30.03Xf_keNflIi1vFqs3EDy8TmsdTjb-cNmsNdcFW3ZdM
 
 {
-  "id": "27"
+  "id": "4"
 }
 
 ###
@@ -225,10 +225,9 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiY
 
 ###
 
-GET http://127.0.0.1:8080/users/chat/4bf8052b9e944945998477372d8f5a5a/messages/?page=1&page_size=20
+GET http://127.0.0.1:8080/users/chat/3c42e1a5f4ca477f8865a47b821a4801/messages/?page=1&page_size=20
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzE3Nzg5Nzk2LCJpYXQiOjE3MTc0NDQxOTYsImp0aSI6ImVlZmZiMTk5N2NiNzRiNTI4ODljNjkxM2ViMzBlMGZhIiwidXNlcl9pZCI6MX0.dUOrDOK54w3cQsIu-BTYF0bW91nIreOva0Xd_g5hlkI
-
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzE4ODkxMzkwLCJpYXQiOjE3MTg1NDU3OTAsImp0aSI6ImU1NTRmYzFlYWFiNTQyYTE5NDAwZTU2NDU1NWM1ZDA1IiwidXNlcl9pZCI6MX0.ORmCpgdkMz74WUwfMbNWIXhyjbCqxmTJgREqqMbF-nc
 ###
 
 GET http://127.0.0.1:8080/users/get_chats
