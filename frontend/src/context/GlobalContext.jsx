@@ -1,9 +1,9 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useCallback } from "react";
 import authService from "./auth/AuthService";
 import axios from "axios";
 import { set } from "date-fns";
 
-const BASE_URL = "http://localhost:8000/";
+const BASE_URL = "http://localhost:8080/";
 
 const GlobalContext = React.createContext();
 
@@ -19,8 +19,13 @@ export const ContextProvider = ({ children }) => {
   const [predict, setPredict] = useState([]);
   const [allAssets, setAllAssets] = useState([]);
   const [asset, setAsset] = useState([]);
-  const [history, setHistory] = useState([]);
   const [allUsers, setAllUsers] = useState([]);
+  const [chatHistory, setChatHistory] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [page, setPage] = useState(1);
+  const [chats, setChats] = useState([]);
+  const [dateEvent, setDateEvent] = useState([]);
+
 
   const addTransaction = async (transaction) => {
     try {
@@ -193,35 +198,36 @@ export const ContextProvider = ({ children }) => {
   };
 
   //отримання данних юзера
-  const getUser = async () => {
-    try {
-      const token = authService.getTokenFromLocalStorage();
-      const response = await axios.get(`${BASE_URL}users/get_userdata`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+  const getUser = useCallback(async () => {
+  try {
+    const token = authService.getTokenFromLocalStorage();
+    const response = await axios.get(`${BASE_URL}users/get_userdata`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
 
-      console.log("danni:", response);
-
-      // Перевірити, чи отримано відповідь з успіхом
-      if (response && response.data) {
-        // Додаємо отримані дані до стану або робимо інші дії з ними
-        const userData = response.data;
+    // Перевірити, чи отримано відповідь з успіхом
+    if (response && response.data) {
+      // Додаємо отримані дані до стану або робимо інші дії з ними
+      const userData = response.data;
+      if (userData.id) {
         setUserData(userData);
-        console.log("user:", userData);
       } else {
-        console.error("Invalid response:", response);
+        console.error("Invalid userData:", userData);
       }
-    } catch (error) {
-      console.error("Error:", error);
-      console.log("Full error object:", error);
-      setError(error.response?.data?.message || "Something went wrong");
+    } else {
+      console.error("Invalid response:", response);
     }
-  };
+  } catch (error) {
+    console.error("Error:", error);
+    console.log("Full error object:", error);
+    setError(error.response?.data?.message || "Something went wrong");
+  }
+});
 
   //дістати всіх юзерів
-  const getAllUsers = async () => {
+  const getAllUsers = useCallback(async () => {
     try {
       const token = authService.getTokenFromLocalStorage();
       const response = await axios.get(`${BASE_URL}users/get_all_users`, {
@@ -230,7 +236,7 @@ export const ContextProvider = ({ children }) => {
         },
       });
 
-      console.log("danni:", response);
+      // console.log("danni:", response);
 
       // Перевірити, чи отримано відповідь з успіхом
       if (response && response.data) {
@@ -245,7 +251,7 @@ export const ContextProvider = ({ children }) => {
       console.log("Full error object:", error);
       setError(error.response?.data?.message || "Something went wrong");
     }
-  };
+  });
 
   //створити актив
   const createAsset = async (asset) => {
@@ -426,6 +432,137 @@ export const ContextProvider = ({ children }) => {
     }
   };
 
+
+        // отримання історії чату
+
+        const loadMessages = async (chatId, page, pageSize) => {
+          setLoading(true);
+          try {
+            const token = authService.getTokenFromLocalStorage();
+            const response = await axios.get(`${BASE_URL}users/chat/${chatId}/messages/`, {
+              params: { page, page_size: pageSize },
+              headers: {
+                Authorization: `Bearer ${token}`,
+              },
+            });
+            const message = response.data.messages;
+            const nextPageExists = response.data.next_page_exists;
+            setChatHistory(prevHistory => [...prevHistory, ...message]);
+            setPage((prevPage) => prevPage + 1);
+            return { messages: message, next_page_exists: nextPageExists };
+          } catch (error) {
+            console.error('Error fetching chat history:', error);
+          } finally {
+            setLoading(false);
+          }
+        };
+        
+
+      // отримання всіх чатів
+
+      const getChats = async () => {
+        try {
+            const token = authService.getTokenFromLocalStorage();
+            const response = await axios.get(`${BASE_URL}users/get_chats`, {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            }); 
+            setChats(response.data); // Ensure to return the data
+        } catch (error) {
+            if (error.response && error.response.status === 404) {
+                console.error('No chats found:', error.response.data);
+            } else {
+                console.error('Error fetching chats:', error);
+            }
+            return []; // Return an empty array or handle error accordingly
+        }
+    };
+    
+
+
+// -------------Events--------------
+
+
+const fetchEvents = async () => {
+  try {
+    const token = authService.getTokenFromLocalStorage();
+    const response = await axios.get(`${BASE_URL}users/get_events`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return response.data.map(event => ({
+      ...event,
+      start: new Date(event.start),
+      end: new Date(event.end),
+    }));
+  } catch (error) {
+    console.error('Error fetching events:', error);
+    throw error;
+  }
+};
+
+const addEvent = async (event) => {
+  try {
+    const token = authService.getTokenFromLocalStorage();
+    const response = await axios.post(`${BASE_URL}users/create_event`, {
+      ...event,
+      start: event.start.toISOString(),
+      end: event.end.toISOString(),
+    }, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return {
+      ...response.data,
+      start: new Date(response.data.start),
+      end: new Date(response.data.end),
+    };
+  } catch (error) {
+    console.error('Error adding event:', error);
+    throw error;
+  }
+};
+
+
+
+const deleteEvent = async (id) => {
+  try {
+    const token = authService.getTokenFromLocalStorage();
+    const response = await axios.delete(`${BASE_URL}users/delete_event/?id=${id}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+          
+        }); 
+  return response.data
+} catch (error) {
+    console.error('Error deleting event:', error);
+    throw error;
+  }
+};
+
+
+const updateEvent = async (eventId, updatedFields) => {
+  try {
+    const token = authService.getTokenFromLocalStorage();
+    const response = await axios.patch(`${BASE_URL}users/patch_event${eventId}/`, updatedFields, {
+      headers: {
+          Authorization: `Bearer ${token}`,
+      },
+  }); 
+    return response.data
+  } catch (error) {
+    console.error('Error updating event:', error);
+    throw error;
+  }
+};
+
+
+
   return (
     <GlobalContext.Provider
       value={{
@@ -456,6 +593,20 @@ export const ContextProvider = ({ children }) => {
         asset,
         getAllUsers,
         allUsers,
+        loadMessages,
+        getChats,
+        chatHistory,
+        setChatHistory,
+        chats,
+        loading,
+        page,
+        fetchEvents,
+        addEvent,
+        deleteEvent,
+        updateEvent,
+        dateEvent,
+        setDateEvent,
+        
       }}
     >
       {children}

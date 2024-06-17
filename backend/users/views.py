@@ -1,16 +1,18 @@
+from django.db.models import Q
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework import status
-from rest_framework.exceptions import NotFound
-from .models import User
+from rest_framework.exceptions import APIException
+from rest_framework.exceptions import NotAuthenticated, ValidationError
+from .models import User, Chat, Message
+from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from django.utils.dateparse import parse_datetime
 from django.contrib.auth.tokens import default_token_generator
 from .serializers import UserSerializer, TransactionSerializer, EventsSerializer, AssetsSerializer, \
-    PriceHistorySerializer
+    PriceHistorySerializer, ChatSerializer, MessageSerializer
 from .utils import send_verif_up_mail, resset_pass_mail, replace_invalid_characters
 from .models import Transaction, Events, Assets, PriceHistory
-from django.shortcuts import get_object_or_404
 from rest_framework.authtoken.models import Token
 from django.utils.http import urlsafe_base64_decode
 from django.utils import timezone
@@ -22,30 +24,59 @@ from users import config
 from django.core.mail import EmailMultiAlternatives
 
 
+# @api_view(['POST'])
+# def login(request):
+#     user = get_object_or_404(User, username=request.data['username'])
+#     if not user.check_password(request.data['password']):
+#         return Response({'detail': 'Not found.'}, status=status.HTTP_404_NOT_FOUND)
+#     token, created = Token.objects.get_or_create(user=user)
+#     serializer = UserSerializer(instance=user)
+#     return Response({'token': token.key, 'user': serializer.data})
+
 @api_view(['POST'])
 def login(request):
-    user = get_object_or_404(User, username=request.data['username'])
-    if not user.check_password(request.data['password']):
-        return Response({'detail': 'Not found.'}, status=status.HTTP_404_NOT_FOUND)
-    token, created = Token.objects.get_or_create(user=user)
-    serializer = UserSerializer(instance=user)
-    return Response({'token': token.key, 'user': serializer.data})
+    try:
+        user = User.objects.get(username=request.data['username'])
+        if not user.check_password(request.data['password']):
+            return Response({'detail': 'Not found.'}, status=status.HTTP_404_NOT_FOUND)
+        token, created = Token.objects.get_or_create(user=user)
+        serializer = UserSerializer(instance=user)
+        return Response({'token': token.key, 'user': serializer.data})
+    except User.DoesNotExist:
+        return Response({'error': 'User not found'}, status=status.HTTP_404_NOT_FOUND)
+    except Exception as e:
+        return Response({'error': str(e)}, status=status.HTTP_400_BAD_REQUEST)
 
+
+# @api_view(['POST'])
+# def signup(request):
+#     serializer = UserSerializer(data=request.data)
+#     if serializer.is_valid():
+#         serializer.save()
+#         user = User.objects.get(username=request.data['username'])
+#         user.set_password(request.data['password'])
+#         user.save()
+#         send_verif_up_mail(request, user)
+#         # token = Token.objects.create(user=user) #создаем токен для юзера
+#         return Response('confirm your email', status=status.HTTP_102_PROCESSING)
+#         # return Response({'token': token.key, 'user': serializer.data})
+#
+#     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 @api_view(['POST'])
 def signup(request):
-    serializer = UserSerializer(data=request.data)
-    if serializer.is_valid():
-        serializer.save()
-        user = User.objects.get(username=request.data['username'])
-        user.set_password(request.data['password'])
-        user.save()
-        send_verif_up_mail(request, user)
-        # token = Token.objects.create(user=user) #создаем токен для юзера
-        return Response('confirm your email', status=status.HTTP_102_PROCESSING)
-        # return Response({'token': token.key, 'user': serializer.data})
-
-    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    try:
+        serializer = UserSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            user = User.objects.get(username=request.data['username'])
+            user.set_password(request.data['password'])
+            user.save()
+            send_verif_up_mail(request, user)
+            return Response('confirm your email', status=status.HTTP_102_PROCESSING)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    except Exception as e:
+        return Response({'error': str(e)}, status=status.HTTP_400_BAD_REQUEST)
 
 
 @api_view(['GET'])
@@ -89,13 +120,17 @@ def reset_password(request, token, uidb64):
 @api_view(["GET"])
 @permission_classes([IsAuthenticated])
 def get_user_data(request):
-    user = request.user
     try:
-        token = Token.objects.get(user=user)
-    except Token.DoesNotExist:
-        raise NotFound("Token not found for the given user.")
-    context = {'username': user.username, 'email': user.email, 'public_key': token.key, 'id': user.id}
-    return Response(context, status=status.HTTP_200_OK)
+        # {"detail":"Token not found for the given user."}
+        user = request.user
+        serializer = UserSerializer(user)
+        return Response(serializer.data)
+    except NotAuthenticated:
+        return Response({"error": "User is not authenticated"}, status=status.HTTP_401_UNAUTHORIZED)
+    except ValidationError as e:
+        return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
+    except Exception as e:
+        return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 
 @api_view(['GET'])
@@ -104,6 +139,22 @@ def get_all_users(request):
     users = User.objects.all()
     serializer = UserSerializer(users, many=True)
     return Response(serializer.data)
+
+
+@api_view(['PATCH'])
+@permission_classes([IsAuthenticated])
+def add_public_key(request):
+    try:
+        user = request.user
+        user.public_key = request.data['public_key']
+        user.save()
+        return Response('Public key added', status=status.HTTP_200_OK)
+    except NotAuthenticated:
+        return Response({"error": "User is not authenticated"}, status=status.HTTP_401_UNAUTHORIZED)
+    except KeyError:
+        return Response({"error": "Public key not provided in request"}, status=status.HTTP_400_BAD_REQUEST)
+    except Exception as e:
+        return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 
 # -------------Transactions--------------
@@ -363,11 +414,13 @@ def total_mail(request):
 @permission_classes([IsAuthenticated])
 def create_event(request):
     try:
-        serializer = EventsSerializer(data=request.data)
-        if serializer.is_valid():
-            serializer.save(user=request.user)
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        event = Events.objects.create(
+            user=request.user,
+            title=request.data['title'],
+            start_time=request.data['start'],
+            end_time=request.data['end']
+        )
+        return Response({'message': 'Event created'}, status=status.HTTP_201_CREATED)
     except Exception as e:
         return Response({'error': str(e)}, status=status.HTTP_400_BAD_REQUEST)
 
@@ -387,7 +440,7 @@ def take_event(request):
 @api_view(['DELETE'])
 def delete_event(request):
     try:
-        event = Events.objects.get(id=request.data['id'], user=request.user)
+        event = Events.objects.get(id=request.query_params['id'], user=request.user)
         event.delete()
         return Response('Event deleted', status=status.HTTP_200_OK)
     except Exception as e:
@@ -482,7 +535,8 @@ def get_all_actives(request):
         for asset in assets:
             price_history = PriceHistory.objects.filter(asset=asset).order_by('-date')[:2]
             if len(price_history) == 2:
-                price_change = round((((price_history[0].price - price_history[1].price) / price_history[1].price) * 100), 3)
+                price_change = round(
+                    (((price_history[0].price - price_history[1].price) / price_history[1].price) * 100), 3)
                 asset_data = {
                     'id': asset.id,
                     'name': asset.name,
@@ -499,7 +553,7 @@ def get_all_actives(request):
                     'current_price': price_history[0].price,
                     'date': price_history[0].date,
                     'category': asset.category,
-                    'price_change':  0
+                    'price_change': 0
                 }
             else:
                 asset_data = {
@@ -555,3 +609,41 @@ def delete_actives(request):
         return Response({'error': 'Asset not found'}, status=status.HTTP_404_NOT_FOUND)
     except Exception as e:
         return Response({'error': str(e)}, status=status.HTTP_400_BAD_REQUEST)
+
+
+# -------------Chat--------------
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def get_history_chat(request, chat_id):
+    page = request.GET.get('page')
+    page_size = request.GET.get('page_size')
+    data = {"chat_id": chat_id, "page": page, "page_size": page_size}
+
+    messages = Message.objects.filter(chat__chat_id=chat_id).order_by('-time')
+    paginator = Paginator(messages, page_size)
+
+    try:
+        messages_page = paginator.page(page)
+    except PageNotAnInteger:
+        messages_page = paginator.page(1)
+    except EmptyPage:
+        messages_page = paginator.page(paginator.num_pages)
+
+    serializer = MessageSerializer(messages_page, many=True)
+    next_page_exists = len(serializer.data) == int(page_size)
+    return Response({"messages": serializer.data, "next_page_exists": next_page_exists})
+
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def get_chats(request):
+    try:
+        user = request.user
+        chats = Chat.objects.filter(Q(user0=user) | Q(user1=user))
+        serializer = ChatSerializer(chats, many=True)
+        if not chats.exists():
+            return Response({'error': 'No chats found'}, status=status.HTTP_404_NOT_FOUND)
+        return Response(serializer.data)
+    except Exception as e:
+        raise APIException(str(e))
