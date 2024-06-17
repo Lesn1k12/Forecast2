@@ -1,14 +1,15 @@
 from django.urls import re_path, path
-
-from users import views
+from . import views
 
 urlpatterns = [
+    # ------Swagger------
     # ------Auth------
     re_path('login', views.login),
     re_path('signup', views.signup),
     # ------User------
     re_path('get_userdata', views.get_user_data),
     re_path('get_all_users', views.get_all_users),
+    re_path('add_public_key', views.add_public_key),
     # ------Mail------
     path('mailconfirm/<str:uidb64>/<str:token>/', views.mail_confirm, name='mailconfirm'),
     path('resetpass/<str:uidb64>/<str:token>/', views.reset_password, name='resetpass'),
@@ -32,7 +33,11 @@ urlpatterns = [
     re_path('create_actives', views.create_actives),
     re_path('get_actives', views.get_actives),
     re_path('get_price_history', views.get_history_actives),
-    re_path("get_all_actives", views.get_all_actives),
+    re_path('get_all_actives', views.get_all_actives),
     re_path('update_actives', views.update_actives),
     re_path('delete_actives', views.delete_actives),
+    # ------Chat------
+    # /chat/${chatId}/messages?page=${page}&page_size=20
+    path('chat/<str:chat_id>/messages/', views.get_history_chat),
+    re_path('get_chats', views.get_chats),
 ]

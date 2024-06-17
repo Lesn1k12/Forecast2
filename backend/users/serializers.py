@@ -1,6 +1,5 @@
 from rest_framework import serializers
-from .models import Transaction, Events, Assets, PriceHistory, User
-# from .models import Transaction, Events, Assets, PriceHistory, Chat, Message
+from .models import Transaction, Events, Assets, User, PriceHistory, Chat, Message
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -16,11 +15,10 @@ class TransactionSerializer(serializers.ModelSerializer):
         model = Transaction
         fields = ['user', 'category', 'time', 'amount', 'description', 'currency', 'title']
 
-
 class EventsSerializer(serializers.ModelSerializer):
     class Meta(object):
         model = Events
-        fields = ['user', 'title', 'start_time', 'end_time']
+        fields = ['user', 'title', 'start_time', 'end_time', 'id']
 
 
 class AssetsSerializer(serializers.ModelSerializer):
@@ -35,13 +33,13 @@ class PriceHistorySerializer(serializers.ModelSerializer):
         fields = ['asset', 'price', 'date']
 
 
-# class ChatSerializer(serializers.ModelSerializer):
-#     class Meta(object):
-#         model = Chat
-#         fields = ['user0', 'user1', 'chat_id']
-#
-#
-# class MessageSerializer(serializers.ModelSerializer):
-#     class Meta(object):
-#         model = Message
-#         fields = ['chat', 'user', 'text', 'time', 'reed']
+class ChatSerializer(serializers.ModelSerializer):
+    class Meta(object):
+        model = Chat
+        fields = ['user0', 'user1', 'chat_id']
+
+
+class MessageSerializer(serializers.ModelSerializer):
+    class Meta(object):
+        model = Message
+        fields = ['id', 'chat_id', 'receiver', 'sender', 'time', 'text']
